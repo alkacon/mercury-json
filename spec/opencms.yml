@@ -1,0 +1,78 @@
+openapi: 3.0.1
+info:
+  title: OpenCms JSON API
+  description: 'Specification of the OpenCms JSON API'
+  termsOfService: http://www.opencms.org/en/terms.html
+  contact:
+    email: opencms-dev@opencms.org
+  license:
+    name: GNU Lesser General Public License
+    url: http://www.gnu.org/licenses/lgpl-3.0.html
+  version: 0.0.1
+externalDocs:
+  description: Find out more about OpenCms
+  url: https://documentation.opencms.org
+servers:
+- url: https://demo.opencms.org/json/
+paths:
+  /file/{path}:
+    get:
+      summary: Returns a directory listing or a file.
+      parameters:
+        - name: path
+          in: path
+          description: Path of a directory or a file.
+          required: true
+          schema:
+            type: string
+        - name: levels
+          in: query
+          description: Traverse the directory recursively by the number of levels.
+          required: false
+          schema:
+            type: number
+            default: 0
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - $ref: '#/components/schemas/Directory'
+                  - $ref: '#/components/schemas/File'
+                  - $ref: '#/components/schemas/Page'
+        404:
+          description: Directory or file not found.
+  /list/{listconfig}:
+    get:
+      summary: Returns the items of a configured list.
+      parameters:
+        - name: listconfig
+          in: path
+          description: Path to a list configuration file.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/List'
+        404:
+          description: List configuration file not found.
+components:
+  schemas:
+    Directory:
+      type: object
+    File:
+      type: object
+    List:
+      type: object
+    Page:
+      type: object
