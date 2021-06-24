@@ -1,0 +1,1 @@
+# OpenCms JSON API Specification
