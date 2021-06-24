@@ -1,0 +1,19 @@
+html, body {
+	width: 90%;
+}
+
+#root {
+	margin-left: 30%;
+	width: 50%;
+}
+
+.spa-select {
+	margin-bottom: 2em;
+}
+
+.spa-list-item {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-bottom: solid grey 1px;
+	cursor: pointer;
+}
