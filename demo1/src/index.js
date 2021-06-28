@@ -2,34 +2,34 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-class SpaContentList extends React.Component {
+class Demo1ContentList extends React.Component {
 
   constructor(props) {
     super(props);
     this.handleClickDetail = this.handleClickDetail.bind(this);
-    this.spa = props.spa;
+    this.demo1 = props.demo1;
   }
 
   handleClickDetail(file) {
-    this.spa.loadContentDetail(file);
+    this.demo1.loadContentDetail(file);
   }
 
   render() {
     let self = this;
-    const itemList = Object.keys(this.spa.state.result).map(function(key) {
-      const item = self.spa.state.result[key];
+    const itemList = Object.keys(this.demo1.state.result).map(function(key) {
+      const item = self.demo1.state.result[key];
       const title = item.properties.Title;
       return item.isXmlContent === true ? (
-          <div class="spa-list-item"
+          <div class="demo1-list-item"
                onClick={(e) => self.handleClickDetail(key, e)}>
             <span>{title}</span>
           </div>
       ) : null;
     });
     return (
-      <div class="spa-list">
-        <h3>{this.spa.label[this.spa.state.content]} (List)</h3>
-        <div class="spa-list-items">
+      <div class="demo1-list">
+        <h3>{this.demo1.label[this.demo1.state.content]} (List)</h3>
+        <div class="demo1-list-items">
         {itemList}
         </div>
       </div>
@@ -37,27 +37,27 @@ class SpaContentList extends React.Component {
   }
 }
 
-class SpaContentSelect extends React.Component {
+class Demo1ContentSelect extends React.Component {
 
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.spa = props.spa;
+    this.demo1 = props.demo1;
   }
 
   handleChange(event) {
-    this.spa.loadContentList(event.target.value);
+    this.demo1.loadContentList(event.target.value);
   }
 
   render() {
-    const optionList = this.spa.contentList.map((content) =>
-      <option value={content}>{this.spa.label[content]}</option>
+    const optionList = this.demo1.contentList.map((content) =>
+      <option value={content}>{this.demo1.label[content]}</option>
     );
     return (
-      <div class="spa-select">
-        <label for="spaSelect">Please select a content type: </label>
-        <select id="spaSelect"
-                value={this.spa.state.content}
+      <div class="demo1-select">
+        <label for="demo1Select">Please select a content type: </label>
+        <select id="demo1Select"
+                value={this.demo1.state.content}
                 onChange={this.handleChange}>
           {optionList}
         </select>
@@ -66,17 +66,17 @@ class SpaContentSelect extends React.Component {
   }
 }
 
-class SpaDetail extends React.Component {
+class Demo1Detail extends React.Component {
 
   constructor(props) {
     super(props);
     this.handleClickList = this.handleClickList.bind(this);
-    this.spa = props.spa;
+    this.demo1 = props.demo1;
   }
 
   handleClickList(event) {
     event.preventDefault();
-    this.spa.loadContentList(this.spa.state.content);
+    this.demo1.loadContentList(this.demo1.state.content);
   }
 
   render() {
@@ -90,8 +90,8 @@ class SpaDetail extends React.Component {
   }
 
   renderArticle() {
-    const result = this.spa.state.result;
-    const src = this.spa.API + result.Paragraph[0].Image.Image.link;
+    const result = this.demo1.state.result;
+    const src = this.demo1.API + result.Paragraph[0].Image.Image.link;
     return (
       <div>
         <h3>{result.Title} (Detail)</h3>
@@ -104,9 +104,9 @@ class SpaDetail extends React.Component {
   }
 
   renderContent() {
-    if (this.spa.isContentArticle()) {
+    if (this.demo1.isContentArticle()) {
       return this.renderArticle();
-    } else if (this.spa.isContentFaq()) {
+    } else if (this.demo1.isContentFaq()) {
       return this.renderFaq();
     } else {
       return (<div>Unknown content type.</div>);
@@ -114,8 +114,8 @@ class SpaDetail extends React.Component {
   }
 
   renderFaq() {
-    const result = this.spa.state.result;
-    const src = this.spa.API + result.Paragraph[0].Image.Image.link;
+    const result = this.demo1.state.result;
+    const src = this.demo1.API + result.Paragraph[0].Image.Image.link;
     return (
       <div>
         <h3>{result.Title} (Detail)</h3>
@@ -127,29 +127,29 @@ class SpaDetail extends React.Component {
   }
 }
 
-class SpaList extends React.Component {
+class Demo1List extends React.Component {
 
   constructor(props) {
     super(props);
-    this.spa = props.spa;
+    this.demo1 = props.demo1;
   }
 
   render() {
     return (
       <div>
         <h1>JSON API Demo 1</h1>
-        <SpaContentSelect spa={this.spa} />
-        <SpaContentList spa={this.spa} />
+        <Demo1ContentSelect demo1={this.demo1} />
+        <Demo1ContentList demo1={this.demo1} />
       </div>
     );
   }
 
   componentDidMount() {
-    this.spa.loadContentList(this.spa.state.content);
+    this.demo1.loadContentList(this.demo1.state.content);
   }
 }
 
-class Spa extends React.Component {
+class Demo1 extends React.Component {
 
   constructor(props) {
     super(props);
@@ -206,12 +206,12 @@ class Spa extends React.Component {
   }
 
   render() {
-    return this.state.file ? (<SpaDetail spa={this} />) :
-        (<SpaList spa={this} />);
+    return this.state.file ? (<Demo1Detail demo1={this} />) :
+        (<Demo1List demo1={this} />);
   }
 }
 
 ReactDOM.render(
-  <Spa />,
+  <Demo1 />,
   document.getElementById('root')
 );

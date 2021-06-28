@@ -7,11 +7,11 @@ html, body {
 	width: 50%;
 }
 
-.spa-select {
+.demo1-select {
 	margin-bottom: 2em;
 }
 
-.spa-list-item {
+.demo1-list-item {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	border-bottom: solid grey 1px;
