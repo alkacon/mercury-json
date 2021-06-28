@@ -1,0 +1,82 @@
+{
+    "attributes": {
+        "lastModified": 1621326905401,
+        "type": "listconfig"
+    },
+    "en": {
+        "Blacklist": [],
+        "Category": "",
+        "CategoryFolderFilter": [],
+        "CategoryMode": "OR",
+        "Parameter": [],
+        "SearchFolder": [{
+            "link": "/mercury-demo/.content/article-m/",
+            "path": "/sites/default/mercury-demo/.content/article-m/"
+        }],
+        "ShowExpired": true,
+        "SortOrder": "DATE_DESC",
+        "Title": "Basic Blog List (with elaborate teasers)",
+        "TypesToCollect": ["m-article:m/display/article-elaborate"]
+    },
+    "link": "/mercury-demo/.content/list-m/list_00001.xml",
+    "locales": ["en"],
+    "path": "/sites/default/mercury-demo/.content/list-m/list_00001.xml",
+    "properties": {
+        "Title": "Basic Blog List (with elaborate teasers)",
+        "locale": "en",
+        "locale-available": "en"
+    },
+    "content": [{
+        "attributes": {
+            "lastModified": 1621326904657,
+            "type": "m-article"
+        },
+        "de": {
+            "Author": "Jay Pritchett",
+            "Availability": {"Release": 1483376400000},
+            "Category": [
+                "location/",
+                "location/antarctica/",
+                "topic/",
+                "topic/machines/"
+            ],
+            "Date": 1546966800000,
+            "Paragraph": [{
+                "Image": {"Image": {
+                    "link": "/export/sites/default/.galleries/office/02.jpg",
+                    "path": "/sites/default/.galleries/office/02.jpg"
+                }},
+                "Text": "<p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.<\/p>\n<p>Et harum quidem rerum facilis est et expedita distinctio lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non libero consectetur adipiscing elit magna. Sed et quam lacus. Fusce condimentum eleifend enim a feugiat. Pellentesque viverra vehicula sem ut volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.<\/p>\n<p>Ut non libero magna. Sed et quam lacus. Fusce condimentum eleifend enim a feugiat mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio lorem ipsum dolor sit amet, mollitia animi, id est laborum et dolorum fug consectetur adipiscing elit. Ut non libero consectetur adipiscing elit magna.<\/p>"
+            }],
+            "Title": "OpenCms ist intuitiv"
+        },
+        "en": {
+            "Author": "Jay Pritchett",
+            "Availability": {},
+            "Category": [
+                "location/",
+                "location/antarctica/",
+                "topic/",
+                "topic/machines/"
+            ],
+            "Date": 1546966800000,
+            "Intro": "Users use it quick",
+            "Paragraph": [{
+                "Caption": "You already know this",
+                "Image": {"Image": {
+                    "link": "/export/sites/default/.galleries/office/02.jpg",
+                    "path": "/sites/default/.galleries/office/02.jpg"
+                }},
+                "Text": "<p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.<\/p>\n<p>Et harum quidem rerum facilis est et expedita distinctio lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non libero consectetur adipiscing elit magna. Sed et quam lacus. Fusce condimentum eleifend enim a feugiat. Pellentesque viverra vehicula sem ut volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.<\/p>\n<p>Ut non libero magna. Sed et quam lacus. Fusce condimentum eleifend enim a feugiat mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio lorem ipsum dolor sit amet, mollitia animi, id est laborum et dolorum fug consectetur adipiscing elit. Ut non libero consectetur adipiscing elit magna.<\/p>"
+            }],
+            "Title": "OpenCms is intuitive"
+        },
+        "link": "/mercury-demo/detail-pages/article/OpenCms-istintuitiv/",
+        "locales": [
+            "de",
+            "en"
+        ],
+        "path": "/sites/default/mercury-demo/.content/article-m/a_00001.xml",
+        "properties": {"Title": "OpenCms is intuitive"}
+    }
+]}

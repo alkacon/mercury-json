@@ -1,0 +1,29 @@
+{
+    "attributes": {
+        "lastModified": 1621326905401,
+        "type": "listconfig"
+    },
+    "en": {
+        "Blacklist": [],
+        "Category": "",
+        "CategoryFolderFilter": [],
+        "CategoryMode": "OR",
+        "Parameter": [],
+        "SearchFolder": [{
+            "link": "/mercury-demo/.content/article-m/",
+            "path": "/sites/default/mercury-demo/.content/article-m/"
+        }],
+        "ShowExpired": true,
+        "SortOrder": "DATE_DESC",
+        "Title": "Basic Blog List (with elaborate teasers)",
+        "TypesToCollect": ["m-article:m/display/article-elaborate"]
+    },
+    "link": "/mercury-demo/.content/list-m/list_00001.xml",
+    "locales": ["en"],
+    "path": "/sites/default/mercury-demo/.content/list-m/list_00001.xml",
+    "properties": {
+        "Title": "Basic Blog List (with elaborate teasers)",
+        "locale": "en",
+        "locale-available": "en"
+    }
+}
