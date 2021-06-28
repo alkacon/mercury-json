@@ -10,8 +10,8 @@ class Demo1ContentList extends React.Component {
     this.demo1 = props.demo1;
   }
 
-  handleClickDetail(file) {
-    this.demo1.loadContentDetail(file);
+  handleClickDetail(content) {
+    this.demo1.loadContentDetail(content);
   }
 
   render() {
@@ -28,7 +28,7 @@ class Demo1ContentList extends React.Component {
     });
     return (
       <div class="demo1-list">
-        <h3>{this.demo1.label[this.demo1.state.content]} (List)</h3>
+        <h3>{this.demo1.label[this.demo1.state.type]} (List)</h3>
         <div class="demo1-list-items">
         {itemList}
         </div>
@@ -50,14 +50,14 @@ class Demo1ContentSelect extends React.Component {
   }
 
   render() {
-    const optionList = this.demo1.contentList.map((content) =>
+    const optionList = this.demo1.typeList.map((content) =>
       <option value={content}>{this.demo1.label[content]}</option>
     );
     return (
       <div class="demo1-select">
         <label for="demo1Select">Please select a content type: </label>
         <select id="demo1Select"
-                value={this.demo1.state.content}
+                value={this.demo1.state.type}
                 onChange={this.handleChange}>
           {optionList}
         </select>
@@ -76,7 +76,7 @@ class Demo1Detail extends React.Component {
 
   handleClickList(event) {
     event.preventDefault();
-    this.demo1.loadContentList(this.demo1.state.content);
+    this.demo1.loadContentList(this.demo1.state.type);
   }
 
   render() {
@@ -104,9 +104,9 @@ class Demo1Detail extends React.Component {
   }
 
   renderContent() {
-    if (this.demo1.isContentArticle()) {
+    if (this.demo1.isTypeArticle()) {
       return this.renderArticle();
-    } else if (this.demo1.isContentFaq()) {
+    } else if (this.demo1.isTypeFaq()) {
       return this.renderFaq();
     } else {
       return (<div>Unknown content type.</div>);
@@ -145,7 +145,7 @@ class Demo1List extends React.Component {
   }
 
   componentDidMount() {
-    this.demo1.loadContentList(this.demo1.state.content);
+    this.demo1.loadContentList(this.demo1.state.type);
   }
 }
 
@@ -155,58 +155,58 @@ class Demo1 extends React.Component {
     super(props);
     this.API = 'http://localhost';
     this.ENDPOINT = this.API + '/json/sites/default/mercury-demo/.content/';
-    this.CONTENT_ARTICLE = 'article-m';
-    this.CONTENT_FAQ = 'faq-m';
-    this.contentList = [this.CONTENT_ARTICLE, this.CONTENT_FAQ];
+    this.TYPE_ARTICLE = 'article-m';
+    this.TYPE_FAQ = 'faq-m';
+    this.typeList = [this.TYPE_ARTICLE, this.TYPE_FAQ];
     this.label = {
       'article-m': 'Article',
       'faq-m': 'FAQ'
     };
     this.state = {
-      content: this.CONTENT_ARTICLE,
-      file: null,
+      type: this.TYPE_ARTICLE,
+      content: null,
       result: {}
     };
   }
 
-  loadContentDetail(file) {
+  loadContentDetail(content) {
     const self = this;
-    const url = this.ENDPOINT + this.state.content + '/' + file + '?locale=en';
+    const url = this.ENDPOINT + this.state.type + '/' + content + '?locale=en';
     fetch(url)
       .then(res => res.json())
       .then((result) => {
         self.setState({
-          content: self.state.content,
-          file: file,
-          result: result
-        })
-      });
-  }
-
-  loadContentList(content) {
-    const self = this;
-    const url = this.ENDPOINT + content;
-    fetch(url)
-      .then(res => res.json())
-      .then((result) => {
-        self.setState({
+          type: self.state.type,
           content: content,
-          file: null,
           result: result
         })
       });
   }
 
-  isContentArticle() {
-    return this.state.content === this.CONTENT_ARTICLE;
+  loadContentList(type) {
+    const self = this;
+    const url = this.ENDPOINT + type;
+    fetch(url)
+      .then(res => res.json())
+      .then((result) => {
+        self.setState({
+          type: type,
+          content: null,
+          result: result
+        })
+      });
   }
 
-  isContentFaq() {
-    return this.state.content === this.CONTENT_FAQ;
+  isTypeArticle() {
+    return this.state.type === this.TYPE_ARTICLE;
+  }
+
+  isTypeFaq() {
+    return this.state.type === this.TYPE_FAQ;
   }
 
   render() {
-    return this.state.file ? (<Demo1Detail demo1={this} />) :
+    return this.state.content ? (<Demo1Detail demo1={this} />) :
         (<Demo1List demo1={this} />);
   }
 }
