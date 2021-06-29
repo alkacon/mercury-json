@@ -19,10 +19,14 @@ class Demo1ContentList extends React.Component {
     const itemList = Object.keys(this.demo1.state.result).map(function(key) {
       const item = self.demo1.state.result[key];
       const title = item.properties.Title;
-      return item.isXmlContent === true ? (
+      let src = item.isXmlContent && item.content.Paragraph[0].Image ?
+          (self.demo1.API + item.content.Paragraph[0].Image.Image.link) :
+          '/favicon.ico';
+      return item.isXmlContent ? (
           <div class="demo1-list-item"
                onClick={(e) => self.handleClickDetail(key, e)}>
-            <span>{title}</span>
+            <img src={src} class="demo1-list-item-img"></img>
+            <span class="demo1-list-item-label">{title}</span>
           </div>
       ) : null;
     });
@@ -134,6 +138,10 @@ class Demo1List extends React.Component {
     this.demo1 = props.demo1;
   }
 
+  componentDidMount() {
+    this.demo1.loadContentList(this.demo1.state.type);
+  }
+
   render() {
     return (
       <div>
@@ -142,10 +150,6 @@ class Demo1List extends React.Component {
         <Demo1ContentList demo1={this.demo1} />
       </div>
     );
-  }
-
-  componentDidMount() {
-    this.demo1.loadContentList(this.demo1.state.type);
   }
 }
 
@@ -173,7 +177,7 @@ class Demo1 extends React.Component {
     const self = this;
     const url = this.ENDPOINT + this.state.type + '/' + content + '?locale=en';
     fetch(url)
-      .then(res => res.json())
+      .then(reponse => reponse.json())
       .then((result) => {
         self.setState({
           type: self.state.type,
@@ -185,9 +189,9 @@ class Demo1 extends React.Component {
 
   loadContentList(type) {
     const self = this;
-    const url = this.ENDPOINT + type;
+    const url = this.ENDPOINT + type + '?content&locale=en';
     fetch(url)
-      .then(res => res.json())
+      .then(response => response.json())
       .then((result) => {
         self.setState({
           type: type,

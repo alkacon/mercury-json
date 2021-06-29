@@ -17,3 +17,12 @@ html, body {
 	border-bottom: solid grey 1px;
 	cursor: pointer;
 }
+
+.demo1-list-item-img {
+	width: 100px;
+	max-height: 100px;
+}
+
+.demo1-list-item-label {
+	margin-left: 1em;
+}
