@@ -19,8 +19,8 @@ class Demo1ContentList extends React.Component {
     const itemList = Object.keys(this.demo1.state.result).map(function(key) {
       const item = self.demo1.state.result[key];
       const title = item.properties.Title;
-      let src = item.isXmlContent && item.content.Paragraph[0].Image ?
-          (self.demo1.API + item.content.Paragraph[0].Image.Image.link) :
+      let src = item.isXmlContent && item.localeContent.Paragraph[0].Image ?
+          (self.demo1.API + item.localeContent.Paragraph[0].Image.Image.link) :
           '/favicon.ico';
       return item.isXmlContent ? (
           <div class="demo1-list-item"
@@ -122,7 +122,7 @@ class Demo1Detail extends React.Component {
     const src = this.demo1.API + result.Paragraph[0].Image.Image.link;
     return (
       <div>
-        <h3>{result.Title} (Detail)</h3>
+        <h3>{result.Question} (Detail)</h3>
         <p>{result.Paragraph[0].Caption}</p>
         <img src={src} width="500"/>
         <div dangerouslySetInnerHTML={{__html: result.Paragraph[0].Text}} />
@@ -189,7 +189,7 @@ class Demo1 extends React.Component {
 
   loadContentList(type) {
     const self = this;
-    const url = this.ENDPOINT + type + '?content&locale=en';
+    const url = this.ENDPOINT + type + '?content&locale=en&wrapper=true&fallbackLocale=true';
     fetch(url)
       .then(response => response.json())
       .then((result) => {
