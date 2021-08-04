@@ -1,0 +1,30 @@
+html, body {
+	width: 90%;
+}
+
+#root {
+	margin-left: 30%;
+	width: 50%;
+}
+
+.demo2-list-item {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-bottom: solid grey 1px;
+	cursor: pointer;
+	min-height: 79px;
+}
+
+.demo2-list-item-img {
+	width: 100px;
+	max-height: 100px;
+}
+
+.demo2-list-item-label {
+	margin-left: 1em;
+}
+
+.demo2-list-item-type {
+	position: absolute;
+	right: 35%;
+}
