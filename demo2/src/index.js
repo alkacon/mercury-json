@@ -146,6 +146,7 @@ class Demo2List extends React.Component {
     return (
       <div class="demo2-list">
         <h3>{list.Title}</h3>
+        <Demo2SelectSort demo2={this.demo2}/>
         <div class="demo2-list-items">
         {itemList}
         </div>
@@ -166,6 +167,37 @@ class Demo2List extends React.Component {
   }
 }
 
+class Demo2SelectSort extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.demo2 = props.demo2;
+  }
+
+  handleChange(event) {
+    this.demo2.loadList(event.target.value);
+  }
+
+  render() {
+    return (
+      <div class="demo2-select-sort">
+        <label for="demo2SelectSort">Sort by </label>
+        <select id="demo2SelectSort"
+                value={this.demo2.state.sort}
+                onChange={this.handleChange}>
+          <option value="DATE_ASC">Date ascending</option>
+          <option value="DATE_DESC">Date descending</option>
+          <option value="TITLE_ASC">Title ascending</option>
+          <option value="TITLE_DESC">Title descending</option>
+          <option value="ORDER_ASC">Order ascending</option>
+          <option value="ORDER_DESC">Order descending</option>
+        </select>
+      </div>
+    )
+  }
+}
+
 class Demo2 extends React.Component {
 
   constructor(props) {
@@ -174,7 +206,8 @@ class Demo2 extends React.Component {
     this.ENDPOINT = this.API + '/json';
     this.state = {
       content: null,
-      list: {}
+      list: {},
+      sort: ''
     };
   }
 
@@ -191,24 +224,30 @@ class Demo2 extends React.Component {
       });
   }
 
-  loadList() {
+  loadList(sort) {
     const self = this;
-    const listConfigUrl = this.ENDPOINT +
+    let listConfigUrl = this.ENDPOINT +
         '/sites/default/mercury-demo/.content/list-m/list_00018.xml' +
         '?content&locale=en&wrapper=true'
+    if (sort) {
+      listConfigUrl = listConfigUrl + '&sort=' + sort;
+    } else {
+      sort = '';
+    }
     fetch(listConfigUrl)
       .then(response => response.json())
       .then((list) => {
         self.setState({
           content: null,
-          list: list
+          list: list,
+          sort: sort
         })
       });
   }
 
   render() {
-    return this.state.content ? (<Demo2Content demo2={this} />) :
-        (<Demo2List demo2={this} />);
+    return this.state.content ? <Demo2Content demo2={this} /> :
+        <Demo2List demo2={this} />;
   }
 }
 
