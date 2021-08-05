@@ -29,6 +29,12 @@ html, body {
 	right: 35%;
 }
 
+.demo2-list-show-more {
+	margin-top: 4em;
+	margin-bottom: 500px;
+	text-align: center;
+}
+
 .demo2-select-sort {
 	padding-bottom: 2em;
 }

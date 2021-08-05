@@ -19,6 +19,7 @@ class Demo2List extends React.Component {
   constructor(props) {
     super(props);
     this.handleClickContent = this.handleClickContent.bind(this);
+    this.handleShowMore = this.handleShowMore.bind(this);
     this.demo2 = props.demo2;
   }
 
@@ -28,6 +29,10 @@ class Demo2List extends React.Component {
 
   handleClickContent(content) {
     console.log('handleClickContent');
+  }
+
+  handleShowMore(event) {
+    this.demo2.loadListMore();
   }
 
   render() {
@@ -143,12 +148,27 @@ class Demo2List extends React.Component {
         </div>
       )
     }) : null;
+    let pageInfo = '';
+    let moreResults = true;
+    if (list.listInfo) {
+      let rows = this.demo2.state.rows > list.listInfo.numFound ?
+          list.listInfo.numFound : this.demo2.state.rows;
+      pageInfo += rows + '/' + list.listInfo.numFound;
+      moreResults = this.demo2.state.rows < list.listInfo.numFound;
+    }
     return (
       <div class="demo2-list">
         <h3>{list.Title}</h3>
         <Demo2SelectSort demo2={this.demo2}/>
         <div class="demo2-list-items">
         {itemList}
+        </div>
+        <div class="demo2-list-show-more">
+          <button class="demo2-list-show-more-button"
+                  onClick={this.handleShowMore}
+                  disabled={!moreResults}>
+            <big>({pageInfo}) Show more...</big>
+          </button>
         </div>
       </div>
     );
@@ -186,6 +206,7 @@ class Demo2SelectSort extends React.Component {
         <select id="demo2SelectSort"
                 value={this.demo2.state.sort}
                 onChange={this.handleChange}>
+          <option value=""></option>
           <option value="DATE_ASC">Date ascending</option>
           <option value="DATE_DESC">Date descending</option>
           <option value="TITLE_ASC">Title ascending</option>
@@ -207,7 +228,8 @@ class Demo2 extends React.Component {
     this.state = {
       content: null,
       list: {},
-      sort: ''
+      sort: '',
+      rows: 5
     };
   }
 
@@ -219,30 +241,42 @@ class Demo2 extends React.Component {
       .then((content) => {
         self.setState({
           content: content,
-          list: self.state.list
+          list: self.state.list,
+          sort: self.state.sort,
+          rows: self.state.rows
         })
       });
   }
 
-  loadList(sort) {
+  loadList(sort, rows) {
     const self = this;
     let listConfigUrl = this.ENDPOINT +
         '/sites/default/mercury-demo/.content/list-m/list_00018.xml' +
         '?content&locale=en&wrapper=true'
     if (sort) {
-      listConfigUrl = listConfigUrl + '&sort=' + sort;
+      listConfigUrl += '&sort=' + sort;
     } else {
       sort = '';
     }
+    if (!rows) {
+      rows = 5;
+    }
+    listConfigUrl += '&rows=' + rows;
     fetch(listConfigUrl)
       .then(response => response.json())
       .then((list) => {
         self.setState({
           content: null,
           list: list,
-          sort: sort
+          sort: sort,
+          rows: rows
         })
       });
+  }
+
+  loadListMore() {
+    const rows = this.state.rows + 5;
+    this.loadList(this.state.sort, rows);
   }
 
   render() {
