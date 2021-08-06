@@ -1,0 +1,41 @@
+.container, .element {
+  margin-top: 1em;
+  padding: 1em;
+}
+
+.containers, .container, .elements, .element {
+  margin-top: 1em;
+  padding-left: 1em
+}
+
+.containers {
+  border-left: solid darkblue 5px;
+}
+
+.containers-label {
+  color: darkblue;
+}
+
+.container {
+  border: solid lightblue 3px;
+}
+
+.container-label {
+  color: lightblue;
+}
+
+.elements {
+  border-left: solid indianred 5px;
+}
+
+.elements-label {
+  color: indianred;
+}
+
+.element {
+  border: solid lightcoral 3px;
+}
+
+.element.label {
+  color: lightcoral;
+}
