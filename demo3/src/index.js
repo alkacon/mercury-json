@@ -16,7 +16,7 @@ class Demo3Page extends React.Component {
     }
     return (
       <div>
-        <h2>Page</h2>
+        <h2>Page Structure</h2>
         {this.renderContainers(page.containers)}
       </div>
     )
