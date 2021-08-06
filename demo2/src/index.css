@@ -15,13 +15,25 @@ html, body {
 	min-height: 79px;
 }
 
+.demo2-list-item-img-panel {
+	width: 100px;
+	min-height: 75px;
+	float: left;
+}
+
 .demo2-list-item-img {
 	width: 100px;
-	max-height: 100px;
+	max-height: 75px;
+}
+
+.demo2-list-item-label-wrapper {
+	margin-left: 110px;
+	height: 75px;
 }
 
 .demo2-list-item-label {
-	margin-left: 1em;
+	padding-top: 30px;
+	font-size: 1.2em;
 }
 
 .demo2-list-item-type {

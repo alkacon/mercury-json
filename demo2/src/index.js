@@ -48,7 +48,9 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Paragraph[0].Image)}
-        <span class="demo2-list-item-label">{item.properties.Title}</span>
+        <div class="demo2-list-item-label-wrapper">
+          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        </div>
       </div>
     )
   }
@@ -57,7 +59,9 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Image)}
-        <span class="demo2-list-item-label">{item.properties.Title}</span>
+        <div class="demo2-list-item-label-wrapper">
+          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        </div>
       </div>
     )
   }
@@ -66,7 +70,9 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Image)}
-        <span class="demo2-list-item-label">{item.properties.Title}</span>
+        <div class="demo2-list-item-label-wrapper">
+          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        </div>
       </div>
     )
   }
@@ -75,7 +81,9 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Paragraph[0].Image)}
-        <span class="demo2-list-item-label">{item.properties.Title}</span>
+        <div class="demo2-list-item-label-wrapper">
+          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        </div>
       </div>
     )
   }
@@ -84,7 +92,9 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Paragraph[0].Image)}
-        <span class="demo2-list-item-label">{item.properties.Title}</span>
+        <div class="demo2-list-item-label-wrapper">
+          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        </div>
       </div>
     )
   }
@@ -93,7 +103,9 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Image[0])}
-        <span class="demo2-list-item-label">{item.properties.Title}</span>
+        <div class="demo2-list-item-label-wrapper">
+          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        </div>
       </div>
     )
   }
@@ -102,7 +114,9 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Introduction.Image)}
-        <span class="demo2-list-item-label">{item.properties.Title}</span>
+        <div class="demo2-list-item-label-wrapper">
+          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        </div>
       </div>
     )
   }
@@ -111,7 +125,9 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item)}
-        <span class="demo2-list-item-label">{item.properties.Title}</span>
+        <div class="demo2-list-item-label-wrapper">
+          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        </div>
       </div>
     )
   }
@@ -143,8 +159,8 @@ class Demo2List extends React.Component {
         <div class="demo2-list-item"
              key={item.properties.Title + idx}
              onClick={(e) => self.handleClickContent(item, e)}>
-             <small class="demo2-list-item-type">{item.attributes.type}</small>
-             {div}
+          <small class="demo2-list-item-type">{item.attributes.type}</small>
+          {div}
         </div>
       )
     }) : null;
@@ -183,7 +199,7 @@ class Demo2List extends React.Component {
     const image = <img src={imageSrc}
              alt={imageTitle}
              class="demo2-list-item-img"/>;
-    return image;
+    return (<div class="demo2-list-item-img-panel">{image}</div>)
   }
 }
 
