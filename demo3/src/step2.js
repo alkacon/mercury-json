@@ -88,11 +88,11 @@ class Demo32Page extends React.Component {
     if (variant === 'area-side-main') {
       return (
         <div className="area">
-          <div className="row">
-            <div className="col-3">
+          <div className="row layout">
+            <div className="col-3 layout">
             {this.renderContainer(element.containers[0])}
             </div>
-            <div className="col-9">
+            <div className="col-9 layout">
             {this.renderContainer(element.containers[1])}
             </div>
           </div>
@@ -111,22 +111,22 @@ class Demo32Page extends React.Component {
     const variant = content.localeContent.Variant;
     if (variant === '4-4-4') {
       return (
-        <div className="row">
-          <div className="col-4">
+        <div className="row layout">
+          <div className="col-4 layout">
           {this.renderContainer(element.containers[0])}
           </div>
-          <div className="col-4">
+          <div className="col-4 layout">
           {this.renderContainer(element.containers[1])}
           </div>
-          <div className="col-4">
+          <div className="col-4 layout">
           {this.renderContainer(element.containers[2])}
           </div>
         </div>
       )
     } else {
       return (
-        <div className="row">
-          <div className="col-12">
+        <div className="row layout">
+          <div className="col-12 layout">
           {this.renderContainers(element.containers)}
           </div>
         </div>
