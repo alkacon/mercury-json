@@ -1,121 +1,58 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-
-class Demo3Page extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.demo3 = props.demo3;
-  }
-
-  render() {
-    const page = this.demo3.state.page;
-    if (!page) {
-      return (<div>Page</div>)
-    }
-    return (
-      <div>
-        <h2>Page Structure</h2>
-        {this.renderContainers(page.containers)}
-      </div>
-    )
-  }
-
-  renderContainers(containers) {
-    const self = this;
-    const containerList = containers.map((container, idx) => {
-      return self.renderContainer(container);
-    });
-    return (
-      <div className="containers">
-        <div className="containers-label">
-          <strong>{containers.length} Containers</strong>
-        </div>
-        <div>{containerList}</div>
-      </div>
-    )
-  }
-
-  renderContainer(container) {
-    return (
-      <div className="container">
-        <div className="container-label">
-          <strong>Container. </strong>
-          <span>[name: {container.name},</span>
-          <span> type: {container.type}]</span>
-        </div>
-        {this.renderElements(container.elements)}
-      </div>
-    )
-  }
-
-  renderElements(elements) {
-    const self = this;
-    const elementList = elements.map((element, idx) => {
-      return self.renderElement(element);
-    });
-    return (
-      <div className="elements">
-        <div className="elements-label">
-          <strong>{elements.length} Elements</strong>
-        </div>
-        {elementList}
-      </div>
-    )
-  }
-
-  renderElement(element) {
-    const path = element.path;
-    return (
-      <div className="element">
-        <div>
-          <strong>Element </strong>
-          <span>[path: {path}]</span>
-        </div>
-        {this.renderContainers(element.containers)}
-      </div>
-    )
-  }
-}
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import Demo31 from './step1';
+import Demo32 from './step2';
 
 class Demo3 extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.API = 'http://localhost';
-    this.ENDPOINT = this.API + '/json';
-    this.state = {
-      page: null
-    }
-    this.loadPage();
-  }
-
   render() {
-    return (
+    return(
       <div>
         <h1>JSON API Demo 3</h1>
-        <Demo3Page demo3={this}/>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/step1">Step 1</Link>
+            </li>
+            <li>
+              <Link to="/step2">Step 2</Link>
+            </li>
+            <li>
+              <Link to="/step3">Step 3</Link>
+            </li>
+            <li>
+              <Link to="/step4">Step4</Link>
+            </li>
+          </ul>
+        </nav>
+        <Switch>
+          <Route path="/step1">
+            <Demo31/>
+          </Route>
+          <Route path="/step2">
+            <Demo32/>
+          </Route>
+          <Route path="/step3">
+            <h2>Step 3</h2>
+          </Route>
+          <Route path="/step4">
+            <h2>Step 4</h2>
+          </Route>
+        </Switch>
       </div>
     )
-  }
-
-  loadPage() {
-    const self = this;
-    const uri = '/sites/default/mercury-demo/about/index.html';
-    const params = '?content&locale=en&fallbackLocale=true&wrapper=true';
-    const url = this.ENDPOINT + uri + params;
-    fetch(url)
-      .then(response => response.json())
-      .then((page) => {
-        self.setState({
-          page: page
-        });
-      });
   }
 }
 
 ReactDOM.render(
-  <Demo3 />,
-  document.getElementById('root')
+  <BrowserRouter>
+    <Demo3 />
+  </BrowserRouter>,
+  document.getElementById("root")
 );

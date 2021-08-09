@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './step2.css';
 
-class Demo4Page extends React.Component {
+class Demo32Page extends React.Component {
 
   constructor(props) {
     super(props);
@@ -25,7 +25,11 @@ class Demo4Page extends React.Component {
   renderContainers(containers) {
     const self = this;
     const containerList = containers.map((container, idx) => {
-      return self.renderContainer(container);
+      return (
+        <div key={container.name}>
+        {self.renderContainer(container)}
+        </div>
+      )
     });
     return containerList;
   }
@@ -38,7 +42,11 @@ class Demo4Page extends React.Component {
   renderElements(elements) {
     const self = this;
     const elementList = elements.map((element, idx) => {
-      return self.renderElement(element);
+      return (
+        <div key={element.path}>
+        {self.renderElement(element)}
+        </div>
+      )
     });
     return elementList;
   }
@@ -101,7 +109,6 @@ class Demo4Page extends React.Component {
 
   renderElementLayoutRowSimple(element, content) {
     const variant = content.localeContent.Variant;
-    console.log(variant);
     if (variant === '4-4-4') {
       return (
         <div className="row">
@@ -134,7 +141,7 @@ class Demo4Page extends React.Component {
   }
 }
 
-class Demo4 extends React.Component {
+class Demo32 extends React.Component {
 
   constructor(props) {
     super(props);
@@ -149,8 +156,7 @@ class Demo4 extends React.Component {
   render() {
     return (
       <div>
-        <h1>JSON API Demo 4</h1>
-        <Demo4Page demo4={this}/>
+        <Demo32Page demo4={this}/>
       </div>
     )
   }
@@ -170,7 +176,4 @@ class Demo4 extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <Demo4 />,
-  document.getElementById('root')
-);
+export default Demo32;

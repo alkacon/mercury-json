@@ -3,12 +3,12 @@
 }
 
 .modelgroup {
-  border: solid maroon 5px;
+  border: solid seagreen 5px;
   width: 100%;
   height: 120px;
   text-align: center;
   padding: 10px;
-  color: maroon;
+  color: seagreen;
   margin-bottom: 10px;
 }
 
