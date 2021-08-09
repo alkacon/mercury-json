@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import './step3.css';
 import ApiClient from './apiclient'
 
 class Demo33Page extends React.Component {
@@ -62,26 +62,58 @@ class Demo33Page extends React.Component {
   renderElementContent(element, content) {
     const type = content.attributes.type;
     const formatterKey = element.formatterKey;
+    const settings = element.settings;
+    const settingsList = Object.keys(settings).map(key => {
+      return (
+        <li key={key}>{key}: <strong>{settings[key]}</strong></li>
+      )
+    });
+    return (
+      <div>
+        <hr/>
+        <div className="content">
+          <h4>Content</h4>
+          <dl>
+            <dt>Type</dt>
+            <dd><strong>{type}</strong></dd>
+            <dt>Formatter Key</dt>
+            <dd><strong>{formatterKey}</strong></dd>
+            <dt>Settings</dt>
+            <dd>
+              <ul>{settingsList}</ul>
+            </dd>
+          </dl>
+        </div>
+        {this.renderElementContentFormatter(element, content)}
+      </div>
+    )
+  }
+
+  renderElementContentFormatter(element, content) {
+    const formatterKey = element.formatterKey;
     const title = content.localeContent.Title;
     const text = content.localeContent.Text;
     const image = content.localeContent.Image;
     const link = content.localeContent.Link;
-    return (
-      <div className="formatter">
-        <hr/>
-        <span>Content [type: </span>
-        <strong>{type}</strong>
-        <span> formatter: </span>
-        <strong>{formatterKey}</strong>
-        <span>]</span>
-        <div>
+    if (formatterKey === 'm/section/text-only' ||
+        formatterKey === 'm/section/imagebox') {
+      return (
+        <div className="formatter">
+        {title ? this.renderElementContentTitle(title) : null}
+        {text ? this.renderElementContentText(text) : null}
+        {link ? this.renderElementContentLink(link) : null}
+        </div>
+      )
+    } else {
+      return (
+        <div className="formatter">
         {title ? this.renderElementContentTitle(title) : null}
         {text ? this.renderElementContentText(text) : null}
         {image ? this.renderElementContentImage(image) : null}
         {link ? this.renderElementContentLink(link) : null}
         </div>
-      </div>
-    )
+      )
+    }
   }
 
   renderElementContentImage(image) {

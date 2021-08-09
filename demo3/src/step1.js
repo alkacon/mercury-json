@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './step1.css';
 import ApiClient from './apiclient';
 
