@@ -13,7 +13,7 @@ class Demo32Page extends React.Component {
   render() {
     const page = this.demo3.state.page;
     if (!page) {
-      return (<div>Page</div>)
+      return (<div>Loading page...</div>)
     }
     return (
       <div>

@@ -32,7 +32,7 @@ class Demo3 extends React.Component {
               <Link to="/step3">Step 3</Link>
             </li>
             <li>
-              <Link to="/step4">Step4</Link>
+              <Link to="/step4">Step 4</Link>
             </li>
           </ul>
         </nav>

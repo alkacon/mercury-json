@@ -1,8 +1,12 @@
 
 class ApiClient {
 
+  static get SERVER() {
+    return 'http://localhost';
+  }
+
   get endpoint() {
-    return 'http://localhost/json';
+    return ApiClient.SERVER + '/json';
   }
 
   get uri() {
