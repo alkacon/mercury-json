@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './step1.css';
+import ApiClient from './apiclient';
 
 class Demo31Page extends React.Component {
 
@@ -83,8 +84,6 @@ class Demo31 extends React.Component {
 
   constructor(props) {
     super(props);
-    this.API = 'http://localhost';
-    this.ENDPOINT = this.API + '/json';
     this.state = {
       page: null
     }
@@ -101,10 +100,8 @@ class Demo31 extends React.Component {
 
   loadPage() {
     const self = this;
-    const uri = '/sites/default/mercury-demo/about/index.html';
-    const params = '?content&locale=en&fallbackLocale=true&wrapper=true';
-    const url = this.ENDPOINT + uri + params;
-    fetch(url)
+    const apiClient = new ApiClient();
+    fetch(apiClient.url)
       .then(response => response.json())
       .then((page) => {
         self.setState({

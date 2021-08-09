@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './step2.css';
+import ApiClient from './apiclient';
 
 class Demo32Page extends React.Component {
 
   constructor(props) {
     super(props);
-    this.demo4 = props.demo4;
+    this.demo3 = props.demo3;
   }
 
   render() {
-    const page = this.demo4.state.page;
+    const page = this.demo3.state.page;
     if (!page) {
       return (<div>Page</div>)
     }
@@ -52,7 +53,7 @@ class Demo32Page extends React.Component {
   }
 
   renderElement(element) {
-    const page = this.demo4.state.page;
+    const page = this.demo3.state.page;
     const path = element.path;
     const content = page.relatedContents[path];
     if (content.attributes.type === 'modelgroup') {
@@ -145,8 +146,6 @@ class Demo32 extends React.Component {
 
   constructor(props) {
     super(props);
-    this.API = 'http://localhost';
-    this.ENDPOINT = this.API + '/json';
     this.state = {
       page: null
     }
@@ -156,17 +155,15 @@ class Demo32 extends React.Component {
   render() {
     return (
       <div>
-        <Demo32Page demo4={this}/>
+        <Demo32Page demo3={this}/>
       </div>
     )
   }
 
   loadPage() {
     const self = this;
-    const uri = '/sites/default/mercury-demo/about/index.html';
-    const params = '?content&locale=en&fallbackLocale=true&wrapper=true';
-    const url = this.ENDPOINT + uri + params;
-    fetch(url)
+    const apiClient = new ApiClient();
+    fetch(apiClient.url)
       .then(response => response.json())
       .then((page) => {
         self.setState({

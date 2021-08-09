@@ -8,8 +8,13 @@ import {
 } from "react-router-dom";
 import Demo31 from './step1';
 import Demo32 from './step2';
+import Demo33 from './step3';
 
 class Demo3 extends React.Component {
+
+  static get API() {
+    return 'http://localhost';
+  }
 
   render() {
     return(
@@ -39,7 +44,7 @@ class Demo3 extends React.Component {
             <Demo32/>
           </Route>
           <Route path="/step3">
-            <h2>Step 3</h2>
+            <Demo33/>
           </Route>
           <Route path="/step4">
             <h2>Step 4</h2>
@@ -56,3 +61,5 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById("root")
 );
+
+export default Demo3;
