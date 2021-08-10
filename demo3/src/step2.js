@@ -1,5 +1,4 @@
 import React from 'react';
-import './step2.css';
 
 class Demo32 extends React.Component {
 

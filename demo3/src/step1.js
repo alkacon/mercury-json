@@ -1,5 +1,4 @@
 import React from 'react';
-import './step1.css';
 
 class Demo31 extends React.Component {
 
@@ -67,7 +66,7 @@ class Demo31 extends React.Component {
     const path = element.path;
     return (
       <div className="element">
-        <div>
+        <div className="element-label">
           <strong>Element </strong>
           <span>[path: {path}]</span>
         </div>

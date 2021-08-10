@@ -10,6 +10,7 @@ import Demo31 from './step1';
 import Demo32 from './step2';
 import Demo33 from './step3';
 import Demo34 from './step4';
+import './index.css';
 
 class Demo3 extends React.Component {
 
