@@ -1,8 +1,7 @@
 import React from 'react';
 import './step3.css';
-import ApiClient from './apiclient'
 
-class Demo33Page extends React.Component {
+class Demo33 extends React.Component {
 
   constructor(props) {
     super(props);
@@ -12,7 +11,7 @@ class Demo33Page extends React.Component {
   render() {
     const page = this.demo3.state.page;
     if (!page) {
-      return (<div>Loading page...</div>)
+      return (<div>Loading...</div>)
     }
     return this.renderContainers(page.containers);
   }
@@ -97,8 +96,9 @@ class Demo33Page extends React.Component {
     const image = content.localeContent.Image;
     const link = content.localeContent.Link;
     if (formatterKey === 'm/section/text-only') {
+      const textOption = settings.textOption;
       return (
-        <div className="formatter">
+        <div className={'formatter ' + textOption}>
         {title ? this.renderElementContentTitle(title, settings) : null}
         {text ? this.renderElementContentText(text, settings) : null}
         {link ? this.renderElementContentLink(link, settings) : null}
@@ -157,7 +157,7 @@ class Demo33Page extends React.Component {
   }
 
   renderElementContentImage(image, settings) {
-    const imageSrc = ApiClient.SERVER + image.Image.link;
+    const imageSrc = this.demo3.SERVER + image.Image.link;
     const imageAlt = image.Text;
     return (
       <img src={imageSrc} alt={imageAlt}/>
@@ -204,38 +204,6 @@ class Demo33Page extends React.Component {
         <div>{title}</div>
       )
     }
-  }
-}
-
-class Demo33 extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      page: null
-    }
-    this.loadPage();
-  }
-
-  render() {
-    return(
-      <div>
-        <h2>Content Formatting</h2>
-        <Demo33Page demo3={this}/>
-      </div>
-    )
-  }
-
-  loadPage() {
-    const self = this;
-    const apiClient = new ApiClient();
-    fetch(apiClient.url)
-      .then(response => response.json())
-      .then((page) => {
-        self.setState({
-          page: page
-        });
-      });
   }
 }
 

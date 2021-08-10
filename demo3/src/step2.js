@@ -1,8 +1,7 @@
 import React from 'react';
 import './step2.css';
-import ApiClient from './apiclient';
 
-class Demo32Page extends React.Component {
+class Demo32 extends React.Component {
 
   constructor(props) {
     super(props);
@@ -12,14 +11,9 @@ class Demo32Page extends React.Component {
   render() {
     const page = this.demo3.state.page;
     if (!page) {
-      return (<div>Loading page...</div>)
+      return (<div>Loading...</div>)
     }
-    return (
-      <div>
-        <h2>Page Layout</h2>
-        {this.renderContainers(page.containers)}
-      </div>
-    )
+    return this.renderContainers(page.containers);
   }
 
   renderContainers(containers) {
@@ -138,37 +132,6 @@ class Demo32Page extends React.Component {
     return (
       <div className="modelgroup">Modelgroup</div>
     )
-  }
-}
-
-class Demo32 extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      page: null
-    }
-    this.loadPage();
-  }
-
-  render() {
-    return (
-      <div>
-        <Demo32Page demo3={this}/>
-      </div>
-    )
-  }
-
-  loadPage() {
-    const self = this;
-    const apiClient = new ApiClient();
-    fetch(apiClient.url)
-      .then(response => response.json())
-      .then((page) => {
-        self.setState({
-          page: page
-        });
-      });
   }
 }
 

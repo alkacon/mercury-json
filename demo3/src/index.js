@@ -9,11 +9,20 @@ import {
 import Demo31 from './step1';
 import Demo32 from './step2';
 import Demo33 from './step3';
+import Demo34 from './step4';
 
 class Demo3 extends React.Component {
 
-  static get API() {
-    return 'http://localhost';
+  constructor(props) {
+    super(props);
+    this.SERVER = 'http://localhost';
+    this.ENDPOINT = this.SERVER + '/json';
+    this.URI = '/sites/default/mercury-demo/about/index.html';
+    this.PARAMS = '?content&locale=en&fallbackLocale=true&wrapper=true';
+    this.state = {
+      page: null
+    }
+    this.loadPage();
   }
 
   render() {
@@ -38,20 +47,44 @@ class Demo3 extends React.Component {
         </nav>
         <Switch>
           <Route path="/step1">
-            <Demo31/>
+            <div>
+              <h2>Page Structure</h2>
+              <Demo31 demo3={this} />
+            </div>
           </Route>
           <Route path="/step2">
-            <Demo32/>
+            <div>
+              <h2>Page Layout</h2>
+              <Demo32 demo3={this} />
+            </div>
           </Route>
           <Route path="/step3">
-            <Demo33/>
+            <div>
+              <h2>Content Formatting</h2>
+              <Demo33 demo3={this} />
+            </div>
           </Route>
           <Route path="/step4">
-            <h2>Step 4</h2>
+            <div>
+              <h2>Complete Example</h2>
+              <Demo34 demo3={this} />
+            </div>
           </Route>
         </Switch>
       </div>
     )
+  }
+
+  loadPage() {
+    const self = this;
+    const url = this.ENDPOINT + this.URI + this.PARAMS;
+    fetch(url)
+      .then(response => response.json())
+      .then((page) => {
+        self.setState({
+          page: page
+        });
+      });
   }
 }
 
