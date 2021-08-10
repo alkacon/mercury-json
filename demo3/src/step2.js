@@ -4,6 +4,7 @@ import Demo3Container from './shared/container';
 import Demo3Containers from './shared/containers';
 import Demo3Elements from './shared/elements';
 import Demo3Element from './shared/element';
+import Demo3Layout from './shared/layout';
 
 class Demo32 extends React.Component {
 
@@ -30,25 +31,25 @@ class Demo32 extends React.Component {
 
   renderContainers(containers) {
     return (
-      <Demo3Containers step={this} containers={containers}/>
+      <Demo3Containers step={this} containers={containers} />
     )
   }
 
   renderContainer(container) {
     return (
-      <Demo3Container step={this} container={container}/>
+      <Demo3Container step={this} container={container} />
     )
   }
 
   renderElements(elements) {
     return (
-      <Demo3Elements step={this} elements={elements}/>
+      <Demo3Elements step={this} elements={elements} />
     )
   }
 
   renderElement(element) {
     return (
-      <Demo3Element demo3={this.demo3} step={this} element={element}/>
+      <Demo3Element demo3={this.demo3} step={this} element={element} />
     )
   }
 
@@ -59,67 +60,9 @@ class Demo32 extends React.Component {
   }
 
   renderElementLayout(element, content) {
-    const type = content.attributes.type;
-    if (type === 'm-layout-area-simple') {
-      return this.renderElementLayoutAreaSimple(element, content);
-    } else if (type === 'm-layout-row-simple') {
-      return this.renderElementLayoutRowSimple(element, content);
-    } else {
-      return (
-        <div>Unknown layout type.</div>
-      )
-    }
-  }
-
-  renderElementLayoutAreaSimple(element, content) {
-    const variant = content.localeContent.Variant;
-    if (variant === 'area-side-main') {
-      return (
-        <div className="layout-area">
-          <div className="row layout-row">
-            <div className="col-3 layout-col">
-            {this.renderContainer(element.containers[0])}
-            </div>
-            <div className="col-9 layout-col">
-            {this.renderContainer(element.containers[1])}
-            </div>
-          </div>
-        </div>
-      )
-    } else {
-      return (
-        <div className="layout-area">
-          {this.renderContainers(element.containers)}
-        </div>
-      )
-    }
-  }
-
-  renderElementLayoutRowSimple(element, content) {
-    const variant = content.localeContent.Variant;
-    if (variant === '4-4-4') {
-      return (
-        <div className="row layout-row">
-          <div className="col-4 layout-col">
-          {this.renderContainer(element.containers[0])}
-          </div>
-          <div className="col-4 layout-col">
-          {this.renderContainer(element.containers[1])}
-          </div>
-          <div className="col-4 layout-col">
-          {this.renderContainer(element.containers[2])}
-          </div>
-        </div>
-      )
-    } else {
-      return (
-        <div className="row layout-row">
-          <div className="col-12 layout-col">
-          {this.renderContainers(element.containers)}
-          </div>
-        </div>
-      )
-    }
+    return (
+      <Demo3Layout step={this} element={element} content={content} />
+    )
   }
 
   renderElementModelgroup() {
