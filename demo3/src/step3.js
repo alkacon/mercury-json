@@ -1,5 +1,9 @@
 import React from 'react';
 import Demo3 from './shared/demo3';
+import Demo3Container from './shared/container';
+import Demo3Containers from './shared/containers';
+import Demo3Elements from './shared/elements';
+import Demo3Element from './shared/element';
 
 class Demo33 extends React.Component {
 
@@ -15,48 +19,31 @@ class Demo33 extends React.Component {
   }
 
   renderContainers(containers) {
-    const self = this;
-    const containerList = containers.map((container, idx) => {
-      return (
-        <div key={container.name}>
-        {self.renderContainer(container)}
-        </div>
-      )
-    });
-    return containerList;
+    return (
+      <Demo3Containers step={this} containers={containers}/>
+    )
   }
 
   renderContainer(container) {
-    const elements = container.elements;
-    return this.renderElements(elements);
+    return (
+      <Demo3Container step={this} container={container}/>
+    )
   }
 
   renderElements(elements) {
-    const self = this;
-    const elementList = elements.map((element, idx) => {
-      return (
-        <div key={element.path}>
-        {self.renderElement(element)}
-        </div>
-      )
-    });
-    return elementList;
+    return (
+      <Demo3Elements step={this} elements={elements}/>
+    )
   }
 
   renderElement(element) {
-    const page = this.demo3.state.page;
-    const path = element.path;
-    const content = page.relatedContents[path];
-    if (content.attributes.type === 'modelgroup') {
-      return;
-    } else if (element.containers.length) {
-      return this.renderContainers(element.containers);
-    } else {
-      return this.renderElementContent(element, content);
-    }
+    return (
+      <Demo3Element step={this} element={element}/>
+    )
   }
 
   renderElementContent(element, content) {
+    const path = element.path;
     const type = content.attributes.type;
     const formatterKey = element.formatterKey;
     const settings = element.settings;
@@ -66,10 +53,10 @@ class Demo33 extends React.Component {
       )
     });
     return (
-      <div>
+      <div className="content-item">
         <hr/>
-        <div className="content">
-          <h4>Content</h4>
+        <h3>Content [{path}]</h3>
+        <div className="info-content">
           <dl>
             <dt>Type</dt>
             <dd><strong>{type}</strong></dd>
@@ -96,7 +83,7 @@ class Demo33 extends React.Component {
     if (formatterKey === 'm/section/text-only') {
       const textOption = settings.textOption;
       return (
-        <div className={'formatter ' + textOption}>
+        <div className={'info-formatter ' + textOption}>
         {title ? this.renderElementContentTitle(title, settings) : null}
         {text ? this.renderElementContentText(text, settings) : null}
         {link ? this.renderElementContentLink(link, settings) : null}
@@ -106,7 +93,7 @@ class Demo33 extends React.Component {
       const cssWrapper = settings.cssWrapper;
       const iconClass = settings.iconClass;
       return (
-        <div className={'formatter ' + cssWrapper}>
+        <div className={'info-formatter ' + cssWrapper}>
           {title ? this.renderElementContentTitle(title, settings) : null}
           <div>[icon: {iconClass}]</div>
           {text ? this.renderElementContentText(text, settings) : null}
@@ -139,7 +126,7 @@ class Demo33 extends React.Component {
         )
       }
       return (
-        <div className="formatter">
+        <div className="info-formatter">
         {title ? this.renderElementContentTitle(title, settings) : null}
         {textImage}
         {link ? this.renderElementContentLink(link, settings) : null}
@@ -147,7 +134,7 @@ class Demo33 extends React.Component {
       )
     } else {
       return (
-        <div className="formatter">
+        <div className="info-formatter">
           <p>Formatter key {formatterKey} is not supported.</p>
         </div>
       )
@@ -202,6 +189,14 @@ class Demo33 extends React.Component {
         <div>{title}</div>
       )
     }
+  }
+
+  renderElementLayout(element, content) {
+    return this.renderContainers(element.containers);
+  }
+
+  renderElementModelgroup() {
+    return false;
   }
 }
 

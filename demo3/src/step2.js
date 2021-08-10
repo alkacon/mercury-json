@@ -18,11 +18,11 @@ class Demo32 extends React.Component {
         <Demo3 demo3={this.demo3} step={this} />
         <h5>Legend</h5>
         <div>
-          <span class="modelgroup-legend">Modelgroup</span>
-          <span class="layout-area-legend">Area</span>
-          <span class="layout-row-legend">Row</span>
-          <span class="layout-column-legend">Column</span>
-          <span class="content-legend">Content</span>
+          <span className="layout-modelgroup-legend">Modelgroup</span>
+          <span className="layout-area-legend">Area</span>
+          <span className="layout-row-legend">Row</span>
+          <span className="layout-column-legend">Column</span>
+          <span className="layout-content-legend">Content</span>
         </div>
       </>
     )
@@ -47,21 +47,14 @@ class Demo32 extends React.Component {
   }
 
   renderElement(element) {
-    const page = this.demo3.state.page;
-    const path = element.path;
-    const content = page.relatedContents[path];
-    if (content.attributes.type === 'modelgroup') {
-      return this.renderElementModelgroup();
-    } else if (element.containers.length) {
-      return this.renderElementLayout(element, content);
-    } else {
-      return this.renderElementContent();
-    }
+    return (
+      <Demo3Element demo3={this.demo3} step={this} element={element}/>
+    )
   }
 
   renderElementContent(content) {
     return (
-      <div className="content"></div>
+      <div className="layout-content"></div>
     )
   }
 
@@ -80,7 +73,6 @@ class Demo32 extends React.Component {
 
   renderElementLayoutAreaSimple(element, content) {
     const variant = content.localeContent.Variant;
-    console.log(variant);
     if (variant === 'area-side-main') {
       return (
         <div className="layout-area">
@@ -132,7 +124,7 @@ class Demo32 extends React.Component {
 
   renderElementModelgroup() {
     return (
-      <div className="modelgroup"></div>
+      <div className="layout-modelgroup"></div>
     )
   }
 }

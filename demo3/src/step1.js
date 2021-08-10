@@ -2,7 +2,6 @@ import React from 'react';
 import Demo3 from './shared/demo3';
 import Demo3Container from './shared/container';
 import Demo3Containers from './shared/containers';
-import Demo3Element from './shared/element';
 import Demo3Elements from './shared/elements';
 
 class Demo31 extends React.Component {
@@ -55,6 +54,7 @@ class Demo31 extends React.Component {
   }
 
   renderElement(element) {
+    const containers = element.containers;
     const path = element.path;
     return (
       <div className="element">
@@ -62,7 +62,7 @@ class Demo31 extends React.Component {
           <strong>Element </strong>
           <span>[path: {path}]</span>
         </div>
-        <Demo3Element step={this} element={element}/>
+        {this.renderContainers(containers)}
       </div>
     )
   }
