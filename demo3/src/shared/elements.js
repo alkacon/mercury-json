@@ -12,7 +12,7 @@ class Demo3Elements extends React.Component {
     const self = this;
     const elements = this.elements.map((element, idx) => {
       return (
-        <div>
+        <div key={element.path}>
         {self.step.renderElement(element)}
         </div>
       )

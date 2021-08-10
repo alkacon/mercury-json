@@ -35,7 +35,8 @@ class Demo31 extends React.Component {
         <div className="container-label">
           <strong>Container. </strong>
           <span>[name: {container.name},</span>
-          <span> type: {container.type}]</span>
+          <span> type: {container.type},</span>
+          <span> isNestedContainer: {'' + container.isNestedContainer}]</span>
         </div>
         <Demo3Container step={this} container={container}/>
       </div>

@@ -1,5 +1,9 @@
 import React from 'react';
 import Demo3 from './shared/demo3';
+import Demo3Container from './shared/container';
+import Demo3Containers from './shared/containers';
+import Demo3Elements from './shared/elements';
+import Demo3Element from './shared/element';
 
 class Demo32 extends React.Component {
 
@@ -10,37 +14,36 @@ class Demo32 extends React.Component {
 
   render() {
     return (
-      <Demo3 demo3={this.demo3} step={this} />
+      <>
+        <Demo3 demo3={this.demo3} step={this} />
+        <h5>Legend</h5>
+        <div>
+          <span class="modelgroup-legend">Modelgroup</span>
+          <span class="layout-area-legend">Area</span>
+          <span class="layout-row-legend">Row</span>
+          <span class="layout-column-legend">Column</span>
+          <span class="content-legend">Content</span>
+        </div>
+      </>
     )
   }
 
   renderContainers(containers) {
-    const self = this;
-    const containerList = containers.map((container, idx) => {
-      return (
-        <div key={container.name}>
-        {self.renderContainer(container)}
-        </div>
-      )
-    });
-    return containerList;
+    return (
+      <Demo3Containers step={this} containers={containers}/>
+    )
   }
 
   renderContainer(container) {
-    const elements = container.elements;
-    return this.renderElements(elements);
+    return (
+      <Demo3Container step={this} container={container}/>
+    )
   }
 
   renderElements(elements) {
-    const self = this;
-    const elementList = elements.map((element, idx) => {
-      return (
-        <div key={element.path}>
-        {self.renderElement(element)}
-        </div>
-      )
-    });
-    return elementList;
+    return (
+      <Demo3Elements step={this} elements={elements}/>
+    )
   }
 
   renderElement(element) {
@@ -58,7 +61,7 @@ class Demo32 extends React.Component {
 
   renderElementContent(content) {
     return (
-      <div className="content">Content</div>
+      <div className="content"></div>
     )
   }
 
@@ -70,21 +73,22 @@ class Demo32 extends React.Component {
       return this.renderElementLayoutRowSimple(element, content);
     } else {
       return (
-        <div>Unknown type</div>
+        <div>Unknown layout type.</div>
       )
     }
   }
 
   renderElementLayoutAreaSimple(element, content) {
     const variant = content.localeContent.Variant;
+    console.log(variant);
     if (variant === 'area-side-main') {
       return (
-        <div className="area">
-          <div className="row layout">
-            <div className="col-3 layout">
+        <div className="layout-area">
+          <div className="row layout-row">
+            <div className="col-3 layout-col">
             {this.renderContainer(element.containers[0])}
             </div>
-            <div className="col-9 layout">
+            <div className="col-9 layout-col">
             {this.renderContainer(element.containers[1])}
             </div>
           </div>
@@ -92,7 +96,7 @@ class Demo32 extends React.Component {
       )
     } else {
       return (
-        <div className="area">
+        <div className="layout-area">
           {this.renderContainers(element.containers)}
         </div>
       )
@@ -103,22 +107,22 @@ class Demo32 extends React.Component {
     const variant = content.localeContent.Variant;
     if (variant === '4-4-4') {
       return (
-        <div className="row layout">
-          <div className="col-4 layout">
+        <div className="row layout-row">
+          <div className="col-4 layout-col">
           {this.renderContainer(element.containers[0])}
           </div>
-          <div className="col-4 layout">
+          <div className="col-4 layout-col">
           {this.renderContainer(element.containers[1])}
           </div>
-          <div className="col-4 layout">
+          <div className="col-4 layout-col">
           {this.renderContainer(element.containers[2])}
           </div>
         </div>
       )
     } else {
       return (
-        <div className="row layout">
-          <div className="col-12 layout">
+        <div className="row layout-row">
+          <div className="col-12 layout-col">
           {this.renderContainers(element.containers)}
           </div>
         </div>
@@ -128,7 +132,7 @@ class Demo32 extends React.Component {
 
   renderElementModelgroup() {
     return (
-      <div className="modelgroup">Modelgroup</div>
+      <div className="modelgroup"></div>
     )
   }
 }
