@@ -1,4 +1,5 @@
 import React from 'react';
+import Demo3 from './shared/demo3';
 
 class Demo34 extends React.Component {
 
@@ -8,11 +9,9 @@ class Demo34 extends React.Component {
   }
 
   render() {
-    const page = this.demo3.state.page;
-    if (!page) {
-      return (<div>Loading...</div>)
-    }
-    return this.renderContainers(page.containers);
+    return (
+      <Demo3 demo3={this.demo3} step={this} />
+    )
   }
 
   renderContainers(containers) {

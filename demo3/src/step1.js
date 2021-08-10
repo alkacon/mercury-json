@@ -1,4 +1,9 @@
 import React from 'react';
+import Demo3 from './shared/demo3';
+import Demo3Container from './shared/container';
+import Demo3Containers from './shared/containers';
+import Demo3Element from './shared/element';
+import Demo3Elements from './shared/elements';
 
 class Demo31 extends React.Component {
 
@@ -8,28 +13,18 @@ class Demo31 extends React.Component {
   }
 
   render() {
-    const page = this.demo3.state.page;
-    if (!page) {
-      return (<div>Loading...</div>)
-    }
     return (
-      <div>
-        {this.renderContainers(page.containers)}
-      </div>
+      <Demo3 demo3={this.demo3} step={this} />
     )
   }
 
   renderContainers(containers) {
-    const self = this;
-    const containerList = containers.map((container, idx) => {
-      return self.renderContainer(container);
-    });
     return (
       <div className="containers">
         <div className="containers-label">
           <strong>{containers.length} Containers</strong>
         </div>
-        <div>{containerList}</div>
+        <Demo3Containers step={this} containers={containers}/>
       </div>
     )
   }
@@ -42,22 +37,18 @@ class Demo31 extends React.Component {
           <span>[name: {container.name},</span>
           <span> type: {container.type}]</span>
         </div>
-        {this.renderElements(container.elements)}
+        <Demo3Container step={this} container={container}/>
       </div>
     )
   }
 
   renderElements(elements) {
-    const self = this;
-    const elementList = elements.map((element, idx) => {
-      return self.renderElement(element);
-    });
     return (
       <div className="elements">
         <div className="elements-label">
           <strong>{elements.length} Elements</strong>
         </div>
-        {elementList}
+        <Demo3Elements step={this} elements={elements}/>
       </div>
     )
   }
@@ -70,7 +61,7 @@ class Demo31 extends React.Component {
           <strong>Element </strong>
           <span>[path: {path}]</span>
         </div>
-        {this.renderContainers(element.containers)}
+        <Demo3Element step={this} element={element}/>
       </div>
     )
   }
