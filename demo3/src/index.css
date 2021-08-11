@@ -5,18 +5,10 @@
 }
 
 .row {
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
   min-height: 120px;
-}
-
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-[class*="col-"] {
-  float: left;
 }
 
 .col-3 {width: 25%;}
@@ -219,9 +211,4 @@ img {
 
 .layout-modelgroup img {
   width: 300px;
-}
-
-.linksequence-header {
-  position: absolute;
-  right: 30px;
 }
