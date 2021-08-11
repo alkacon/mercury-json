@@ -56,7 +56,7 @@ class Demo3Layout extends React.Component {
   renderGroupSimple() {
     return (
       <div className="row layout-group">
-        <div class="col-12">
+        <div className="col-12">
         {this.step.renderContainers(this.page, this.element.containers)}
         </div>
       </div>

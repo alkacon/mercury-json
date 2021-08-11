@@ -1,13 +1,14 @@
 import React from 'react';
 import Demo3Container from './shared/container';
 import Demo3Containers from './shared/containers';
+import Demo3Content from './shared/content';
 import Demo3Elements from './shared/elements';
 import Demo3Element from './shared/element';
 import Demo3Layout from './shared/layout';
 import Demo3Modelgroup from './shared/modelgroup';
 import Demo3Page from './shared/page';
 
-class Demo35 extends React.Component {
+class Demo36 extends React.Component {
 
   constructor(props) {
     super(props);
@@ -16,18 +17,7 @@ class Demo35 extends React.Component {
 
   render() {
     return (
-      <>
-        <Demo3Page step={this}/>
-        <h5>Legend</h5>
-        <div>
-          <span className="layout-modelgroup-legend">Modelgroup</span>
-          <span className="layout-group-legend">Group</span>
-          <span className="layout-area-legend">Area</span>
-          <span className="layout-row-legend">Row</span>
-          <span className="layout-column-legend">Column</span>
-          <span className="layout-content-legend">Content</span>
-        </div>
-      </>
+      <Demo3Page step={this}/>
     )
   }
 
@@ -62,8 +52,35 @@ class Demo35 extends React.Component {
     if (page.attributes.type !== 'modelgroup') {
       return false;
     }
+    const path = element.path;
+    const type = content.attributes.type;
+    const formatterKey = element.formatterKey;
+    const settings = element.settings;
+    const settingsList = Object.keys(settings).map(key => {
+      return (
+        <li key={key}>{key}: <strong>{settings[key]}</strong></li>
+      )
+    });
     return (
-      <div className="layout-content"></div>
+      <div className="content-item">
+        <hr/>
+        <h3>Content [{path}]</h3>
+        <div className="info-content">
+          <dl>
+            <dt>Type</dt>
+            <dd><strong>{type}</strong></dd>
+            <dt>Formatter Key</dt>
+            <dd><strong>{formatterKey}</strong></dd>
+            <dt>Settings</dt>
+            <dd>
+              <ul>{settingsList}</ul>
+            </dd>
+          </dl>
+        </div>
+        <div className="info-formatter">
+          <Demo3Content step={this} page={page} element={element} content={content}/>
+        </div>
+      </div>
     )
   }
 
@@ -71,16 +88,12 @@ class Demo35 extends React.Component {
     if (page.attributes.type !== 'modelgroup') {
       return false;
     }
-    return (
-      <Demo3Layout step={this} page={page} element={element} content={content}/>
-    )
+    return this.renderContainers(page, element.containers);
   }
 
   renderElementModelgroup(page, element, modelgroup) {
-    return (
-      <Demo3Modelgroup step={this} element={element} modelgroup={modelgroup}/>
-    )
+    return this.renderContainers(modelgroup, modelgroup.containers);
   }
 }
 
-export default Demo35;
+export default Demo36;
