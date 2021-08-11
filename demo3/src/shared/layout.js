@@ -5,6 +5,7 @@ class Demo3Layout extends React.Component {
   constructor(props) {
     super(props);
     this.step = props.step;
+    this.page = props.page;
     this.element = props.element;
     this.content = props.content;
   }
@@ -15,6 +16,8 @@ class Demo3Layout extends React.Component {
       return this.renderAreaSimple();
     } else if (type === 'm-layout-row-simple') {
       return this.renderRowSimple();
+    } else if (type === 'm-layout-group-simple') {
+      return this.renderGroupSimple();
     } else {
       return (
         <div>Unknown layout type {type}.</div>
@@ -29,10 +32,10 @@ class Demo3Layout extends React.Component {
         <div className="layout-area">
           <div className="row layout-row">
             <div className="col-3 layout-col">
-            {this.step.renderContainer(this.element.containers[0])}
+            {this.step.renderContainer(this.page, this.element.containers[0])}
             </div>
             <div className="col-9 layout-col">
-            {this.step.renderContainer(this.element.containers[1])}
+            {this.step.renderContainer(this.page, this.element.containers[1])}
             </div>
           </div>
         </div>
@@ -40,7 +43,7 @@ class Demo3Layout extends React.Component {
     } else if (variant === 'area-one-row') {
       return (
         <div className="layout-area">
-          {this.step.renderContainers(this.element.containers)}
+          {this.step.renderContainers(this.page, this.element.containers)}
         </div>
       )
     } else {
@@ -50,19 +53,29 @@ class Demo3Layout extends React.Component {
     }
   }
 
+  renderGroupSimple() {
+    return (
+      <div className="row layout-group">
+        <div class="col-12">
+        {this.step.renderContainers(this.page, this.element.containers)}
+        </div>
+      </div>
+    )
+  }
+
   renderRowSimple() {
     const variant = this.content.localeContent.Variant;
     if (variant === '4-4-4') {
       return (
         <div className="row layout-row">
           <div className="col-4 layout-col">
-          {this.step.renderContainer(this.element.containers[0])}
+          {this.step.renderContainer(this.page, this.element.containers[0])}
           </div>
           <div className="col-4 layout-col">
-          {this.step.renderContainer(this.element.containers[1])}
+          {this.step.renderContainer(this.page, this.element.containers[1])}
           </div>
           <div className="col-4 layout-col">
-          {this.step.renderContainer(this.element.containers[2])}
+          {this.step.renderContainer(this.page, this.element.containers[2])}
           </div>
         </div>
       )
@@ -70,7 +83,18 @@ class Demo3Layout extends React.Component {
       return (
         <div className="row layout-row">
           <div className="col-12 layout-col">
-          {this.step.renderContainers(this.element.containers)}
+          {this.step.renderContainers(this.page, this.element.containers)}
+          </div>
+        </div>
+      )
+    } else if (variant === '6-6-md') {
+      return (
+        <div className="row layout-row">
+          <div className="col-6 layout-col">
+          {this.step.renderContainer(this.page, this.element.containers[0])}
+          </div>
+          <div className="col-6 layout-col">
+          {this.step.renderContainer(this.page, this.element.containers[1])}
           </div>
         </div>
       )

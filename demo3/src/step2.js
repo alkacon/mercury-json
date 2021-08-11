@@ -1,10 +1,10 @@
 import React from 'react';
-import Demo3 from './shared/demo3';
 import Demo3Container from './shared/container';
 import Demo3Containers from './shared/containers';
 import Demo3Elements from './shared/elements';
 import Demo3Element from './shared/element';
 import Demo3Layout from './shared/layout';
+import Demo3Page from './shared/page';
 
 class Demo32 extends React.Component {
 
@@ -16,7 +16,7 @@ class Demo32 extends React.Component {
   render() {
     return (
       <>
-        <Demo3 demo3={this.demo3} step={this} />
+        <Demo3Page step={this}/>
         <h5>Legend</h5>
         <div>
           <span className="layout-modelgroup-legend">Modelgroup</span>
@@ -29,43 +29,43 @@ class Demo32 extends React.Component {
     )
   }
 
-  renderContainers(containers) {
+  renderContainers(page, containers) {
     return (
-      <Demo3Containers step={this} containers={containers} />
+      <Demo3Containers step={this} page={page} containers={containers}/>
     )
   }
 
-  renderContainer(container) {
+  renderContainer(page, container) {
     return (
-      <Demo3Container step={this} container={container} />
+      <Demo3Container step={this} page={page} container={container}/>
     )
   }
 
-  renderElements(elements) {
+  renderElements(page, elements) {
     return (
-      <Demo3Elements step={this} elements={elements} />
+      <Demo3Elements step={this} page={page} elements={elements}/>
     )
   }
 
-  renderElement(element) {
+  renderElement(page, element) {
     return (
-      <Demo3Element demo3={this.demo3} step={this} element={element} />
+      <Demo3Element step={this} page={page} element={element}/>
     )
   }
 
-  renderElementContent(content) {
+  renderElementContent(page, element, content) {
     return (
       <div className="layout-content"></div>
     )
   }
 
-  renderElementLayout(element, content) {
+  renderElementLayout(page, element, content) {
     return (
-      <Demo3Layout step={this} element={element} content={content} />
+      <Demo3Layout step={this} page={page} element={element} content={content}/>
     )
   }
 
-  renderElementModelgroup() {
+  renderElementModelgroup(page, element, modelgroup) {
     return (
       <div className="layout-modelgroup"></div>
     )

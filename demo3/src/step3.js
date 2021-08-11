@@ -1,10 +1,10 @@
 import React from 'react';
-import Demo3 from './shared/demo3';
 import Demo3Container from './shared/container';
 import Demo3Containers from './shared/containers';
 import Demo3Content from './shared/content';
 import Demo3Elements from './shared/elements';
 import Demo3Element from './shared/element';
+import Demo3Page from './shared/page';
 
 class Demo33 extends React.Component {
 
@@ -15,35 +15,35 @@ class Demo33 extends React.Component {
 
   render() {
     return (
-      <Demo3 demo3={this.demo3} step={this} />
+      <Demo3Page step={this}/>
     )
   }
 
-  renderContainers(containers) {
+  renderContainers(page, containers) {
     return (
-      <Demo3Containers step={this} containers={containers}/>
+      <Demo3Containers step={this} page={page} containers={containers}/>
     )
   }
 
-  renderContainer(container) {
+  renderContainer(page, container) {
     return (
-      <Demo3Container step={this} container={container}/>
+      <Demo3Container step={this} page={page} container={container}/>
     )
   }
 
-  renderElements(elements) {
+  renderElements(page, elements) {
     return (
-      <Demo3Elements step={this} elements={elements}/>
+      <Demo3Elements step={this} page={page} elements={elements}/>
     )
   }
 
-  renderElement(element) {
+  renderElement(page, element) {
     return (
-      <Demo3Element step={this} element={element}/>
+      <Demo3Element step={this} page={page} element={element}/>
     )
   }
 
-  renderElementContent(element, content) {
+  renderElementContent(page, element, content) {
     const path = element.path;
     const type = content.attributes.type;
     const formatterKey = element.formatterKey;
@@ -70,17 +70,17 @@ class Demo33 extends React.Component {
           </dl>
         </div>
         <div className="info-formatter">
-          <Demo3Content step={this} element={element} content={content}/>
+          <Demo3Content step={this} page={page} element={element} content={content}/>
         </div>
       </div>
     )
   }
 
-  renderElementLayout(element, content) {
-    return this.renderContainers(element.containers);
+  renderElementLayout(page, element, content) {
+    return this.renderContainers(page, element.containers);
   }
 
-  renderElementModelgroup() {
+  renderElementModelgroup(page, element, modelgroup) {
     return false;
   }
 }

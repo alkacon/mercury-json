@@ -1,8 +1,8 @@
 import React from 'react';
-import Demo3 from './shared/demo3';
 import Demo3Container from './shared/container';
 import Demo3Containers from './shared/containers';
 import Demo3Elements from './shared/elements';
+import Demo3Page from './shared/page';
 
 class Demo31 extends React.Component {
 
@@ -13,22 +13,22 @@ class Demo31 extends React.Component {
 
   render() {
     return (
-      <Demo3 demo3={this.demo3} step={this} />
+      <Demo3Page step={this}/>
     )
   }
 
-  renderContainers(containers) {
+  renderContainers(page, containers) {
     return (
       <div className="containers">
         <div className="containers-label">
           <strong>{containers.length} Containers</strong>
         </div>
-        <Demo3Containers step={this} containers={containers}/>
+        <Demo3Containers step={this} page={page} containers={containers}/>
       </div>
     )
   }
 
-  renderContainer(container) {
+  renderContainer(page, container) {
     return (
       <div className="container">
         <div className="container-label">
@@ -37,23 +37,23 @@ class Demo31 extends React.Component {
           <span> type: {container.type},</span>
           <span> isNestedContainer: {'' + container.isNestedContainer}]</span>
         </div>
-        <Demo3Container step={this} container={container}/>
+        <Demo3Container step={this} page={page} container={container}/>
       </div>
     )
   }
 
-  renderElements(elements) {
+  renderElements(page, elements) {
     return (
       <div className="elements">
         <div className="elements-label">
           <strong>{elements.length} Elements</strong>
         </div>
-        <Demo3Elements step={this} elements={elements}/>
+        <Demo3Elements step={this} page={page} elements={elements}/>
       </div>
     )
   }
 
-  renderElement(element) {
+  renderElement(page, element) {
     const containers = element.containers;
     const path = element.path;
     return (
@@ -62,7 +62,7 @@ class Demo31 extends React.Component {
           <strong>Element </strong>
           <span>[path: {path}]</span>
         </div>
-        {this.renderContainers(containers)}
+        {this.renderContainers(page, containers)}
       </div>
     )
   }

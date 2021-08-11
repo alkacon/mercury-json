@@ -10,6 +10,7 @@ import Demo31 from './step1';
 import Demo32 from './step2';
 import Demo33 from './step3';
 import Demo34 from './step4';
+import Demo35 from './step5';
 import './index.css';
 
 class Demo3 extends React.Component {
@@ -34,15 +35,23 @@ class Demo3 extends React.Component {
           <ul>
             <li>
               <Link to="/step1">Step 1</Link>
+              <span>: Page Structure</span>
             </li>
             <li>
               <Link to="/step2">Step 2</Link>
+              <span>: Page Layout</span>
             </li>
             <li>
               <Link to="/step3">Step 3</Link>
+              <span>: Content Formatting</span>
             </li>
             <li>
               <Link to="/step4">Step 4</Link>
+              <span>: Combined Page Layout and Content Formatting</span>
+            </li>
+            <li>
+              <Link to="/step5">Step 5</Link>
+              <span>: Header and Footer</span>
             </li>
           </ul>
         </nav>
@@ -67,8 +76,14 @@ class Demo3 extends React.Component {
           </Route>
           <Route path="/step4">
             <div>
-              <h2>Complete Example</h2>
+              <h2>Combined Page Layout and Content Formatting</h2>
               <Demo34 demo3={this} />
+            </div>
+          </Route>
+          <Route path="/step5">
+            <div>
+              <h2>Header and Footer Layout</h2>
+              <Demo35 demo3={this} />
             </div>
           </Route>
         </Switch>

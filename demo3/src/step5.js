@@ -1,16 +1,16 @@
 import React from 'react';
 import Demo3Container from './shared/container';
-import Demo3Content from './shared/content';
 import Demo3Containers from './shared/containers';
 import Demo3Elements from './shared/elements';
 import Demo3Element from './shared/element';
 import Demo3Layout from './shared/layout';
+import Demo3Modelgroup from './shared/modelgroup';
 import Demo3Page from './shared/page';
 
-class Demo34 extends React.Component {
+class Demo35 extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     this.demo3 = props.demo3;
   }
 
@@ -27,6 +27,9 @@ class Demo34 extends React.Component {
   }
 
   renderContainer(page, container) {
+    if (container.type === 'header-config') {
+      return false;
+    }
     return (
       <Demo3Container step={this} page={page} container={container}/>
     )
@@ -45,22 +48,28 @@ class Demo34 extends React.Component {
   }
 
   renderElementContent(page, element, content) {
+    if (page.attributes.type !== 'modelgroup') {
+      return false;
+    }
     return (
-      <Demo3Content step={this} element={element} content={content}/>
+      <div class="layout-content"></div>
     )
   }
 
   renderElementLayout(page, element, content) {
+    if (page.attributes.type !== 'modelgroup') {
+      return false;
+    }
     return (
-      <Demo3Layout step={this} page={page} element={element} content={content} />
+      <Demo3Layout step={this} page={page} element={element} content={content}/>
     )
   }
 
   renderElementModelgroup(page, element, modelgroup) {
     return (
-      <div className="layout-modelgroup"></div>
+      <Demo3Modelgroup step={this} element={element} modelgroup={modelgroup}/>
     )
   }
 }
 
-export default Demo34;
+export default Demo35;

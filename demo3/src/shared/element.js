@@ -5,19 +5,23 @@ class Demo3Element extends React.Component {
   constructor(props) {
     super(props);
     this.step = props.step;
+    this.page = props.page;
     this.element = props.element;
   }
 
   render() {
-    const page = this.step.demo3.state.page;
     const path = this.element.path;
-    const content = page.relatedContents[path];
-    if (content.attributes.type === 'modelgroup') {
-      return this.step.renderElementModelgroup();
+    const content = this.page.relatedContents[path];
+    if (!content) {
+      return (
+        <div>Related content not found: {path}.</div>
+      )
+    } else if (content.attributes.type === 'modelgroup') {
+      return this.step.renderElementModelgroup(this.page, this.element, content);
     } else if (this.element.containers.length) {
-      return this.step.renderElementLayout(this.element, content);
+      return this.step.renderElementLayout(this.page, this.element, content);
     } else {
-      return this.step.renderElementContent(this.element, content);
+      return this.step.renderElementContent(this.page, this.element, content);
     }
   }
 }
