@@ -6,11 +6,26 @@ class Demo2Content extends React.Component {
 
   constructor(props) {
     super(props);
+    this.handleClickList = this.handleClickList.bind(this);
     this.demo2 = props.demo2;
   }
 
+  handleClickList(event) {
+    event.preventDefault();
+    this.demo2.loadList();
+  }
+
   render() {
-    return <div>Demo 2 Content</div>;
+    const localeContent = this.demo2.state.content;
+    const title = localeContent.properties.Title;
+    return (
+      <div>
+        <h1>JSON API Demo 2</h1>
+        <p><a href="." onClick={this.handleClickList}>Back</a> to the list.</p>
+        <h2>{title}</h2>
+        <p>Just a demo page.</p>
+      </div>
+    );
   }
 }
 
@@ -28,7 +43,8 @@ class Demo2List extends React.Component {
   }
 
   handleClickContent(content) {
-    console.log('handleClickContent');
+    const path = content.path;
+    this.demo2.loadContent(path);
   }
 
   handleShowMore(event) {
@@ -48,8 +64,8 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Paragraph[0].Image)}
-        <div class="demo2-list-item-label-wrapper">
-          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        <div className="demo2-list-item-label-wrapper">
+          <div className="demo2-list-item-label">{item.properties.Title}</div>
         </div>
       </div>
     )
@@ -59,8 +75,8 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Image)}
-        <div class="demo2-list-item-label-wrapper">
-          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        <div className="demo2-list-item-label-wrapper">
+          <div className="demo2-list-item-label">{item.properties.Title}</div>
         </div>
       </div>
     )
@@ -70,8 +86,8 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Image)}
-        <div class="demo2-list-item-label-wrapper">
-          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        <div className="demo2-list-item-label-wrapper">
+          <div className="demo2-list-item-label">{item.properties.Title}</div>
         </div>
       </div>
     )
@@ -81,8 +97,8 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Paragraph[0].Image)}
-        <div class="demo2-list-item-label-wrapper">
-          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        <div className="demo2-list-item-label-wrapper">
+          <div className="demo2-list-item-label">{item.properties.Title}</div>
         </div>
       </div>
     )
@@ -92,8 +108,8 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Paragraph[0].Image)}
-        <div class="demo2-list-item-label-wrapper">
-          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        <div className="demo2-list-item-label-wrapper">
+          <div className="demo2-list-item-label">{item.properties.Title}</div>
         </div>
       </div>
     )
@@ -103,8 +119,8 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Image[0])}
-        <div class="demo2-list-item-label-wrapper">
-          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        <div className="demo2-list-item-label-wrapper">
+          <div className="demo2-list-item-label">{item.properties.Title}</div>
         </div>
       </div>
     )
@@ -114,8 +130,8 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item.localeContent.Introduction.Image)}
-        <div class="demo2-list-item-label-wrapper">
-          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        <div className="demo2-list-item-label-wrapper">
+          <div className="demo2-list-item-label">{item.properties.Title}</div>
         </div>
       </div>
     )
@@ -125,8 +141,8 @@ class Demo2List extends React.Component {
     return (
       <div>
         {this.renderUtilPreviewImage(item)}
-        <div class="demo2-list-item-label-wrapper">
-          <div class="demo2-list-item-label">{item.properties.Title}</div>
+        <div className="demo2-list-item-label-wrapper">
+          <div className="demo2-list-item-label">{item.properties.Title}</div>
         </div>
       </div>
     )
@@ -156,10 +172,10 @@ class Demo2List extends React.Component {
         div = self.renderItemMedia(item);
       }
       return (
-        <div class="demo2-list-item"
+        <div className="demo2-list-item"
              key={item.properties.Title + idx}
              onClick={(e) => self.handleClickContent(item, e)}>
-          <small class="demo2-list-item-type">{item.attributes.type}</small>
+          <small className="demo2-list-item-type">{item.attributes.type}</small>
           {div}
         </div>
       )
@@ -173,17 +189,18 @@ class Demo2List extends React.Component {
       moreResults = this.demo2.state.rows < list.listInfo.numFound;
     }
     return (
-      <div class="demo2-list">
+      <div className="demo2-list">
         <h3>{list.Title}</h3>
         <Demo2SelectSort demo2={this.demo2}/>
-        <div class="demo2-list-items">
+        <div className="demo2-list-items">
         {itemList}
         </div>
-        <div class="demo2-list-show-more">
-          <button class="demo2-list-show-more-button"
+        <div className="demo2-list-show-more">
+          <span>{pageInfo} </span>
+          <button className="demo2-list-show-more-button"
                   onClick={this.handleShowMore}
                   disabled={!moreResults}>
-            <big>({pageInfo}) Show more...</big>
+            <big>Show more...</big>
           </button>
         </div>
       </div>
@@ -198,8 +215,8 @@ class Demo2List extends React.Component {
         json.Image.Title;
     const image = <img src={imageSrc}
              alt={imageTitle}
-             class="demo2-list-item-img"/>;
-    return (<div class="demo2-list-item-img-panel">{image}</div>)
+             className="demo2-list-item-img"/>;
+    return (<div className="demo2-list-item-img-panel">{image}</div>)
   }
 }
 
@@ -217,8 +234,8 @@ class Demo2SelectSort extends React.Component {
 
   render() {
     return (
-      <div class="demo2-select-sort">
-        <label for="demo2SelectSort">Sort by </label>
+      <div className="demo2-select-sort">
+        <label htmlFor="demo2SelectSort">Sort by </label>
         <select id="demo2SelectSort"
                 value={this.demo2.state.sort}
                 onChange={this.handleChange}>

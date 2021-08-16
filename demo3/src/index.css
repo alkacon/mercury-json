@@ -7,7 +7,6 @@
 .row {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
   min-height: 120px;
 }
 
@@ -73,7 +72,6 @@ img {
 
 .layout-modelgroup {
   border: solid seagreen 5px;
-  width: 100%;
   min-height: 120px;
   margin-bottom: 10px;
 }
@@ -87,7 +85,6 @@ img {
 
 .layout-area {
   border: solid darkred 5px;
-  width: 100%;
   min-height: 120px;
   margin-bottom: 10px;
 }
@@ -101,7 +98,6 @@ img {
 
 .layout-group {
   border: solid indigo 5px;
-  width: 100%;
   min-height: 120px;
 }
 

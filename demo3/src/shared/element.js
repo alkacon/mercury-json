@@ -11,7 +11,7 @@ class Demo3Element extends React.Component {
 
   render() {
     const path = this.element.path;
-    const content = this.page.relatedContents[path];
+    const content = this.page.linkedContents[path];
     if (!content) {
       return (
         <div>Related content not found: {path}.</div>
