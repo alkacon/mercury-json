@@ -23,17 +23,21 @@ class Demo1ContentList extends React.Component {
           (self.demo1.API + item.localeContent.Paragraph[0].Image.Image.link) :
           '/favicon.ico';
       return item.isXmlContent ? (
-          <div class="demo1-list-item"
-               onClick={(e) => self.handleClickDetail(key, e)}>
+        <div className="demo1-list-item"
+             onClick={(e) => self.handleClickDetail(key, e)}>
+          <div className="demo1-list-item-img-panel">
             <img src={src} class="demo1-list-item-img"></img>
-            <span class="demo1-list-item-label">{title}</span>
           </div>
-      ) : null;
+          <div className="demo1-list-item-label-wrapper">
+            <div className="demo1-list-item-label">{title}</div>
+          </div>
+        </div>
+      ) : false;
     });
     return (
-      <div class="demo1-list">
+      <div className="demo1-list">
         <h3>{this.demo1.label[this.demo1.state.type]} (List)</h3>
-        <div class="demo1-list-items">
+        <div className="demo1-list-items">
         {itemList}
         </div>
       </div>
@@ -58,7 +62,7 @@ class Demo1ContentSelect extends React.Component {
       <option value={content}>{this.demo1.label[content]}</option>
     );
     return (
-      <div class="demo1-select">
+      <div className="demo1-select">
         <label for="demo1Select">Please select a content type: </label>
         <select id="demo1Select"
                 value={this.demo1.state.type}

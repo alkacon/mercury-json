@@ -1,10 +1,8 @@
-html, body {
-	width: 90%;
-}
-
-#root {
-	margin-left: 30%;
-	width: 50%;
+@media only screen and (min-width: 1000px) {
+	#root {
+		margin-left: 30%;
+		margin-right: 30%;
+	}
 }
 
 .demo2-list-item {
@@ -34,11 +32,6 @@ html, body {
 .demo2-list-item-label {
 	padding-top: 30px;
 	font-size: 1.2em;
-}
-
-.demo2-list-item-type {
-	position: absolute;
-	right: 35%;
 }
 
 .demo2-list-show-more {
