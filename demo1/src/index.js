@@ -2,37 +2,58 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+/**
+ * Class representing the demo 1 list view component.
+ */
 class Demo1ContentList extends React.Component {
 
+  /**
+   * Creates a new component.
+   */
   constructor(props) {
     super(props);
     this.handleClickDetail = this.handleClickDetail.bind(this);
     this.demo1 = props.demo1;
   }
 
+  /**
+   * Handler. Called when clicking on a list item.
+   */
   handleClickDetail(content) {
     this.demo1.loadContentDetail(content);
   }
 
+  /**
+   * Renders this component.
+   */
   render() {
     let self = this;
-    const itemList = Object.keys(this.demo1.state.result).map(function(key) {
-      const item = self.demo1.state.result[key];
+    // iterate the folder listing
+    const itemList = Object.keys(this.demo1.state.result).map(file => {
+      const item = self.demo1.state.result[file];
+      if (!item.isXmlContent) { // not a content file?
+        return false;
+      }
       const title = item.properties.Title;
-      let src = item.isXmlContent && item.localeContent.Paragraph[0].Image ?
-          (self.demo1.API + item.localeContent.Paragraph[0].Image.Image.link) :
-          '/favicon.ico';
-      return item.isXmlContent ? (
-        <div className="demo1-list-item"
-             onClick={(e) => self.handleClickDetail(key, e)}>
+      let src;
+      // the article content and the faq content both have a
+      // paragraph list property with an embedded image property
+      if (item.localeContent.Paragraph[0].Image) { // image exists?
+        src = item.localeContent.Paragraph[0].Image.Image.link;
+      }
+      src = src ? self.demo1.SERVER + src : '/favicon.ico';
+      return (
+        <div key={file}
+             className="demo1-list-item"
+             onClick={(e) => self.handleClickDetail(file, e)}>
           <div className="demo1-list-item-img-panel">
-            <img src={src} class="demo1-list-item-img"></img>
+            <img src={src} alt={title} className="demo1-list-item-img"></img>
           </div>
           <div className="demo1-list-item-label-wrapper">
             <div className="demo1-list-item-label">{title}</div>
           </div>
         </div>
-      ) : false;
+      );
     });
     return (
       <div className="demo1-list">
@@ -45,25 +66,37 @@ class Demo1ContentList extends React.Component {
   }
 }
 
+/**
+ * Class representing an interactive component for content type selection.
+ */
 class Demo1ContentSelect extends React.Component {
 
+  /**
+   * Creates a new component.
+   */
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.demo1 = props.demo1;
   }
 
+  /**
+   * Handler. Called when a content type is selected.
+   */
   handleChange(event) {
     this.demo1.loadContentList(event.target.value);
   }
 
+  /**
+   * Renders this component.
+   */
   render() {
     const optionList = this.demo1.typeList.map((content) =>
-      <option value={content}>{this.demo1.label[content]}</option>
+      <option key={content} value={content}>{this.demo1.label[content]}</option>
     );
     return (
       <div className="demo1-select">
-        <label for="demo1Select">Please select a content type: </label>
+        <label htmlFor="demo1Select">Please select a content type: </label>
         <select id="demo1Select"
                 value={this.demo1.state.type}
                 onChange={this.handleChange}>
@@ -74,43 +107,70 @@ class Demo1ContentSelect extends React.Component {
   }
 }
 
+/**
+ * Class representing the demo 1 detail view component.
+ */
 class Demo1Detail extends React.Component {
 
+  /**
+   * Creates a new component.
+   */
   constructor(props) {
     super(props);
     this.handleClickList = this.handleClickList.bind(this);
     this.demo1 = props.demo1;
   }
 
+  /**
+   * Handler. Called when the back-link is clicked.
+   */
   handleClickList(event) {
     event.preventDefault();
     this.demo1.loadContentList(this.demo1.state.type);
   }
 
+  /**
+   * Renders this component.
+   */
   render() {
     return (
       <div>
         <h1>JSON API Demo 1</h1>
         <p><a href="." onClick={this.handleClickList}>Back</a> to the list.</p>
-        { this.renderContent() }
+        {this.renderContent()}
       </div>
     );
   }
 
+  /**
+   * Renders an article detail view.
+   */
   renderArticle() {
     const result = this.demo1.state.result;
-    const src = this.demo1.API + result.Paragraph[0].Image.Image.link;
+    let src;
+    if (result.localeContent.Paragraph[0].Image) {
+      src = result.localeContent.Paragraph[0].Image.Image.link;
+    }
+    src = src ? this.demo1.SERVER + src : '/favicon.ico';
+    const title = result.localeContent.Title;
+    const author = result.localeContent.Author;
+    const intro = result.localeContent.Intro;
+    const caption = result.localeContent.Paragraph[0].Caption;
+    const text = result.localeContent.Paragraph[0].Text;
     return (
       <div>
-        <h3>{result.Title} (Detail)</h3>
-        <p>by {result.Author}</p>
-        <p>{result.Intro}</p>
-        <img src={src} alt={result.Paragraph[0].Caption} width="500"/>
-        <div dangerouslySetInnerHTML={{__html: result.Paragraph[0].Text}} />
+        <h3>{title} (Detail)</h3>
+        <p>by {author}</p>
+        <p>{intro}</p>
+        <img src={src} alt={caption} width="500"/>
+        <div dangerouslySetInnerHTML={{__html: text}} />
       </div>
     );
   }
 
+  /**
+   * Renders a detail view depending on which content type is loaded.
+   */
   renderContent() {
     if (this.demo1.isTypeArticle()) {
       return this.renderArticle();
@@ -121,15 +181,26 @@ class Demo1Detail extends React.Component {
     }
   }
 
+  /**
+   * Renders a faq detail view.
+   */
   renderFaq() {
     const result = this.demo1.state.result;
-    const src = this.demo1.API + result.Paragraph[0].Image.Image.link;
+    let src;
+    if (result.localeContent.Paragraph[0].Image) {
+      src = result.localeContent.Paragraph[0].Image.Image.link;
+    }
+    src = src ? this.demo1.SERVER + src : '/favicon.ico';
+    const title = result.localeContent.Paragraph[0].Image.Image.link;
+    const question = result.localeContent.Question;
+    const caption = result.localeContent.Paragraph[0].Caption;
+    const text = result.localeContent.Paragraph[0].Text;
     return (
       <div>
-        <h3>{result.Question} (Detail)</h3>
-        <p>{result.Paragraph[0].Caption}</p>
-        <img src={src} width="500"/>
-        <div dangerouslySetInnerHTML={{__html: result.Paragraph[0].Text}} />
+        <h3>{question} (Detail)</h3>
+        <p>{caption}</p>
+        <img src={src} alt={title} width="500"/>
+        <div dangerouslySetInnerHTML={{__html: text}} />
       </div>
     );
   }
@@ -137,15 +208,24 @@ class Demo1Detail extends React.Component {
 
 class Demo1List extends React.Component {
 
+  /**
+   * Creates a new component.
+   */
   constructor(props) {
     super(props);
     this.demo1 = props.demo1;
   }
 
+  /**
+   * Load the list when the component did mount.
+   */
   componentDidMount() {
     this.demo1.loadContentList(this.demo1.state.type);
   }
 
+  /**
+   * Renders this component.
+   */
   render() {
     return (
       <div>
@@ -157,19 +237,33 @@ class Demo1List extends React.Component {
   }
 }
 
+/**
+ * Class representing the demo 1 application.
+ */
 class Demo1 extends React.Component {
 
   constructor(props) {
     super(props);
-    this.API = 'http://localhost';
-    this.ENDPOINT = this.API + '/json/sites/default/mercury-demo/.content/';
+    /** The server URL. */
+    this.SERVER = 'http://localhost';
+    /** The API endpoint. */
+    this.API_ENDPOINT = this.SERVER + '/json';
+    /** The content folder. */
+    this.CONTENT_FOLDER = this.API_ENDPOINT +
+        '/sites/default/mercury-demo/.content/';
+    this.PARAMS = '?content&wrapper&locale=en&fallbackLocale'
+    /** The article content type. */
     this.TYPE_ARTICLE = 'article-m';
+    /** The faq content type. */
     this.TYPE_FAQ = 'faq-m';
+    /** The list of content types. */
     this.typeList = [this.TYPE_ARTICLE, this.TYPE_FAQ];
+    /** Labels for the content types. */
     this.label = {
       'article-m': 'Article',
       'faq-m': 'FAQ'
     };
+    /** The state of this React application. */
     this.state = {
       type: this.TYPE_ARTICLE,
       content: null,
@@ -177,9 +271,13 @@ class Demo1 extends React.Component {
     };
   }
 
+  /**
+   * Loads the data for the detail view.
+   */
   loadContentDetail(content) {
     const self = this;
-    const url = this.ENDPOINT + this.state.type + '/' + content + '?locale=en';
+    const url = this.CONTENT_FOLDER + this.state.type + '/' + content +
+        this.PARAMS;
     fetch(url)
       .then(reponse => reponse.json())
       .then((result) => {
@@ -191,9 +289,12 @@ class Demo1 extends React.Component {
       });
   }
 
+  /**
+   * Loads the data for the list view.
+   */
   loadContentList(type) {
     const self = this;
-    const url = this.ENDPOINT + type + '?content&locale=en&wrapper=true&fallbackLocale=true';
+    const url = this.CONTENT_FOLDER + type + this.PARAMS;
     fetch(url)
       .then(response => response.json())
       .then((result) => {
@@ -205,20 +306,26 @@ class Demo1 extends React.Component {
       });
   }
 
+  /** Whether the loaded content is an article content. */
   isTypeArticle() {
     return this.state.type === this.TYPE_ARTICLE;
   }
 
+  /** Whether the loaded content is a faq content. */
   isTypeFaq() {
     return this.state.type === this.TYPE_FAQ;
   }
 
+  /** Renders this component. */
   render() {
     return this.state.content ? (<Demo1Detail demo1={this} />) :
         (<Demo1List demo1={this} />);
   }
 }
 
+/**
+ * Render the demo 1 application.
+ */
 ReactDOM.render(
   <Demo1 />,
   document.getElementById('root')
