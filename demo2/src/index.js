@@ -2,35 +2,116 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+/**
+ * Class representing the demo 2 detail view.
+ */
 class Demo2Content extends React.Component {
 
+  /**
+   * Creates a new component.
+   */
   constructor(props) {
     super(props);
     this.handleClickList = this.handleClickList.bind(this);
     this.demo2 = props.demo2;
   }
 
+  /**
+   * Handler. Called when the back-link is clicked.
+   */
   handleClickList(event) {
     event.preventDefault();
     this.demo2.loadList();
   }
 
+  /**
+   * Renders this component.
+   */
   render() {
-    const localeContent = this.demo2.state.content;
-    const title = localeContent.properties.Title;
+    const content = this.demo2.state.content;
+    const title = content.properties.Title;
+    const type = content.attributes.type;
+    let div;
+    if (type === 'm-article') {
+      div = this.renderArticle();
+    } else if (type === 'm-faq') {
+      div = this.renderFaq();
+    } else {
+      div = (
+        <div>
+          <h2>{title}</h2>
+          <p>Just a demo page.</p>
+        </div>
+      )
+    }
     return (
       <div>
         <h1>JSON API Demo 2</h1>
         <p><a href="." onClick={this.handleClickList}>Back</a> to the list.</p>
-        <h2>{title}</h2>
-        <p>Just a demo page.</p>
+        {div}
+      </div>
+    );
+  }
+
+  /**
+   * Renders an article detail view.
+   */
+  renderArticle() {
+    const result = this.demo2.state.content;
+    let src;
+    if (result.localeContent.Paragraph[0].Image) {
+      src = result.localeContent.Paragraph[0].Image.Image.link;
+    }
+    src = src ? this.demo2.SERVER + src : '/favicon.ico';
+    const title = result.localeContent.Title;
+    const author = result.localeContent.Author;
+    const intro = result.localeContent.Intro;
+    const caption = result.localeContent.Paragraph[0].Caption;
+    const text = result.localeContent.Paragraph[0].Text;
+    return (
+      <div>
+        <h3>{title} (Detail)</h3>
+        <p>by {author}</p>
+        <p>{intro}</p>
+        <img src={src} alt={caption} width="500"/>
+        <div dangerouslySetInnerHTML={{__html: text}} />
+      </div>
+    );
+  }
+
+  /**
+   * Renders a faq detail view.
+   */
+  renderFaq() {
+    const result = this.demo2.state.content;
+    let src;
+    if (result.localeContent.Paragraph[0].Image) {
+      src = result.localeContent.Paragraph[0].Image.Image.link;
+    }
+    src = src ? this.demo2.SERVER + src : '/favicon.ico';
+    const title = result.localeContent.Paragraph[0].Image.Image.link;
+    const question = result.localeContent.Question;
+    const caption = result.localeContent.Paragraph[0].Caption;
+    const text = result.localeContent.Paragraph[0].Text;
+    return (
+      <div>
+        <h3>{question} (Detail)</h3>
+        <p>{caption}</p>
+        <img src={src} alt={title} width="500"/>
+        <div dangerouslySetInnerHTML={{__html: text}} />
       </div>
     );
   }
 }
 
+/**
+ * Class representing the demo 2 list view.
+ */
 class Demo2List extends React.Component {
 
+  /**
+   * Creates a new component.
+   */
   constructor(props) {
     super(props);
     this.handleClickContent = this.handleClickContent.bind(this);
@@ -38,19 +119,31 @@ class Demo2List extends React.Component {
     this.demo2 = props.demo2;
   }
 
+  /**
+   * Load the list when the component did mount.
+   */
   componentDidMount() {
     this.demo2.loadList();
   }
 
+  /**
+   * Handler. Called when a list item is clicked.
+   */
   handleClickContent(content) {
     const path = content.path;
     this.demo2.loadContent(path);
   }
 
+  /**
+   * Handler. Called when the show more button is clicked.
+   */
   handleShowMore(event) {
     this.demo2.loadListMore();
   }
 
+  /**
+   * Renders this component.
+   */
   render() {
     return (
       <div>
@@ -60,6 +153,9 @@ class Demo2List extends React.Component {
     );
   }
 
+  /**
+   * Renders an article preview.
+   */
   renderItemArticle(item) {
     return (
       <div>
@@ -71,6 +167,9 @@ class Demo2List extends React.Component {
     )
   }
 
+  /**
+   * Renders a contact preview.
+   */
   renderItemContact(item) {
     return (
       <div>
@@ -82,6 +181,9 @@ class Demo2List extends React.Component {
     )
   }
 
+  /**
+   * Renders a decoy preview.
+   */
   renderItemDecoy(item) {
     return (
       <div>
@@ -93,6 +195,9 @@ class Demo2List extends React.Component {
     )
   }
 
+  /**
+   * Renders an event preview.
+   */
   renderItemEvent(item) {
     return (
       <div>
@@ -104,6 +209,9 @@ class Demo2List extends React.Component {
     )
   }
 
+  /**
+   * Renders a faq preview.
+   */
   renderItemFaq(item) {
     return (
       <div>
@@ -115,6 +223,9 @@ class Demo2List extends React.Component {
     )
   }
 
+  /**
+   * Renders a imageseries preview.
+   */
   renderItemImageseries(item) {
     return (
       <div>
@@ -126,6 +237,9 @@ class Demo2List extends React.Component {
     )
   }
 
+  /**
+   * Renders a job preview.
+   */
   renderItemJob(item) {
     return (
       <div>
@@ -137,6 +251,9 @@ class Demo2List extends React.Component {
     )
   }
 
+  /**
+   * Renders a media preview.
+   */
   renderItemMedia(item) {
     return (
       <div>
@@ -148,6 +265,9 @@ class Demo2List extends React.Component {
     )
   }
 
+  /**
+   * Renders the list depending on the respective content type.
+   */
   renderList() {
     const self = this;
     const list = this.demo2.state.list;
@@ -207,10 +327,13 @@ class Demo2List extends React.Component {
     );
   }
 
+  /**
+   * Utility function to generate an image preview.
+   */
   renderUtilPreviewImage(json) {
     const imageSrc = (!json || !json.Image || !json.Image.link) ?
-        this.demo2.API + '/.galleries/cliparts/default.png' :
-        this.demo2.API + json.Image.link;
+        this.demo2.SERVER + '/.galleries/cliparts/default.png' :
+        this.demo2.SERVER + json.Image.link;
     const imageTitle = (!json || !json.Image || !json.Image.Title) ? '' :
         json.Image.Title;
     const image = <img src={imageSrc}
@@ -220,18 +343,30 @@ class Demo2List extends React.Component {
   }
 }
 
+/**
+ * Class representing an interactive component for sort selection.
+ */
 class Demo2SelectSort extends React.Component {
 
+  /**
+   * Creates a new component.
+   */
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.demo2 = props.demo2;
   }
 
+  /**
+   * Handler. Called when a sort option is selected.
+   */
   handleChange(event) {
     this.demo2.loadList(event.target.value);
   }
 
+  /**
+   * Renders this component.
+   */
   render() {
     return (
       <div className="demo2-select-sort">
@@ -239,7 +374,6 @@ class Demo2SelectSort extends React.Component {
         <select id="demo2SelectSort"
                 value={this.demo2.state.sort}
                 onChange={this.handleChange}>
-          <option value=""></option>
           <option value="DATE_ASC">Date ascending</option>
           <option value="DATE_DESC">Date descending</option>
           <option value="TITLE_ASC">Title ascending</option>
@@ -252,23 +386,40 @@ class Demo2SelectSort extends React.Component {
   }
 }
 
+/**
+ * Class representing the demo 2 application.
+ */
 class Demo2 extends React.Component {
 
+  /**
+   * Creates a new component.
+   */
   constructor(props) {
     super(props);
-    this.API = 'http://localhost';
-    this.ENDPOINT = this.API + '/json';
+    /** The server URL. */
+    this.SERVER = 'http://localhost';
+    /** The API endpoint. */
+    this.ENDPOINT = this.SERVER + '/json';
+    /** The list configuration. */
+    this.LIST = '/sites/default/mercury-demo/.content/list-m/list_00018.xml';
+    /** The request params. */
+    this.PARAMS = '?content&wrapper' + // request as much as possible information
+        '&locale=en&fallbackLocale'; // request one locale with fallback
+    /** The state of this component. */
     this.state = {
       content: null,
       list: {},
-      sort: '',
+      sort: 'DATE_ASC',
       rows: 5
     };
   }
 
+  /**
+   * Load a content.
+   */
   loadContent(path) {
     const self = this;
-    const contentUrl = this.ENDPOINT + path;
+    const contentUrl = this.ENDPOINT + path + this.PARAMS;
     fetch(contentUrl)
       .then(response => response.json())
       .then((content) => {
@@ -281,21 +432,22 @@ class Demo2 extends React.Component {
       });
   }
 
+  /**
+   * Loads a list, optionally for a given sort order and a given number of rows.
+   */
   loadList(sort, rows) {
     const self = this;
-    let listConfigUrl = this.ENDPOINT +
-        '/sites/default/mercury-demo/.content/list-m/list_00018.xml' +
-        '?content&locale=en&wrapper=true'
+    let listUrl = this.ENDPOINT + this.LIST + this.PARAMS;
     if (sort) {
-      listConfigUrl += '&sort=' + sort;
+      listUrl += '&sort=' + sort;
     } else {
       sort = '';
     }
     if (!rows) {
       rows = 5;
     }
-    listConfigUrl += '&rows=' + rows;
-    fetch(listConfigUrl)
+    listUrl += '&rows=' + rows;
+    fetch(listUrl)
       .then(response => response.json())
       .then((list) => {
         self.setState({
@@ -307,17 +459,26 @@ class Demo2 extends React.Component {
       });
   }
 
+  /**
+   * Load more results.
+   */
   loadListMore() {
     const rows = this.state.rows + 5;
     this.loadList(this.state.sort, rows);
   }
 
+  /**
+   * Renders this component.
+   */
   render() {
     return this.state.content ? <Demo2Content demo2={this} /> :
         <Demo2List demo2={this} />;
   }
 }
 
+/**
+ * Render the demo 2 application.
+ */
 ReactDOM.render(
   <Demo2 />,
   document.getElementById('root')

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 /**
- * Class representing the demo 1 list view component.
+ * Class rendering the contents of a folder.
  */
 class Demo1ContentList extends React.Component {
 
@@ -206,6 +206,9 @@ class Demo1Detail extends React.Component {
   }
 }
 
+/**
+ * Class representing the demo 1 list view component.
+ */
 class Demo1List extends React.Component {
 
   /**
@@ -251,7 +254,10 @@ class Demo1 extends React.Component {
     /** The content folder. */
     this.CONTENT_FOLDER = this.API_ENDPOINT +
         '/sites/default/mercury-demo/.content/';
-    this.PARAMS = '?content&wrapper&locale=en&fallbackLocale'
+    /** The request parameters. */
+    this.PARAMS = '?content' + // embed contents in the folder listing
+        '&wrapper' + // request the resource wrapper to get a title property
+        '&locale=en&fallbackLocale'; // request english locale with fallback
     /** The article content type. */
     this.TYPE_ARTICLE = 'article-m';
     /** The faq content type. */
