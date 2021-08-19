@@ -1,15 +1,15 @@
 import React from 'react';
-import Demo3Contact from './content/contact';
-import Demo3Flexible from './content/flexible';
-import Demo3LinksequenceHeader from './content/linksequenceheader';
-import Demo3Navigation from './content/navigation';
-import Demo3Section from './content/section';
+import Demo4Contact from './content/contact';
+import Demo4Flexible from './content/flexible';
+import Demo4LinksequenceHeader from './content/linksequenceheader';
+import Demo4Navigation from './content/navigation';
+import Demo4Section from './content/section';
 
-class Demo3Content extends React.Component {
+class Demo4Content extends React.Component {
 
   constructor(props) {
     super(props);
-    this.demo3 = props.step.demo3;
+    this.demo4 = props.step.demo4;
     this.step = props.step;
     this.element = props.element;
     this.content = props.content;
@@ -26,27 +26,27 @@ class Demo3Content extends React.Component {
     let component;
     if (formatterKey.startsWith('m/section/')) {
       component = (
-        <Demo3Section demo3={this.demo3} content={content}
+        <Demo4Section demo4={this.demo4} content={content}
             formatterKey={formatterKey} settings={settings}/>
       )
     } else if (formatterKey.startsWith('m/navigation/')) {
       component = (
-        <Demo3Navigation demo3={this.demo3} content={content}
+        <Demo4Navigation demo4={this.demo4} content={content}
             formatterKey={formatterKey} settings={settings}/>
       )
     } else if (formatterKey === 'm/element/flexible') {
       component = (
-        <Demo3Flexible demo3={this.demo3} content={content}
+        <Demo4Flexible demo4={this.demo4} content={content}
             formatterKey={formatterKey} settings={settings}/>
       )
     } else if (formatterKey === 'm/element/linksequence-header') {
       component = (
-        <Demo3LinksequenceHeader demo3={this.demo3} content={content}
+        <Demo4LinksequenceHeader demo4={this.demo4} content={content}
             formatterKey={formatterKey} settings={settings}/>
       )
     } else if (formatterKey === 'm/element/contact') {
       component = (
-        <Demo3Contact demo3={this.demo3} content={content}
+        <Demo4Contact demo4={this.demo4} content={content}
             formatterKey={formatterKey} settings={settings}/>
       )
     } else {
@@ -60,4 +60,4 @@ class Demo3Content extends React.Component {
   }
 }
 
-export default Demo3Content;
+export default Demo4Content;

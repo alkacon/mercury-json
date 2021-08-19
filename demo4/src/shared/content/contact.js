@@ -1,10 +1,10 @@
 import React from 'react';
 
-class Demo3Contact extends React.Component {
+class Demo4Contact extends React.Component {
 
   constructor(props) {
     super(props);
-    this.demo3 = props.demo3;
+    this.demo4 = props.demo4;
     this.content = props.content;
     this.formatterKey = props.formatterKey;
     this.settings = props.settings;
@@ -25,4 +25,4 @@ class Demo3Contact extends React.Component {
   }
 }
 
-export default Demo3Contact;
+export default Demo4Contact;

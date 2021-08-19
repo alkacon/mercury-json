@@ -6,16 +6,16 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import Demo31 from './step1';
-import Demo32 from './step2';
-import Demo33 from './step3';
-import Demo34 from './step4';
-import Demo35 from './step5';
-import Demo36 from './step6';
-import Demo37 from './step7';
+import Demo41 from './step1';
+import Demo42 from './step2';
+import Demo43 from './step3';
+import Demo44 from './step4';
+import Demo45 from './step5';
+import Demo46 from './step6';
+import Demo47 from './step7';
 import './index.css';
 
-class Demo3 extends React.Component {
+class Demo4 extends React.Component {
 
   constructor(props) {
     super(props);
@@ -32,7 +32,7 @@ class Demo3 extends React.Component {
   render() {
     return(
       <div>
-        <h1>JSON API Demo 3</h1>
+        <h1>JSON API Demo 4</h1>
         <nav>
           <ul>
             <li>
@@ -69,43 +69,43 @@ class Demo3 extends React.Component {
           <Route path="/step1">
             <div>
               <h2>Page Structure</h2>
-              <Demo31 demo3={this} />
+              <Demo41 demo4={this} />
             </div>
           </Route>
           <Route path="/step2">
             <div>
               <h2>Page Layout</h2>
-              <Demo32 demo3={this} />
+              <Demo42 demo4={this} />
             </div>
           </Route>
           <Route path="/step3">
             <div>
               <h2>Content Formatting</h2>
-              <Demo33 demo3={this} />
+              <Demo43 demo4={this} />
             </div>
           </Route>
           <Route path="/step4">
             <div>
               <h2>Combined Page Layout and Content Formatting</h2>
-              <Demo34 demo3={this} />
+              <Demo44 demo4={this} />
             </div>
           </Route>
           <Route path="/step5">
             <div>
               <h2>Header and Footer Layout</h2>
-              <Demo35 demo3={this} />
+              <Demo45 demo4={this} />
             </div>
           </Route>
           <Route path="/step6">
             <div>
               <h2>Header and Footer Content Formatting</h2>
-              <Demo36 demo3={this} />
+              <Demo46 demo4={this} />
             </div>
           </Route>
           <Route path="/step7">
             <div>
               <h2>Final Demo</h2>
-              <Demo37 demo3={this} />
+              <Demo47 demo4={this} />
             </div>
           </Route>
         </Switch>
@@ -128,9 +128,9 @@ class Demo3 extends React.Component {
 
 ReactDOM.render(
   <BrowserRouter>
-    <Demo3 />
+    <Demo4 />
   </BrowserRouter>,
   document.getElementById("root")
 );
 
-export default Demo3;
+export default Demo4;

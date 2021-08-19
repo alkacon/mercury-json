@@ -1,15 +1,15 @@
 import React from 'react';
 
-class Demo3Page extends React.Component {
+class Demo4Page extends React.Component {
 
   constructor(props) {
     super(props);
-    this.demo3 = props.step.demo3;
+    this.demo4 = props.step.demo4;
     this.step = props.step;
   }
 
   render() {
-    const page = this.demo3.state.page;
+    const page = this.demo4.state.page;
     if (!page) {
       return (<div>Loading...</div>)
     }
@@ -17,4 +17,4 @@ class Demo3Page extends React.Component {
   }
 }
 
-export default Demo3Page;
+export default Demo4Page;

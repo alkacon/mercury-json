@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Demo3Containers extends React.Component {
+class Demo4Containers extends React.Component {
 
   constructor(props) {
     super(props);
@@ -25,4 +25,4 @@ class Demo3Containers extends React.Component {
   }
 }
 
-export default Demo3Containers;
+export default Demo4Containers;

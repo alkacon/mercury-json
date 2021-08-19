@@ -1,19 +1,19 @@
 import React from 'react';
-import Demo3Container from './shared/container';
-import Demo3Containers from './shared/containers';
-import Demo3Elements from './shared/elements';
-import Demo3Page from './shared/page';
+import Demo4Container from './shared/container';
+import Demo4Containers from './shared/containers';
+import Demo4Elements from './shared/elements';
+import Demo4Page from './shared/page';
 
-class Demo31 extends React.Component {
+class Demo41 extends React.Component {
 
   constructor(props) {
     super(props);
-    this.demo3 = props.demo3;
+    this.demo4 = props.demo4;
   }
 
   render() {
     return (
-      <Demo3Page step={this}/>
+      <Demo4Page step={this}/>
     )
   }
 
@@ -23,7 +23,7 @@ class Demo31 extends React.Component {
         <div className="containers-label">
           <strong>{containers.length} Containers</strong>
         </div>
-        <Demo3Containers step={this} page={page} containers={containers}/>
+        <Demo4Containers step={this} page={page} containers={containers}/>
       </div>
     )
   }
@@ -37,7 +37,7 @@ class Demo31 extends React.Component {
           <span> type: {container.type},</span>
           <span> isNestedContainer: {'' + container.isNestedContainer}]</span>
         </div>
-        <Demo3Container step={this} page={page} container={container}/>
+        <Demo4Container step={this} page={page} container={container}/>
       </div>
     )
   }
@@ -48,7 +48,7 @@ class Demo31 extends React.Component {
         <div className="elements-label">
           <strong>{elements.length} Elements</strong>
         </div>
-        <Demo3Elements step={this} page={page} elements={elements}/>
+        <Demo4Elements step={this} page={page} elements={elements}/>
       </div>
     )
   }
@@ -68,4 +68,4 @@ class Demo31 extends React.Component {
   }
 }
 
-export default Demo31;
+export default Demo41;

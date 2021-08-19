@@ -1,10 +1,10 @@
 import React from 'react';
 
-class Demo3Section extends React.Component {
+class Demo4Section extends React.Component {
 
   constructor(props) {
     super(props);
-    this.demo3 = props.demo3;
+    this.demo4 = props.demo4;
     this.content = props.content;
     this.formatterKey = props.formatterKey;
     this.settings = props.settings;
@@ -97,7 +97,7 @@ class Demo3Section extends React.Component {
     if (!image) {
       return false;
     }
-    const imageSrc = this.demo3.SERVER + image.Image.link;
+    const imageSrc = this.demo4.SERVER + image.Image.link;
     const imageAlt = image.Text;
     return (
       <img src={imageSrc} alt={imageAlt}/>
@@ -170,4 +170,4 @@ class Demo3Section extends React.Component {
   }
 }
 
-export default Demo3Section;
+export default Demo4Section;

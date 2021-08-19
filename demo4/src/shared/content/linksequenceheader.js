@@ -1,10 +1,10 @@
 import React from 'react';
 
-class Demo3LinksequenceHeader extends React.Component {
+class Demo4LinksequenceHeader extends React.Component {
 
   constructor(props) {
     super(props);
-    this.demo3 = props.demo3;
+    this.demo4 = props.demo4;
     this.content = props.content;
     this.formatterKey = props.formatterKey;
     this.settings = props.settings;
@@ -29,4 +29,4 @@ class Demo3LinksequenceHeader extends React.Component {
   }
 }
 
-export default Demo3LinksequenceHeader;
+export default Demo4LinksequenceHeader;

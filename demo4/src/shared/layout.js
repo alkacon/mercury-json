@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Demo3Layout extends React.Component {
+class Demo4Layout extends React.Component {
 
   constructor(props) {
     super(props);
@@ -106,4 +106,4 @@ class Demo3Layout extends React.Component {
   }
 }
 
-export default Demo3Layout;
+export default Demo4Layout;

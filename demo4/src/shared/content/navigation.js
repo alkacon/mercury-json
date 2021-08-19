@@ -1,10 +1,10 @@
 import React from 'react';
 
-class Demo3Navigation extends React.Component {
+class Demo4Navigation extends React.Component {
 
   constructor(props) {
     super(props);
-    this.demo3 = props.demo3;
+    this.demo4 = props.demo4;
     this.content = props.content;
     this.formatterKey = props.formatterKey;
     this.settings = props.settings;
@@ -35,4 +35,4 @@ class Demo3Navigation extends React.Component {
   }
 }
 
-export default Demo3Navigation;
+export default Demo4Navigation;
