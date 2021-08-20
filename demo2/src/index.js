@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Article from './article';
+import Contact from './contact';
 import './index.css';
 
 /**
@@ -31,16 +33,16 @@ class Demo2Content extends React.Component {
     const content = this.demo2.state.content;
     const title = content.properties.Title;
     const type = content.attributes.type;
-    let div;
+    let component;
     if (type === 'm-article') {
-      div = this.renderArticle();
-    } else if (type === 'm-faq') {
-      div = this.renderFaq();
+      component = (<Article demo2={this.demo2} content={content}/>);
+    } else if (type === 'm-contact') {
+      component = (<Contact demo2={this.demo2} content={content}/>);
     } else {
-      div = (
+      component = (
         <div>
           <h2>{title}</h2>
-          <p>Just a demo page.</p>
+          <p>Unknown detail type: {type}.</p>
         </div>
       )
     }
@@ -48,57 +50,7 @@ class Demo2Content extends React.Component {
       <div>
         <h1>JSON API Demo 2</h1>
         <p><a href="." onClick={this.handleClickList}>Back</a> to the list.</p>
-        {div}
-      </div>
-    );
-  }
-
-  /**
-   * Renders an article detail view.
-   */
-  renderArticle() {
-    const result = this.demo2.state.content;
-    let src;
-    if (result.localeContent.Paragraph[0].Image) {
-      src = result.localeContent.Paragraph[0].Image.Image.link;
-    }
-    src = src ? this.demo2.SERVER + src : '/favicon.ico';
-    const title = result.localeContent.Title;
-    const author = result.localeContent.Author;
-    const intro = result.localeContent.Intro;
-    const caption = result.localeContent.Paragraph[0].Caption;
-    const text = result.localeContent.Paragraph[0].Text;
-    return (
-      <div>
-        <h3>{title} (Detail)</h3>
-        <p>by {author}</p>
-        <p>{intro}</p>
-        <img src={src} alt={caption} width="500"/>
-        <div dangerouslySetInnerHTML={{__html: text}} />
-      </div>
-    );
-  }
-
-  /**
-   * Renders a faq detail view.
-   */
-  renderFaq() {
-    const result = this.demo2.state.content;
-    let src;
-    if (result.localeContent.Paragraph[0].Image) {
-      src = result.localeContent.Paragraph[0].Image.Image.link;
-    }
-    src = src ? this.demo2.SERVER + src : '/favicon.ico';
-    const title = result.localeContent.Paragraph[0].Image.Image.link;
-    const question = result.localeContent.Question;
-    const caption = result.localeContent.Paragraph[0].Caption;
-    const text = result.localeContent.Paragraph[0].Text;
-    return (
-      <div>
-        <h3>{question} (Detail)</h3>
-        <p>{caption}</p>
-        <img src={src} alt={title} width="500"/>
-        <div dangerouslySetInnerHTML={{__html: text}} />
+        {component}
       </div>
     );
   }
@@ -182,90 +134,6 @@ class Demo2List extends React.Component {
   }
 
   /**
-   * Renders a decoy preview.
-   */
-  renderItemDecoy(item) {
-    return (
-      <div>
-        {this.renderUtilPreviewImage(item.localeContent.Image)}
-        <div className="demo2-list-item-label-wrapper">
-          <div className="demo2-list-item-label">{item.properties.Title}</div>
-        </div>
-      </div>
-    )
-  }
-
-  /**
-   * Renders an event preview.
-   */
-  renderItemEvent(item) {
-    return (
-      <div>
-        {this.renderUtilPreviewImage(item.localeContent.Paragraph[0].Image)}
-        <div className="demo2-list-item-label-wrapper">
-          <div className="demo2-list-item-label">{item.properties.Title}</div>
-        </div>
-      </div>
-    )
-  }
-
-  /**
-   * Renders a faq preview.
-   */
-  renderItemFaq(item) {
-    return (
-      <div>
-        {this.renderUtilPreviewImage(item.localeContent.Paragraph[0].Image)}
-        <div className="demo2-list-item-label-wrapper">
-          <div className="demo2-list-item-label">{item.properties.Title}</div>
-        </div>
-      </div>
-    )
-  }
-
-  /**
-   * Renders a imageseries preview.
-   */
-  renderItemImageseries(item) {
-    return (
-      <div>
-        {this.renderUtilPreviewImage(item.localeContent.Image[0])}
-        <div className="demo2-list-item-label-wrapper">
-          <div className="demo2-list-item-label">{item.properties.Title}</div>
-        </div>
-      </div>
-    )
-  }
-
-  /**
-   * Renders a job preview.
-   */
-  renderItemJob(item) {
-    return (
-      <div>
-        {this.renderUtilPreviewImage(item.localeContent.Introduction.Image)}
-        <div className="demo2-list-item-label-wrapper">
-          <div className="demo2-list-item-label">{item.properties.Title}</div>
-        </div>
-      </div>
-    )
-  }
-
-  /**
-   * Renders a media preview.
-   */
-  renderItemMedia(item) {
-    return (
-      <div>
-        {this.renderUtilPreviewImage(item)}
-        <div className="demo2-list-item-label-wrapper">
-          <div className="demo2-list-item-label">{item.properties.Title}</div>
-        </div>
-      </div>
-    )
-  }
-
-  /**
    * Renders the list depending on the respective content type.
    */
   renderList() {
@@ -278,18 +146,10 @@ class Demo2List extends React.Component {
         div = self.renderItemArticle(item);
       } else if (type === 'm-contact') {
         div = self.renderItemContact(item);
-      } else if (type === 'm-decoy') {
-        div = self.renderItemDecoy(item);
-      } else if (type === 'm-event') {
-        div = self.renderItemEvent(item);
-      } else if (type === 'm-faq') {
-        div = self.renderItemFaq(item);
-      } else if (type === 'm-imageseries') {
-        div = self.renderItemImageseries(item);
-      } else if (type === 'm-job') {
-        div = self.renderItemJob(item);
-      } else if (type === 'm-media') {
-        div = self.renderItemMedia(item);
+      } else {
+        div = (
+          <div>Unknown list type: {type}.</div>
+        )
       }
       return (
         <div className="demo2-list-item"
@@ -401,7 +261,7 @@ class Demo2 extends React.Component {
     /** The API endpoint. */
     this.ENDPOINT = this.SERVER + '/json';
     /** The list configuration. */
-    this.LIST = '/sites/default/mercury-demo/.content/list-m/list_00018.xml';
+    this.LIST = '/sites/default/mercury-json/.content/list-m/list_00001.xml';
     /** The request params. */
     this.PARAMS = '?content&wrapper' + // request as much as possible information
         '&locale=en&fallbackLocale'; // request one locale with fallback

@@ -44,3 +44,9 @@
 .demo2-select-sort {
 	padding-bottom: 2em;
 }
+
+.m-contact img {
+	margin-top: 2em;
+	margin-bottom: 2em;
+	max-width: 300px;
+}

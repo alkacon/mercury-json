@@ -245,6 +245,9 @@ class Demo1List extends React.Component {
  */
 class Demo1 extends React.Component {
 
+  /**
+   * Creates a new component.
+   */
   constructor(props) {
     super(props);
     /** The server URL. */
