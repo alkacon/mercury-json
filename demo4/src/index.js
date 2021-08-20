@@ -26,7 +26,6 @@ class Demo4 extends React.Component {
     this.state = {
       page: null
     }
-    this.loadPage();
   }
 
   render() {
