@@ -1,15 +1,26 @@
 import React from 'react';
 
+/**
+ * Class representing a section component.
+ */
 class Section extends React.Component {
 
+  /**
+   * Creates a new component.
+   */
   constructor(props) {
     super(props);
+    /** The demo 3 application. */
     this.demo3 = props.demo3;
+    /** The content to render. */
     this.content = props.content;
-    this.formatterKey = props.formatterKey;
+    /** The formatter settings. */
     this.settings = props.settings;
   }
 
+  /**
+   * Renders this component according to formatter settings.
+   */
   render() {
     const pieceLayout = this.settings.pieceLayout;
     const sectionImageClass = this.showPieceText() ? 'm-section-piece-image' :
@@ -17,6 +28,9 @@ class Section extends React.Component {
     let sectionTextClass = this.showPieceImage() ? 'm-section-piece-text' :
         'm-section-piece';
     if (this.showPieceImage() && pieceLayout === '6') {
+      // if both image and text piece are shown and text piece is on
+      // right we need some additional space between the image and
+      // text piece
       sectionTextClass += ' m-section-piece-text-padding';
     }
     const sectionImage = (
@@ -31,14 +45,14 @@ class Section extends React.Component {
       {this.renderLink()}
       </div>
     )
-    if (pieceLayout === '6') {
+    if (pieceLayout === '6') { // image left, text right
       return (
         <div className="m-section">
         {this.showPieceImage() ? sectionImage : false}
         {this.showPieceText() ? sectionText : false}
         </div>
       )
-    } else if (pieceLayout === '7') {
+    } else if (pieceLayout === '7') { // text left, image right
       return (
         <div className="m-section">
         {this.showPieceText() ? sectionText : false}
@@ -47,10 +61,13 @@ class Section extends React.Component {
       )
     }
     return (
-      <div>Unknown setting: pieceLayout {pieceLayout}.</div>
+      <div>Unknown pieceLayout setting: {pieceLayout}.</div>
     )
   }
 
+  /**
+   * Renders the image of this section.
+   */
   renderImage() {
     const image = this.content.localeContent.Image;
     if (this.showImage() && image) {
@@ -64,6 +81,9 @@ class Section extends React.Component {
     return false;
   }
 
+  /**
+   * Renders the link of this section.
+   */
   renderLink() {
     const link = this.content.localeContent.Link;
     if (this.showLink() && link) {
@@ -76,6 +96,9 @@ class Section extends React.Component {
     return false;
   }
 
+  /**
+   * Renders the text of this section.
+   */
   renderText() {
     const text = this.content.localeContent.Text;
     if (this.showText()) {
@@ -86,6 +109,9 @@ class Section extends React.Component {
     return false;
   }
 
+  /**
+   * Renders the title of this section.
+   */
   renderTitle() {
     const title = this.content.localeContent.Title;
     const hsize = this.settings.hsize;
@@ -113,6 +139,9 @@ class Section extends React.Component {
     )
   }
 
+  /**
+   * Whether to show the image of this section according to the settings.
+   */
   showImage() {
     const visualOption = this.settings.visualOption;
     let show = true;
@@ -124,6 +153,9 @@ class Section extends React.Component {
     return show;
   }
 
+  /**
+   * Whether to show the link of this section according to the settings.
+   */
   showLink() {
     const linkOption = this.settings.linkOption;
     let show = true;
@@ -135,14 +167,24 @@ class Section extends React.Component {
     return show;
   }
 
+  /**
+   * Whether to show the image piece of this section. Same as showImage().
+   */
   showPieceImage() {
     return this.showImage();
   }
 
+  /**
+   * Whether to show the text piece of this section. True
+   * if either the text, the title, or the link is shown.
+   */
   showPieceText() {
     return this.showLink() || this.showText() || this.showTitle();
   }
 
+  /**
+   * Whether to show the text of this section according to the settings.
+   */
   showText() {
     const textOption = this.settings.textOption;
     let show = true;
@@ -154,6 +196,9 @@ class Section extends React.Component {
     return show;
   }
 
+  /**
+   * Whether to show the title of this section according to the settings.
+   */
   showTitle() {
     const hsize = this.settings.hsize;
     return hsize !== '0';

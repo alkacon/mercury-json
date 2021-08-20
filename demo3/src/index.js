@@ -3,92 +3,40 @@ import ReactDOM from 'react-dom';
 import Section from './section'
 import './index.css';
 
+/**
+ * Class representing the demo 3 component.
+ */
 class Demo3 extends React.Component {
 
+  /**
+   * Creates a new component.
+   */
   constructor(props) {
     super(props);
+    /** The server URL. */
     this.SERVER = 'http://localhost';
+    /** The JSON endpoint. */
     this.ENDPOINT = this.SERVER + '/json';
+    /** The URI of the page we will render. */
     this.URI = '/sites/default/mercury-json/demo-3/index.html';
+    /** The request parameters. */
     this.PARAMS = '?content&wrapper&locale=en&fallbackLocale';
+    /** The state of this component. */
     this.state = {
       page: null
     }
   }
 
-  render() {
-    if (!this.state.page) {
-      return false;
-    }
-    const containers = this.state.page.containers;
-    return (
-      <>
-        <h1>JSON API Demo 3</h1>
-        {this.renderContainers(containers)}
-      </>
-    )
-  }
-
-  renderContainer(container) {
-    const elements = container.elements;
-    return this.renderElements(elements);
-  }
-
-  renderContent(content, formatterKey, settings) {
-    const type = content.attributes.type;
-    if (type === 'm-section') {
-      return (
-        <Section demo3={this}
-                 content={content}
-                 formatterKey={formatterKey}
-                 settings={settings}/>
-      )
-    } else {
-      return (
-        <div>Content type {type} is not supported.</div>
-      )
-    }
-  }
-
-  renderContainers(containers) {
-    const self = this;
-    const html = containers.map(container => {
-      return (
-        <div key={container.name}>{self.renderContainer(container)}</div>
-      )
-    });
-    return html;
-  }
-
-  renderElement(element) {
-    const containers = element.containers;
-    const formatterKey = element.formatterKey;
-    const path = element.path;
-    const content = this.state.page.linkedContents[path];
-    const settings = element.settings;
-    if (containers.length) {
-      return this.renderContainers(containers);
-    } else if (formatterKey && formatterKey.endsWith('/json')) {
-      return this.renderContent(content, formatterKey, settings);
-    } else {
-      return false;
-    }
-  }
-
-  renderElements(elements) {
-    const self = this;
-    const html = elements.map((element, idx) => {
-      return (
-        <div key={element.path + idx}>{self.renderElement(element)}</div>
-      )
-    });
-    return html;
-  }
-
+  /**
+   * Handler. Called when this component did mount.
+   */
   componentDidMount() {
     this.loadPage();
   }
 
+  /**
+   * Loads the page.
+   */
   loadPage() {
     const self = this;
     const url = this.ENDPOINT + this.URI + this.PARAMS;
@@ -100,8 +48,96 @@ class Demo3 extends React.Component {
         });
       });
   }
+
+  /**
+   * Renders this component.
+   */
+  render() {
+    if (!this.state.page) {
+      return false;
+    }
+    const containers = this.state.page.containers;
+    return (
+      <>
+        <h1>JSON API Demo 3</h1>
+        {this.visitContainers(containers)}
+      </>
+    )
+  }
+
+  /**
+   * Renders a content.
+   */
+  renderContent(content, settings) {
+    const type = content.attributes.type;
+    if (type === 'm-section') {
+      return (
+        <Section demo3={this} content={content} settings={settings}/>
+      )
+    } else {
+      return (
+        <div>Content type {type} is not supported.</div>
+      )
+    }
+  }
+
+  /**
+   * Visits a container.
+   */
+  visitContainer(container) {
+    const elements = container.elements;
+    return this.visitElements(elements);
+  }
+
+  /**
+   * Visit all containers of a page or an element.
+   */
+  visitContainers(containers) {
+    const self = this;
+    const html = containers.map(container => {
+      return (
+        <div key={container.name}>{self.visitContainer(container)}</div>
+      )
+    });
+    return html;
+  }
+
+  /**
+   * Visits an element. If the element has containers, visit them.
+   * If the element has no containers, render the content.
+   */
+  visitElement(element) {
+    const containers = element.containers;
+    const formatterKey = element.formatterKey;
+    const path = element.path;
+    const content = this.state.page.linkedContents[path];
+    const settings = element.settings;
+    if (containers.length) {
+      return this.visitContainers(containers);
+    } else if (formatterKey && formatterKey.endsWith('/json')) {
+      return this.renderContent(content, settings);
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Visit all elements of a container.
+   */
+  visitElements(elements) {
+    const self = this;
+    const html = elements.map((element, idx) => {
+      return (
+        <div key={element.path + idx}>{self.visitElement(element)}</div>
+      )
+    });
+    return html;
+  }
 }
 
+/**
+ * Render the demo 3 application.
+ */
 ReactDOM.render(
   <Demo3/>,
   document.getElementById('root')

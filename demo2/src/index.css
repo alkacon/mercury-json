@@ -1,7 +1,8 @@
 @media only screen and (min-width: 1000px) {
 	#root {
-		margin-left: 30%;
-		margin-right: 30%;
+		margin-left: 20%;
+		margin-right: 20%;
+		max-width: 800px;
 	}
 }
 
