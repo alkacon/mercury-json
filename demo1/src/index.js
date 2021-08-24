@@ -34,7 +34,10 @@ class Demo1ContentList extends React.Component {
       if (!item.isXmlContent) { // not a content file?
         return false;
       }
-      const title = item.properties.Title;
+      // we use an article's title and a FAQ's question property as the
+      // list item heading
+      const heading = item.localeContent.Title ? item.localeContent.Title :
+          item.localeContent.Question;
       let src;
       // the article content and the faq content both have a
       // paragraph list property with an embedded image property
@@ -47,10 +50,10 @@ class Demo1ContentList extends React.Component {
              className="demo1-list-item"
              onClick={(e) => self.handleClickDetail(file, e)}>
           <div className="demo1-list-item-img-panel">
-            <img src={src} alt={title} className="demo1-list-item-img"></img>
+            <img src={src} alt={heading} className="demo1-list-item-img"></img>
           </div>
           <div className="demo1-list-item-label-wrapper">
-            <div className="demo1-list-item-label">{title}</div>
+            <div className="demo1-list-item-label">{heading}</div>
           </div>
         </div>
       );
@@ -96,8 +99,8 @@ class Demo1ContentSelect extends React.Component {
     );
     return (
       <div className="demo1-select">
-        <label htmlFor="demo1Select">Please select a content type: </label>
-        <select id="demo1Select"
+        <label htmlFor="demo1ContentSelect">Please select a content type: </label>
+        <select id="demo1ContentSelect"
                 value={this.demo1.state.type}
                 onChange={this.handleChange}>
           {optionList}
@@ -233,8 +236,50 @@ class Demo1List extends React.Component {
     return (
       <div>
         <h1>JSON API Demo 1</h1>
-        <Demo1ContentSelect demo1={this.demo1} />
-        <Demo1ContentList demo1={this.demo1} />
+        <Demo1ContentSelect demo1={this.demo1}/>
+        <Demo1LocaleSelect demo1={this.demo1}/>
+        <Demo1ContentList demo1={this.demo1}/>
+      </div>
+    );
+  }
+}
+
+/**
+ * Class representing an interactive component for locale selection.
+ */
+class Demo1LocaleSelect extends React.Component {
+
+  /**
+   * Creates a new component.
+   */
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.demo1 = props.demo1;
+  }
+
+  /**
+   * Handler. Called when a locale is selected.
+   */
+  handleChange(event) {
+    this.demo1.loadContentList(this.demo1.state.type, event.target.value);
+  }
+
+  /**
+   * Renders this component.
+   */
+  render() {
+    const optionList = this.demo1.localeList.map((locale) =>
+      <option key={locale} value={locale}>{locale}</option>
+    );
+    return (
+      <div className="demo1-select">
+        <label htmlFor="demo1LocaleSelect">Please select a locale: </label>
+        <select id="demo1LocaleSelect"
+                value={this.demo1.state.locale}
+                onChange={this.handleChange}>
+          {optionList}
+        </select>
       </div>
     );
   }
@@ -259,8 +304,7 @@ class Demo1 extends React.Component {
         '/sites/default/mercury-demo/.content/';
     /** The request parameters. */
     this.PARAMS = '?content' + // embed contents in the folder listing
-        '&wrapper' + // request the resource wrapper to get a title property
-        '&locale=en&fallbackLocale'; // request english locale with fallback
+        '&wrapper'; // request the resource wrapper to get a title property
     /** The article content type. */
     this.TYPE_ARTICLE = 'article-m';
     /** The faq content type. */
@@ -272,28 +316,36 @@ class Demo1 extends React.Component {
       'article-m': 'Article',
       'faq-m': 'FAQ'
     };
+    /** The list of locales. */
+    this.localeList = ['en', 'de'];
     /** The state of this React application. */
     this.state = {
       type: this.TYPE_ARTICLE,
       content: null,
-      result: {}
+      result: {},
+      locale: 'en'
     };
   }
 
   /**
    * Loads the data for the detail view.
    */
-  loadContentDetail(content) {
+  loadContentDetail(content, locale) {
     const self = this;
+    if (!locale) {
+      locale = this.state.locale;
+    }
+    const localeParam = '&locale=' + locale + '&fallbackLocale';
     const url = this.CONTENT_FOLDER + this.state.type + '/' + content +
-        this.PARAMS;
+        this.PARAMS + localeParam;
     fetch(url)
       .then(reponse => reponse.json())
       .then((result) => {
         self.setState({
           type: self.state.type,
           content: content,
-          result: result
+          result: result,
+          locale: locale
         })
       });
   }
@@ -301,31 +353,42 @@ class Demo1 extends React.Component {
   /**
    * Loads the data for the list view.
    */
-  loadContentList(type) {
+  loadContentList(type, locale) {
     const self = this;
-    const url = this.CONTENT_FOLDER + type + this.PARAMS;
+    if (!locale) {
+      locale = this.state.locale;
+    }
+    const localeParam = '&locale=' + locale + '&fallbackLocale';
+    const url = this.CONTENT_FOLDER + type + this.PARAMS + localeParam;;
     fetch(url)
       .then(response => response.json())
       .then((result) => {
         self.setState({
           type: type,
           content: null,
-          result: result
+          result: result,
+          locale: locale
         })
       });
   }
 
-  /** Whether the loaded content is an article content. */
+  /**
+   * Returns whether the loaded content is an article content.
+   */
   isTypeArticle() {
     return this.state.type === this.TYPE_ARTICLE;
   }
 
-  /** Whether the loaded content is a faq content. */
+  /**
+   * Returns whether the loaded content is a FAQ content.
+   */
   isTypeFaq() {
     return this.state.type === this.TYPE_FAQ;
   }
 
-  /** Renders this component. */
+  /**
+   * Renders this component.
+   */
   render() {
     return this.state.content ? (<Demo1Detail demo1={this} />) :
         (<Demo1List demo1={this} />);
