@@ -296,7 +296,7 @@ class Demo1 extends React.Component {
   constructor(props) {
     super(props);
     /** The server URL. */
-    this.SERVER = 'http://localhost';
+    this.SERVER = process.env.REACT_APP_OPENCMS_SERVER;
     /** The API endpoint. */
     this.API_ENDPOINT = this.SERVER + '/json';
     /** The content folder. */

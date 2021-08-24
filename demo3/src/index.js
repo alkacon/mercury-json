@@ -14,11 +14,11 @@ class Demo3 extends React.Component {
   constructor(props) {
     super(props);
     /** The server URL. */
-    this.SERVER = 'http://localhost';
+    this.SERVER =  process.env.REACT_APP_OPENCMS_SERVER;
     /** The JSON endpoint. */
     this.ENDPOINT = this.SERVER + '/json';
     /** The URI of the page we will render. */
-    this.URI = '/sites/default/mercury-json/demo-3/index.html';
+    this.URI = '/sites/default/mercury-json/demo-3/sample-page/index.html';
     /** The request parameters. */
     this.PARAMS = '?content&wrapper&locale=en&fallbackLocale';
     /** The state of this component. */
