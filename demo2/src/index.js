@@ -269,7 +269,7 @@ class Demo2 extends React.Component {
     this.state = {
       content: null,
       list: {},
-      sort: 'DATE_ASC',
+      sort: '',
       rows: 5
     };
   }
@@ -300,8 +300,6 @@ class Demo2 extends React.Component {
     let listUrl = this.ENDPOINT + this.LIST + this.PARAMS;
     if (sort) {
       listUrl += '&sort=' + sort;
-    } else {
-      sort = '';
     }
     if (!rows) {
       rows = 5;
@@ -310,6 +308,11 @@ class Demo2 extends React.Component {
     fetch(listUrl)
       .then(response => response.json())
       .then((list) => {
+        console.log(listUrl);
+        console.log(list);
+        if (!sort) {
+          sort = list.SortOrder;
+        }
         self.setState({
           content: null,
           list: list,
