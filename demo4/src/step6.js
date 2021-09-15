@@ -4,8 +4,6 @@ import Demo4Containers from './shared/containers';
 import Demo4Content from './shared/content';
 import Demo4Elements from './shared/elements';
 import Demo4Element from './shared/element';
-import Demo4Layout from './shared/layout';
-import Demo4Modelgroup from './shared/modelgroup';
 import Demo4Page from './shared/page';
 
 class Demo46 extends React.Component {

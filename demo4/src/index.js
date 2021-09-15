@@ -28,6 +28,10 @@ class Demo4 extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.loadPage();
+  }
+
   render() {
     return(
       <div>

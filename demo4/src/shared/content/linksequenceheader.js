@@ -17,14 +17,14 @@ class Demo4LinksequenceHeader extends React.Component {
       const text = linkEntry.Text;
       const first = idx === 0 ? '| ' : ' ';
       return (
-        <>
+        <span key={idx}>
           <span>{first}</span>
           <a key={link} href={'#' + link}>{text}</a> |
-        </>
+        </span>
       )
     });
     return (
-      <nav class="linksequence-header">{linkEntryList}</nav>
+      <nav className="linksequence-header">{linkEntryList}</nav>
     )
   }
 }

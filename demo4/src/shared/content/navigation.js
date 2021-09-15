@@ -24,13 +24,13 @@ class Demo4Navigation extends React.Component {
 
   renderFormatterBreadcrumbs() {
     return (
-      <div class="nav-breadcrumbs">Breadcrumbs Navigation</div>
+      <div className="nav-breadcrumbs">Breadcrumbs Navigation</div>
     )
   }
 
   renderFormatterMain() {
     return (
-      <div class="nav-main">Main Navigation</div>
+      <div className="nav-main">Main Navigation</div>
     )
   }
 }

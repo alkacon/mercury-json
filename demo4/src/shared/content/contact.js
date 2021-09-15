@@ -14,7 +14,7 @@ class Demo4Contact extends React.Component {
     const organization = this.content.Organization;
     const link = this.content.Link;
     const linkDiv = link ? (
-      <a target="_blank" href={link.URI.link}>{link.Text}</a>
+      <a target="_blank" rel="noreferrer" href={link.URI.link}>{link.Text}</a>
     ) : false;
     return (
       <div>
