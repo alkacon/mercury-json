@@ -90,13 +90,13 @@ class Article extends React.Component {
    */
   render() {
     return (
-      <div>
-        <h3>{this.title} (Detail)</h3>
-        <p>by {this.author}</p>
-        <p>{this.intro}</p>
-        <img src={this.imageSrc} alt={this.caption ? this.caption : this.title} width="500"/>
+      <>
+        <h2>{this.title}</h2>
+        <h4>by {this.author}</h4>
+        <h4>{this.intro}</h4>
+        <img src={this.imageSrc} alt={this.caption ? this.caption : this.title}/>
         <div dangerouslySetInnerHTML={{__html: this.text}} />
-      </div>
+      </>
     );
   }
 }

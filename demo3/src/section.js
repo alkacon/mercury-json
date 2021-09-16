@@ -23,23 +23,9 @@ class Section extends React.Component {
    */
   render() {
     const pieceLayout = this.settings.pieceLayout;
-    const sectionImageClass = this.showPieceText() ? 'm-section-piece-image' :
-        'm-section-piece';
-    let sectionTextClass = this.showPieceImage() ? 'm-section-piece-text' :
-        'm-section-piece';
-    if (this.showPieceImage() && pieceLayout === '6') {
-      // if both image and text piece are shown and text piece is on
-      // right we need some additional space between the image and
-      // text piece
-      sectionTextClass += ' m-section-piece-text-padding';
-    }
-    const sectionImage = (
-      <div className={sectionImageClass}>
-      {this.renderImage()}
-      </div>
-    )
+    const sectionImage = this.renderImage();
     const sectionText = (
-      <div className={sectionTextClass}>
+      <div>
       {this.renderTitle()}
       {this.renderText()}
       {this.renderLink()}
@@ -47,14 +33,14 @@ class Section extends React.Component {
     )
     if (pieceLayout === '6') { // image left, text right
       return (
-        <div className="m-section">
+        <div className="list">
         {this.showPieceImage() ? sectionImage : false}
         {this.showPieceText() ? sectionText : false}
         </div>
       )
     } else if (pieceLayout === '7') { // text left, image right
       return (
-        <div className="m-section">
+        <div className="list">
         {this.showPieceText() ? sectionText : false}
         {this.showPieceImage() ? sectionImage : false}
         </div>

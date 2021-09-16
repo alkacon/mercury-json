@@ -171,24 +171,23 @@ class Contact extends React.Component {
    * Renders this component.
    */
   render() {
-    console.log(this.content);
     const personContact = this.kind === 'person' ? (
       <>
-        <div>Email: <a href={'email:' + this.email}>{this.email}</a></div>
-        <div>Mobile: {this.mobile}</div>
+        <h4>Email: <a href={'email:' + this.email}>{this.email}</a></h4>
+        <h4>Mobile: {this.mobile}</h4>
       </>
     ) : false;
     return (
-      <div className="m-contact">
-        <h3>{this.firstName} {this.lastName} <small>{this.position}</small></h3>
-        <div><strong>{this.organization}</strong></div>
-        <div>{this.streetAddress}</div>
-        <div>{this.postalCode} {this.locality}</div>
+      <>
+        <h2>{this.firstName} {this.lastName} <small>{this.position}</small></h2>
+        <h4><strong>{this.organization}</strong></h4>
+        <h4>{this.streetAddress}</h4>
+        <h4>{this.postalCode} {this.locality}</h4>
         <img src={this.imageSrc}
              alt={this.firstName + ' ' + this.lastName + ', ' + this.position}/>
         {personContact}
-        <div>Phone: {this.phone}</div>
-      </div>
+        <h4>Phone: {this.phone}</h4>
+      </>
     )
   }
 }

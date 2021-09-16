@@ -47,11 +47,12 @@ class Demo2Content extends React.Component {
       )
     }
     return (
-      <div>
-        <h1>JSON API Demo 2</h1>
-        <p><a href="." onClick={this.handleClickList}>Back</a> to the list.</p>
+      <section className="detail">
+        <h3 className="back">
+          <a href="" onClick={this.handleClickList}>Back</a>
+        </h3>
         {component}
-      </div>
+      </section>
     );
   }
 }
@@ -94,28 +95,19 @@ class Demo2List extends React.Component {
   }
 
   /**
-   * Renders this component.
-   */
-  render() {
-    return (
-      <div>
-        <h1>JSON API Demo 2</h1>
-        {this.renderList()}
-      </div>
-    );
-  }
-
-  /**
    * Renders an article preview.
    */
   renderItemArticle(item) {
+    const self = this;
     return (
-      <div>
+      <>
         {this.renderUtilPreviewImage(item.localeContent.Paragraph[0].Image)}
-        <div className="demo2-list-item-label-wrapper">
-          <div className="demo2-list-item-label">{item.properties.Title}</div>
+        <div>
+          <small>{item.attributes.type}</small>
+          <h3>{item.properties.Title}</h3>
+          <a href="#" onClick={(e) => self.handleClickContent(item, e)}>Read more</a>
         </div>
-      </div>
+      </>
     )
   }
 
@@ -123,20 +115,23 @@ class Demo2List extends React.Component {
    * Renders a contact preview.
    */
   renderItemContact(item) {
+    const self = this;
     return (
-      <div>
+      <>
         {this.renderUtilPreviewImage(item.localeContent.Image)}
-        <div className="demo2-list-item-label-wrapper">
-          <div className="demo2-list-item-label">{item.properties.Title}</div>
+        <div>
+          <small>{item.attributes.type}</small>
+          <h3>{item.properties.Title}</h3>
+          <a href="#" onClick={(e) => self.handleClickContent(item, e)}>Read more</a>
         </div>
-      </div>
+      </>
     )
   }
 
   /**
    * Renders the list depending on the respective content type.
    */
-  renderList() {
+  render() {
     const self = this;
     const list = this.demo2.state.list;
     const itemList = list.list ? list.list.map(function(item, idx) {
@@ -152,10 +147,7 @@ class Demo2List extends React.Component {
         )
       }
       return (
-        <div className="demo2-list-item"
-             key={item.properties.Title + idx}
-             onClick={(e) => self.handleClickContent(item, e)}>
-          <small className="demo2-list-item-type">{item.attributes.type}</small>
+        <div className="list" key={item.properties.Title + idx}>
           {div}
         </div>
       )
@@ -169,21 +161,19 @@ class Demo2List extends React.Component {
       moreResults = this.demo2.state.rows < list.listInfo.numFound;
     }
     return (
-      <div className="demo2-list">
-        <h3>{list.Title}</h3>
+      <>
         <Demo2SelectSort demo2={this.demo2}/>
-        <div className="demo2-list-items">
+        <section className="content">
         {itemList}
-        </div>
-        <div className="demo2-list-show-more">
-          <span>{pageInfo} </span>
-          <button className="demo2-list-show-more-button"
-                  onClick={this.handleShowMore}
+        </section>
+        <div className="flex column">
+          <h4>{pageInfo}</h4>
+          <button onClick={this.handleShowMore}
                   disabled={!moreResults}>
             <big>Show more...</big>
           </button>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -199,7 +189,7 @@ class Demo2List extends React.Component {
     const image = <img src={imageSrc}
              alt={imageTitle}
              className="demo2-list-item-img"/>;
-    return (<div className="demo2-list-item-img-panel">{image}</div>)
+    return image;
   }
 }
 
@@ -228,20 +218,49 @@ class Demo2SelectSort extends React.Component {
    * Renders this component.
    */
   render() {
+    const sort = this.demo2.state.sort;
     return (
-      <div className="demo2-select-sort">
-        <label htmlFor="demo2SelectSort">Sort by </label>
-        <select id="demo2SelectSort"
-                value={this.demo2.state.sort}
-                onChange={this.handleChange}>
-          <option value="DATE_ASC">Date ascending</option>
-          <option value="DATE_DESC">Date descending</option>
-          <option value="TITLE_ASC">Title ascending</option>
-          <option value="TITLE_DESC">Title descending</option>
-          <option value="ORDER_ASC">Order ascending</option>
-          <option value="ORDER_DESC">Order descending</option>
-        </select>
-      </div>
+      <section className="select">
+        <div>
+          <h4>Sort by</h4>
+          <label className="radio">Date ascending
+            <input type="radio" value="DATE_ASC" name="sort"
+                   checked={sort === 'DATE_ASC'}
+                   onChange={this.handleChange}/>
+            <span className="checkmark"></span>
+          </label>
+          <label className="radio">Date descending
+            <input type="radio" name="sort" value="DATE_DESC"
+                   checked={sort === 'DATE_DESC'}
+                   onChange={this.handleChange}/>
+            <span className="checkmark"></span>
+          </label>
+          <label className="radio">Title ascending
+            <input type="radio" name="sort" value="TITLE_ASC"
+                   checked={sort === 'TITLE_ASC'}
+                   onChange={this.handleChange}/>
+            <span className="checkmark"></span>
+          </label>
+          <label className="radio">Title descending
+            <input type="radio" name="sort" value="TITLE_DESC"
+                   checked={sort === 'TITLE_DESC'}
+                   onChange={this.handleChange}/>
+            <span className="checkmark"></span>
+          </label>
+          <label className="radio">Order ascending
+            <input type="radio" name="sort" value="ORDER_ASC"
+                   checked={sort === 'ORDER_ASC'}
+                   onChange={this.handleChange}/>
+            <span className="checkmark"></span>
+          </label>
+          <label className="radio">Order descending
+            <input type="radio" name="sort" value="ORDER_DESC"
+                   checked={sort === 'ORDER_DESC'}
+                   onChange={this.handleChange}/>
+            <span className="checkmark"></span>
+          </label>
+        </div>
+      </section>
     )
   }
 }
@@ -308,8 +327,6 @@ class Demo2 extends React.Component {
     fetch(listUrl)
       .then(response => response.json())
       .then((list) => {
-        console.log(listUrl);
-        console.log(list);
         if (!sort) {
           sort = list.SortOrder;
         }
@@ -334,8 +351,33 @@ class Demo2 extends React.Component {
    * Renders this component.
    */
   render() {
-    return this.state.content ? <Demo2Content demo2={this} /> :
+    const view = this.state.content ? <Demo2Content demo2={this} /> :
         <Demo2List demo2={this} />;
+    return (
+      <main>
+        <div className="container">
+          <section className="flex">
+            <h1>Demo.</h1>
+            <h4>
+              <span>A demo single page application using </span>
+              <a href="#">React.js</a>
+              <span> and </span>
+              <a href="#">OpenCms</a>.
+            </h4>
+          </section>
+          {view}
+          <footer>
+            <div>
+              <h4>Demo using the OpenCms JSON API</h4>
+              <div className="flex column">
+                <a href="#" className="doc">Read the API Documentation</a>
+                <a href="#" className="github">View the Demo Source on GitHub</a>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </main>
+    )
   }
 }
 

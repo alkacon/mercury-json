@@ -46,26 +46,16 @@ class Demo1ContentList extends React.Component {
       }
       src = src ? self.demo1.SERVER + src : '/favicon.ico';
       return (
-        <div key={file}
-             className="demo1-list-item"
-             onClick={(e) => self.handleClickDetail(file, e)}>
-          <div className="demo1-list-item-img-panel">
-            <img src={src} alt={heading} className="demo1-list-item-img"></img>
-          </div>
-          <div className="demo1-list-item-label-wrapper">
-            <div className="demo1-list-item-label">{heading}</div>
+        <div key={file} className="list">
+          <img src={src} alt={heading}></img>
+          <div>
+            <h3>{heading}</h3>
+            <a href="#" onClick={(e) => self.handleClickDetail(file, e)}>Read more</a>
           </div>
         </div>
       );
     });
-    return (
-      <div className="demo1-list">
-        <h3>{this.demo1.label[this.demo1.state.type]} (List)</h3>
-        <div className="demo1-list-items">
-        {itemList}
-        </div>
-      </div>
-    );
+    return itemList;
   }
 }
 
@@ -94,17 +84,20 @@ class Demo1ContentSelect extends React.Component {
    * Renders this component.
    */
   render() {
-    const optionList = this.demo1.typeList.map((content) =>
-      <option key={content} value={content}>{this.demo1.label[content]}</option>
+    const self = this;
+    const currentType = this.demo1.state.type;
+    const radioList = this.demo1.typeList.map((type) =>
+      <label className="radio">{self.demo1.label[type]}
+        <input type="radio" name="content" value={type}
+               checked={currentType === type}
+               onChange={this.handleChange}/>
+        <span className="checkmark"></span>
+      </label>
     );
     return (
-      <div className="demo1-select">
-        <label htmlFor="demo1ContentSelect">Please select a content type: </label>
-        <select id="demo1ContentSelect"
-                value={this.demo1.state.type}
-                onChange={this.handleChange}>
-          {optionList}
-        </select>
+      <div>
+        <h4>Content type</h4>
+        {radioList}
       </div>
     );
   }
@@ -137,11 +130,12 @@ class Demo1Detail extends React.Component {
    */
   render() {
     return (
-      <div>
-        <h1>JSON API Demo 1</h1>
-        <p><a href="." onClick={this.handleClickList}>Back</a> to the list.</p>
+      <>
+        <h3 className="back">
+          <a href="#" onClick={this.handleClickList}>Back</a>
+        </h3>
         {this.renderContent()}
-      </div>
+      </>
     );
   }
 
@@ -161,13 +155,13 @@ class Demo1Detail extends React.Component {
     const caption = result.localeContent.Paragraph[0].Caption;
     const text = result.localeContent.Paragraph[0].Text;
     return (
-      <div>
-        <h3>{title} (Detail)</h3>
-        <p>by {author}</p>
-        <p>{intro}</p>
+      <section class="detail">
+        <h2>{title}</h2>
+        <h4>by {author}</h4>
+        <h4>{intro}</h4>
         <img src={src} alt={caption} width="500"/>
         <div dangerouslySetInnerHTML={{__html: text}} />
-      </div>
+      </section>
     );
   }
 
@@ -199,12 +193,12 @@ class Demo1Detail extends React.Component {
     const caption = result.localeContent.Paragraph[0].Caption;
     const text = result.localeContent.Paragraph[0].Text;
     return (
-      <div>
-        <h3>{question} (Detail)</h3>
-        <p>{caption}</p>
-        <img src={src} alt={title} width="500"/>
+      <section class="detail">
+        <h4>{question}</h4>
+        <h4>{caption}</h4>
+        <img src={src} alt={title}/>
         <div dangerouslySetInnerHTML={{__html: text}} />
-      </div>
+      </section>
     );
   }
 }
@@ -234,12 +228,15 @@ class Demo1List extends React.Component {
    */
   render() {
     return (
-      <div>
-        <h1>JSON API Demo 1</h1>
-        <Demo1ContentSelect demo1={this.demo1}/>
-        <Demo1LocaleSelect demo1={this.demo1}/>
-        <Demo1ContentList demo1={this.demo1}/>
-      </div>
+      <>
+        <section className="select">
+          <Demo1ContentSelect demo1={this.demo1}/>
+          <Demo1LocaleSelect demo1={this.demo1}/>
+        </section>
+        <section className="content">
+          <Demo1ContentList demo1={this.demo1}/>
+        </section>
+      </>
     );
   }
 }
@@ -269,17 +266,19 @@ class Demo1LocaleSelect extends React.Component {
    * Renders this component.
    */
   render() {
-    const optionList = this.demo1.localeList.map((locale) =>
-      <option key={locale} value={locale}>{locale}</option>
+    const currentLocale = this.demo1.state.locale;
+    const radioList = this.demo1.localeList.map((locale) =>
+      <label className="radio">{locale}
+        <input type="radio" name="locale" value={locale}
+               checked={currentLocale === locale}
+               onChange={this.handleChange}/>
+        <span className="checkmark"></span>
+      </label>
     );
     return (
-      <div className="demo1-select">
-        <label htmlFor="demo1LocaleSelect">Please select a locale: </label>
-        <select id="demo1LocaleSelect"
-                value={this.demo1.state.locale}
-                onChange={this.handleChange}>
-          {optionList}
-        </select>
+      <div>
+        <h4>Locale</h4>
+        {radioList}
       </div>
     );
   }
@@ -390,8 +389,33 @@ class Demo1 extends React.Component {
    * Renders this component.
    */
   render() {
-    return this.state.content ? (<Demo1Detail demo1={this} />) :
+    const view = this.state.content ? (<Demo1Detail demo1={this} />) :
         (<Demo1List demo1={this} />);
+    return (
+      <main>
+        <div className="container">
+          <section className="flex">
+            <h1>Demo.</h1>
+            <h4>
+              <span>A demo single page application using </span>
+              <a href="#">React.js</a>
+              <span> and </span>
+              <a href="#">OpenCms</a>.
+            </h4>
+          </section>
+          {view}
+          <footer>
+            <div>
+              <h4>Demo using the OpenCms JSON API</h4>
+              <div className="flex column">
+                <a href="#" className="doc">Read the API Documentation</a>
+                <a href="#" className="github">View the Demo Source on GitHub</a>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </main>
+    )
   }
 }
 

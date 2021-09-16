@@ -58,10 +58,29 @@ class Demo3 extends React.Component {
     }
     const containers = this.state.page.containers;
     return (
-      <>
-        <h1>JSON API Demo 3</h1>
-        {this.visitContainers(containers)}
-      </>
+      <main>
+        <div className="container">
+          <section className="flex">
+            <h1>Demo.</h1>
+            <h4>
+              <span>A demo single page application using </span>
+              <a href="#">React.js</a>
+              <span> and </span>
+              <a href="#">OpenCms</a>.
+            </h4>
+          </section>
+          {this.visitContainers(containers)}
+          <footer>
+            <div>
+              <h4>Demo using the OpenCms JSON API</h4>
+              <div className="flex column">
+                <a href="#" className="doc">Read the API Documentation</a>
+                <a href="#" className="github">View the Demo Source on GitHub</a>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </main>
     )
   }
 
@@ -95,9 +114,7 @@ class Demo3 extends React.Component {
   visitContainers(containers) {
     const self = this;
     const html = containers.map(container => {
-      return (
-        <div key={container.name}>{self.visitContainer(container)}</div>
-      )
+      return self.visitContainer(container);
     });
     return html;
   }
@@ -127,9 +144,7 @@ class Demo3 extends React.Component {
   visitElements(elements) {
     const self = this;
     const html = elements.map((element, idx) => {
-      return (
-        <div key={element.path + idx}>{self.visitElement(element)}</div>
-      )
+      return self.visitElement(element);
     });
     return html;
   }
