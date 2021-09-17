@@ -29,7 +29,8 @@ Open [http://localhost/workplace/](http://localhost) and login as user Admin.
 
 ### `npm install`
 
-Installs the React.js app.\
+Installs the React.js app.
+
 You need to run this once only.
 
 ### `npm start`
@@ -43,3 +44,5 @@ Open [http://localhost:3000](http://localhost:3001) to view it in the browser.
 All demos make use of contents provided by the standard template of OpenCms called [Mercury]().
 
 More information about the JSON API is available in the [OpenCms JSON API documentation]().
+
+The source of the OpenCms demo backend is available [here]().
