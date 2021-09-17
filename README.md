@@ -25,7 +25,7 @@ Builds and runs a pre-configured OpenCms demo backend.
 
 Open [http://localhost/mercury-json/](http://localhost) to view it in the browser.
 
-Open [http://localhost/workplace/](http://localhost) and login as user Admin.
+Open [http://localhost/workplace/](http://localhost) to login as user Admin.
 
 ### `npm install`
 
