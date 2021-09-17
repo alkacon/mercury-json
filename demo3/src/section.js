@@ -23,26 +23,30 @@ class Section extends React.Component {
    */
   render() {
     const pieceLayout = this.settings.pieceLayout;
-    const sectionImage = this.renderImage();
-    const sectionText = (
+    const sectionTitle = this.renderTitle();
+    const sectionText = this.renderText();
+    const sectionLink = this.renderLink();
+    const fullWidthImage = !(sectionTitle && sectionText && sectionLink);
+    const pieceImage = this.renderImage(fullWidthImage);
+    const pieceText = (
       <div>
-      {this.renderTitle()}
-      {this.renderText()}
-      {this.renderLink()}
+      {sectionTitle}
+      {sectionText}
+      {sectionLink}
       </div>
     )
     if (pieceLayout === '6') { // image left, text right
       return (
         <div className="list">
-        {this.showPieceImage() ? sectionImage : false}
-        {this.showPieceText() ? sectionText : false}
+        {this.showPieceImage() ? pieceImage : false}
+        {this.showPieceText() ? pieceText : false}
         </div>
       )
     } else if (pieceLayout === '7') { // text left, image right
       return (
         <div className="list">
-        {this.showPieceText() ? sectionText : false}
-        {this.showPieceImage() ? sectionImage : false}
+        {this.showPieceText() ? pieceText : false}
+        {this.showPieceImage() ? pieceImage : false}
         </div>
       )
     }
@@ -54,14 +58,15 @@ class Section extends React.Component {
   /**
    * Renders the image of this section.
    */
-  renderImage() {
+  renderImage(fullWidthImage) {
     const image = this.content.localeContent.Image;
     if (this.showImage() && image) {
       const imageTitle = image.Title;
       const imageLink = image.Image.link;
       const imageSrc = this.demo3.SERVER + imageLink;
+      const classFull = fullWidthImage ? 'full' : null;
       return (
-        <img src={imageSrc} alt={imageTitle}/>
+        <img src={imageSrc} alt={imageTitle} className={classFull}/>
       )
     }
     return false;

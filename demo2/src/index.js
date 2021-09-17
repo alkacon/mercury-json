@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Article from './article';
 import Contact from './contact';
+import DemoFooter from './demo/footer';
+import DemoHeader from './demo/header';
 import './index.css';
 
 /**
@@ -356,25 +358,9 @@ class Demo2 extends React.Component {
     return (
       <main>
         <div className="container">
-          <section className="flex">
-            <h1>Demo.</h1>
-            <h4>
-              <span>A demo single page application using </span>
-              <a href="#">React.js</a>
-              <span> and </span>
-              <a href="#">OpenCms</a>.
-            </h4>
-          </section>
+          <DemoHeader />
           {view}
-          <footer>
-            <div>
-              <h4>Demo using the OpenCms JSON API</h4>
-              <div className="flex column">
-                <a href="#" className="doc">Read the API Documentation</a>
-                <a href="#" className="github">View the Demo Source on GitHub</a>
-              </div>
-            </div>
-          </footer>
+          <DemoFooter />
         </div>
       </main>
     )

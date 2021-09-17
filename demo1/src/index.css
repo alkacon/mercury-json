@@ -8,8 +8,22 @@ body {
     border: 0 solid #e2e8f0;
 }
 
+header {
+	margin: 2.25rem 0;
+}
+
 section {
 	margin: 2.25rem 0;
+}
+
+section.select {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 3rem;
+}
+
+section.select h4 {
+	text-align: left;
 }
 
 footer {
@@ -29,17 +43,23 @@ h2 {
 	letter-spacing: -.04rem;
 	font-size: 3.25rem;
 	font-weight: 700;
+	margin-top: .5rem;
 }
 
 h3 {
 	text-align: center;
 	letter-spacing: -.04rem;
 	font-size: 2rem;
+	font-weight: 600;
 	margin-top: .5rem;
 }
 
+h3.back:before {
+	content: "←";
+	margin-left: -30px;
+}
+
 h4 {
-  margin-top: 2.25rem;
 	text-align: center;
 	font-size: 1.125rem;
 	font-weight: 500;
@@ -82,11 +102,6 @@ select, select:active {
 	font-size: 2.75rem;
 	font-weight: bold;
 	margin-right: 1rem;
-}
-
-h3.back:before {
-	content: "←";
-	margin-left: -30px;
 }
 
 button {
@@ -159,7 +174,6 @@ label.radio input:checked ~ .checkmark:after {
   display: block;
 }
 
-/* Style the indicator (dot/circle) */
 label.radio .checkmark:after {
  	top: 6px;
 	left: 6px;
@@ -169,61 +183,59 @@ label.radio .checkmark:after {
 	background: white;
 }
 
-.select {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 3rem;
-}
-
-.select h4 {
-	text-align: left;
-}
-
 @media only screen and (max-width: 1000px) {
 
-	.container {
+	div.container {
 		padding: 0 1rem;
 		margin: auto;
 	}
 
-	img {
-		width: 100%;
-		box-shadow: 0 10px 20px rgb(0 0 0 / 12%);
-		margin: 10px 0;
-	}
-
-	.list div {
+	div.list div {
 		text-align: center;
 		margin-bottom: 3.75rem;
 	}
 
-	.flex.column {
+	div.flex.column {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+	}
+
+	img {
+		width: 100%;
+		box-shadow: 0 10px 20px rgb(0 0 0 / 22%);
 	}
 }
 
 @media only screen and (min-width: 1000px) {
 
-	.container {
+	div.container {
 		padding: 0 5rem;
 		margin: auto;
 		max-width: 1200px;
 	}
 
-	.flex {
+	header {
 		display: flex;
 		align-items: baseline;
 		justify-content: space-between;
 	}
 
-	.flex.column {
+	section.detail {
+		text-align: center;
+	}
+
+	section.content {
+		margin-top: 5rem;
+	}
+
+	div.flex.column {
+		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
 
-  .list {
+  div.list {
 	  display: flex;
 		align-items: center;
 		justify-content: flex-start;
@@ -231,21 +243,16 @@ label.radio .checkmark:after {
     margin-bottom: 2rem;
 	}
 
-	.list * {
+	div.list div {
 		text-align: left;
-	}
-
-	.detail {
-		text-align: center;
-	}
-
-	.content {
-		margin-top: 5rem;
 	}
 
 	img {
 		width: 50%;
-		box-shadow: 0 10px 20px rgb(0 0 0 / 12%);
-		margin: 10px 0;
+		box-shadow: 0 10px 20px rgb(0 0 0 / 22%);
+	}
+
+	img.full {
+		width: 100%;
 	}
 }

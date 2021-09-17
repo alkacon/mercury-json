@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import DemoFooter from './demo/footer';
+import DemoHeader from './demo/header';
 import './index.css';
 
 /**
@@ -87,7 +89,7 @@ class Demo1ContentSelect extends React.Component {
     const self = this;
     const currentType = this.demo1.state.type;
     const radioList = this.demo1.typeList.map((type) =>
-      <label className="radio">{self.demo1.label[type]}
+      <label className="radio" key={type}>{self.demo1.label[type]}
         <input type="radio" name="content" value={type}
                checked={currentType === type}
                onChange={this.handleChange}/>
@@ -268,7 +270,7 @@ class Demo1LocaleSelect extends React.Component {
   render() {
     const currentLocale = this.demo1.state.locale;
     const radioList = this.demo1.localeList.map((locale) =>
-      <label className="radio">{locale}
+      <label className="radio" key={locale}>{locale}
         <input type="radio" name="locale" value={locale}
                checked={currentLocale === locale}
                onChange={this.handleChange}/>
@@ -389,30 +391,14 @@ class Demo1 extends React.Component {
    * Renders this component.
    */
   render() {
-    const view = this.state.content ? (<Demo1Detail demo1={this} />) :
+    let view = this.state.content ? (<Demo1Detail demo1={this} />) :
         (<Demo1List demo1={this} />);
     return (
       <main>
         <div className="container">
-          <section className="flex">
-            <h1>Demo.</h1>
-            <h4>
-              <span>A demo single page application using </span>
-              <a href="#">React.js</a>
-              <span> and </span>
-              <a href="#">OpenCms</a>.
-            </h4>
-          </section>
+          <DemoHeader />
           {view}
-          <footer>
-            <div>
-              <h4>Demo using the OpenCms JSON API</h4>
-              <div className="flex column">
-                <a href="#" className="doc">Read the API Documentation</a>
-                <a href="#" className="github">View the Demo Source on GitHub</a>
-              </div>
-            </div>
-          </footer>
+          <DemoFooter />
         </div>
       </main>
     )
