@@ -3,11 +3,11 @@
 
 ## About
 
-**Demo 1**. Demonstrates basic content access with the [folder handler]() and the [content handler]() of the JSON API.
+Demo 1 showcases basic content access with the [folder handler]() and the [content handler]() of the JSON API.
 
-**Demo 2**. Demonstrates how to access and display dynamic content lists using the [list handler]() of the JSON API.
+Demo 2 showcases how to access and display dynamic content lists using the [list handler]() of the JSON API.
 
-**Demo 3**. Demonstrates content formatting provided by the [page handler]() of the JSON API.
+Demo 3 showcases content formatting provided by the [page handler]() of the JSON API.
 
 ## Preparations
 
@@ -40,6 +40,6 @@ Open [http://localhost:3000](http://localhost:3001) to view it in the browser.
 
 ## Further Reading
 
-All demos make use of contents provided bystandard template of OpenCms called [Mercury]().
+All demos make use of contents provided by the standard template of OpenCms called [Mercury]().
 
 More information about the JSON API is available in the [OpenCms JSON API documentation]().
