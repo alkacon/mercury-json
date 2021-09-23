@@ -1,7 +1,9 @@
 import React from 'react';
+import Image from './image'
 
 /**
- * Class representing a component for a contact content.
+ * Class representing a contact content.
+ * @see {@link http://localhost/system/modules/alkacon.mercury.template/schemas/contact.xsd}
  */
 class Contact extends React.Component {
 
@@ -10,15 +12,17 @@ class Contact extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.demo2 = props.demo2;
+    this.demo = props.demo;
     this.content = props.content;
+    this.mode = props.mode;
+    this.handleClickDetail = this.handleClickDetail.bind(this);
   }
 
   /**
    * Returns the email of this contact.
    */
   get email() {
-    let contact = this.content.localeContent.Contact;
+    let contact = this.localeContent.Contact;
     if (contact && contact.Email) {
       return contact.Email.Email;
     }
@@ -26,25 +30,26 @@ class Contact extends React.Component {
   }
 
   /**
+   * Returns the file of this contact.
+   */
+  get file() {
+    const path = this.content.path;
+    return path.substring(path.lastIndexOf('/') + 1);
+  }
+
+  /**
    * Returns the first name of this contact.
    */
   get firstName() {
-    const name = this.content.localeContent.Name;
+    const name = this.localeContent.Name;
     if (name) {
       return name.FirstName;
     }
     return false;
   }
 
-  /**
-   * Returns the image URL of this contact.
-   */
-  get imageSrc() {
-    const image = this.content.localeContent.Image;
-    if (image) {
-      return this.demo2.SERVER + image.Image.link;
-    }
-    return false;
+  get image() {
+    return this.localeContent.Image;
   }
 
   /**
@@ -59,7 +64,7 @@ class Contact extends React.Component {
    * Returns the last name of this contact.
    */
   get lastName() {
-    const name = this.content.localeContent.Name;
+    const name = this.localeContent.Name;
     if (name) {
       return name.LastName;
     }
@@ -67,10 +72,20 @@ class Contact extends React.Component {
   }
 
   /**
+   * Returns the localized content. Depending on whether request parameter
+   * wrapper was set to true or false, the localized content is either
+   * contained in this.content.localeContent (true) or in this.content (false);
+   */
+  get localeContent() {
+    return this.content.localeContent ? this.content.localeContent :
+        this.content;
+  }
+
+  /**
    * Returns the locality of this contact.
    */
   get locality() {
-    const contact = this.content.localeContent.Contact;
+    const contact = this.localeContent.Contact;
     const address = contact.AddressChoice.Address;
     const poiLink = contact.AddressChoice.PoiLink;
     if (address) { // nested address?
@@ -88,10 +103,10 @@ class Contact extends React.Component {
   }
 
   /**
-   * Returns the mobile of this contact.
+   * Returns the mobile phone number of this contact.
    */
   get mobile() {
-    const contact = this.content.localeContent.Contact;
+    const contact = this.localeContent.Contact;
     if (contact) {
       return contact.Mobile;
     }
@@ -99,10 +114,10 @@ class Contact extends React.Component {
   }
 
   /**
-   * Returns the organization of this contact.
+   * Returns the organization name of this contact.
    */
   get organization() {
-    const organization = this.content.localeContent.Organization;
+    const organization = this.localeContent.Organization;
     return organization;
   }
 
@@ -110,7 +125,7 @@ class Contact extends React.Component {
    * Returns the phone of this contact.
    */
   get phone() {
-    const contact = this.content.localeContent.Contact;
+    const contact = this.localeContent.Contact;
     if (contact) {
       return contact.Phone;
     }
@@ -121,7 +136,7 @@ class Contact extends React.Component {
    * Returns the position of this contact.
    */
   get position() {
-    const position = this.content.localeContent.Position;
+    const position = this.localeContent.Position;
     return position;
   }
 
@@ -129,7 +144,7 @@ class Contact extends React.Component {
    * Returns the postal code of this contact.
    */
   get postalCode() {
-    const contact = this.content.localeContent.Contact;
+    const contact = this.localeContent.Contact;
     const address = contact.AddressChoice.Address;
     const poiLink = contact.AddressChoice.PoiLink;
     if (address) { // nested address?
@@ -150,7 +165,7 @@ class Contact extends React.Component {
    * Returns the street address of this contact.
    */
   get streetAddress() {
-    const contact = this.content.localeContent.Contact;
+    const contact = this.localeContent.Contact;
     const address = contact.AddressChoice.Address;
     const poiLink = contact.AddressChoice.PoiLink;
     if (address) { // nested address?
@@ -168,9 +183,27 @@ class Contact extends React.Component {
   }
 
   /**
+   * Handler. Called when clicking on the read more link.
+   */
+  handleClickDetail(content) {
+    this.demo.loadContentDetail(content);
+  }
+
+  /**
    * Renders this component.
    */
   render() {
+    if (this.mode === 'preview') {
+      return this.renderPreview();
+    } else {
+      return this.renderDefault();
+    }
+  }
+
+  /**
+   * Renders a detail view of this contact.
+   */
+  renderDefault() {
     const personContact = this.kind === 'person' ? (
       <>
         <h4>Email: <a href={'email:' + this.email}>{this.email}</a></h4>
@@ -178,16 +211,35 @@ class Contact extends React.Component {
       </>
     ) : false;
     return (
-      <>
+      <section className="detail">
         <h2>{this.firstName} {this.lastName} <small>{this.position}</small></h2>
         <h4><strong>{this.organization}</strong></h4>
         <h4>{this.streetAddress}</h4>
         <h4>{this.postalCode} {this.locality}</h4>
-        <img src={this.imageSrc}
-             alt={this.firstName + ' ' + this.lastName + ', ' + this.position}/>
+        <Image demo={this.demo} content={this.image}
+            alt={this.firstName + ' ' + this.lastName + ', ' + this.position}/>
         {personContact}
         <h4>Phone: {this.phone}</h4>
-      </>
+      </section>
+    )
+
+  }
+
+  /**
+   * Renders a contact preview to be used in a list view.
+   */
+  renderPreview() {
+    const title = this.kind === 'person' ?
+        this.firstName + ' ' + this.lastName : this.organization;
+    return (
+      <div className="list">
+        <Image demo={this.demo} content={this.image} alt={title}/>
+        <div>
+          <small>m-contact</small>
+          <h3>{title}</h3>
+          <a href="#" onClick={(e) => this.handleClickDetail(this.file, e)}>Read more</a>
+        </div>
+      </div>
     )
   }
 }

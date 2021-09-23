@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Article from './demo/article';
+import Contact from './demo/contact';
+import FAQ from './demo/faq';
 import DemoFooter from './demo/footer';
 import DemoHeader from './demo/header';
 import './index.css';
@@ -14,15 +17,7 @@ class Demo1ContentList extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.handleClickDetail = this.handleClickDetail.bind(this);
     this.demo1 = props.demo1;
-  }
-
-  /**
-   * Handler. Called when clicking on a list item.
-   */
-  handleClickDetail(content) {
-    this.demo1.loadContentDetail(content);
   }
 
   /**
@@ -31,33 +26,32 @@ class Demo1ContentList extends React.Component {
   render() {
     let self = this;
     // iterate the folder listing
-    const itemList = Object.keys(this.demo1.state.result).map(file => {
+    const locale = this.demo1.state.locale;
+    const list = Object.keys(this.demo1.state.result).map(file => {
       const item = self.demo1.state.result[file];
+      const key = file + locale;
       if (!item.isXmlContent) { // not a content file?
         return false;
       }
-      // we use an article's title and a FAQ's question property as the
-      // list item heading
-      const heading = item.localeContent.Title ? item.localeContent.Title :
-          item.localeContent.Question;
-      let src;
-      // the article content and the faq content both have a
-      // paragraph list property with an embedded image property
-      if (item.localeContent.Paragraph[0].Image) { // image exists?
-        src = item.localeContent.Paragraph[0].Image.Image.link;
+      if (item.attributes.type === 'm-article') {
+        return (
+          <Article demo={this.demo1} content={item} key={key} mode="preview"/>
+        )
+      } else if (item.attributes.type === 'm-contact') {
+        return (
+          <Contact demo={this.demo1} content={item}  key={key} mode="preview"/>
+        )
+      } else if (item.attributes.type === 'm-faq') {
+        return (
+          <FAQ demo={this.demo1} content={item}  key={key} mode="preview"/>
+        )
+      } else {
+        return (
+          <div>Unknown content type.</div>
+        )
       }
-      src = src ? self.demo1.SERVER + src : '/favicon.ico';
-      return (
-        <div key={file} className="list">
-          <img src={src} alt={heading}></img>
-          <div>
-            <h3>{heading}</h3>
-            <a href="#" onClick={(e) => self.handleClickDetail(file, e)}>Read more</a>
-          </div>
-        </div>
-      );
     });
-    return itemList;
+    return list;
   }
 }
 
@@ -142,66 +136,24 @@ class Demo1Detail extends React.Component {
   }
 
   /**
-   * Renders an article detail view.
-   */
-  renderArticle() {
-    const result = this.demo1.state.result;
-    let src;
-    if (result.localeContent.Paragraph[0].Image) {
-      src = result.localeContent.Paragraph[0].Image.Image.link;
-    }
-    src = src ? this.demo1.SERVER + src : '/favicon.ico';
-    const title = result.localeContent.Title;
-    const author = result.localeContent.Author;
-    const intro = result.localeContent.Intro;
-    const caption = result.localeContent.Paragraph[0].Caption;
-    const text = result.localeContent.Paragraph[0].Text;
-    return (
-      <section class="detail">
-        <h2>{title}</h2>
-        <h4>by {author}</h4>
-        <h4>{intro}</h4>
-        <img src={src} alt={caption} width="500"/>
-        <div dangerouslySetInnerHTML={{__html: text}} />
-      </section>
-    );
-  }
-
-  /**
    * Renders a detail view depending on which content type is loaded.
    */
   renderContent() {
     if (this.demo1.isTypeArticle()) {
-      return this.renderArticle();
+      return (
+        <Article demo={this.demo1} content={this.demo1.state.result}/>
+      )
+    } else if (this.demo1.isTypeContact()) {
+      return (
+        <Contact demo={this.demo1} content={this.demo1.state.result}/>
+      )
     } else if (this.demo1.isTypeFaq()) {
-      return this.renderFaq();
+      return (
+        <FAQ demo={this.demo1} content={this.demo1.state.result}/>
+      )
     } else {
       return (<div>Unknown content type.</div>);
     }
-  }
-
-  /**
-   * Renders a faq detail view.
-   */
-  renderFaq() {
-    const result = this.demo1.state.result;
-    let src;
-    if (result.localeContent.Paragraph[0].Image) {
-      src = result.localeContent.Paragraph[0].Image.Image.link;
-    }
-    src = src ? this.demo1.SERVER + src : '/favicon.ico';
-    const title = result.localeContent.Paragraph[0].Image.Image.link;
-    const question = result.localeContent.Question;
-    const caption = result.localeContent.Paragraph[0].Caption;
-    const text = result.localeContent.Paragraph[0].Text;
-    return (
-      <section class="detail">
-        <h4>{question}</h4>
-        <h4>{caption}</h4>
-        <img src={src} alt={title}/>
-        <div dangerouslySetInnerHTML={{__html: text}} />
-      </section>
-    );
   }
 }
 
@@ -216,13 +168,6 @@ class Demo1List extends React.Component {
   constructor(props) {
     super(props);
     this.demo1 = props.demo1;
-  }
-
-  /**
-   * Load the list when the component did mount.
-   */
-  componentDidMount() {
-    this.demo1.loadContentList(this.demo1.state.type);
   }
 
   /**
@@ -308,13 +253,16 @@ class Demo1 extends React.Component {
         '&wrapper'; // request the resource wrapper to get a title property
     /** The article content type. */
     this.TYPE_ARTICLE = 'article-m';
+    /** The article content type. */
+    this.TYPE_CONTACT = 'contact-m';
     /** The faq content type. */
     this.TYPE_FAQ = 'faq-m';
     /** The list of content types. */
-    this.typeList = [this.TYPE_ARTICLE, this.TYPE_FAQ];
+    this.typeList = [this.TYPE_ARTICLE, this.TYPE_CONTACT, this.TYPE_FAQ];
     /** Labels for the content types. */
     this.label = {
       'article-m': 'Article',
+      'contact-m': 'Contact',
       'faq-m': 'FAQ'
     };
     /** The list of locales. */
@@ -326,6 +274,13 @@ class Demo1 extends React.Component {
       result: {},
       locale: 'en'
     };
+  }
+
+  /**
+   * Load the list when the component did mount.
+   */
+  componentDidMount() {
+    this.loadContentList(this.state.type);
   }
 
   /**
@@ -347,7 +302,7 @@ class Demo1 extends React.Component {
           content: content,
           result: result,
           locale: locale
-        })
+        });
       });
   }
 
@@ -355,10 +310,13 @@ class Demo1 extends React.Component {
    * Loads the data for the list view.
    */
   loadContentList(type, locale) {
+    console.log('---');
+    console.log(type + ' ' + locale);
     const self = this;
     if (!locale) {
       locale = this.state.locale;
     }
+    console.log(type + ' ' + locale);
     const localeParam = '&locale=' + locale + '&fallbackLocale';
     const url = this.CONTENT_FOLDER + type + this.PARAMS + localeParam;;
     fetch(url)
@@ -369,7 +327,7 @@ class Demo1 extends React.Component {
           content: null,
           result: result,
           locale: locale
-        })
+        });
       });
   }
 
@@ -378,6 +336,13 @@ class Demo1 extends React.Component {
    */
   isTypeArticle() {
     return this.state.type === this.TYPE_ARTICLE;
+  }
+
+  /**
+   * Returns whether the loaded content is a contact content.
+   */
+  isTypeContact() {
+    return this.state.type === this.TYPE_CONTACT;
   }
 
   /**
