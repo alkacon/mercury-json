@@ -25,7 +25,7 @@ class Demo2Content extends React.Component {
    */
   handleClickList(event) {
     event.preventDefault();
-    this.demo2.loadList();
+    this.demo2.loadList(this.demo2.state.sort, this.demo2.state.rows);
   }
 
   /**
@@ -72,13 +72,6 @@ class Demo2List extends React.Component {
     this.handleClickContent = this.handleClickContent.bind(this);
     this.handleShowMore = this.handleShowMore.bind(this);
     this.demo2 = props.demo2;
-  }
-
-  /**
-   * Load the list when the component did mount.
-   */
-  componentDidMount() {
-    this.demo2.loadList();
   }
 
   /**
@@ -296,6 +289,13 @@ class Demo2 extends React.Component {
   }
 
   /**
+   * Load the list when the component did mount.
+   */
+  componentDidMount() {
+    this.loadList();
+  }
+
+  /**
    * Load a content.
    */
   loadContent(path) {
@@ -309,7 +309,7 @@ class Demo2 extends React.Component {
           list: self.state.list,
           sort: self.state.sort,
           rows: self.state.rows
-        })
+        });
       });
   }
 
