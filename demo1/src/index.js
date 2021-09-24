@@ -12,7 +12,7 @@ import './index.css';
  */
 class Demo1ContentList extends React.Component {
 
-  /**
+  /**,
    * Creates a new component.
    */
   constructor(props) {
@@ -29,6 +29,7 @@ class Demo1ContentList extends React.Component {
     const locale = this.demo1.state.locale;
     const list = Object.keys(this.demo1.state.result).map(file => {
       const item = self.demo1.state.result[file];
+      const type = item.attributes.type;
       const key = file + locale;
       if (!item.isXmlContent) { // not a content file?
         return false;
@@ -286,20 +287,19 @@ class Demo1 extends React.Component {
   /**
    * Loads the data for the detail view.
    */
-  loadContentDetail(content, locale) {
+  loadContentDetail(path, locale) {
     const self = this;
     if (!locale) {
       locale = this.state.locale;
     }
     const localeParam = '&locale=' + locale + '&fallbackLocale';
-    const url = this.CONTENT_FOLDER + this.state.type + '/' + content +
-        this.PARAMS + localeParam;
+    const url = this.API_ENDPOINT + path + this.PARAMS + localeParam;
     fetch(url)
       .then(reponse => reponse.json())
       .then((result) => {
         self.setState({
           type: self.state.type,
-          content: content,
+          content: path,
           result: result,
           locale: locale
         });
@@ -310,13 +310,10 @@ class Demo1 extends React.Component {
    * Loads the data for the list view.
    */
   loadContentList(type, locale) {
-    console.log('---');
-    console.log(type + ' ' + locale);
     const self = this;
     if (!locale) {
       locale = this.state.locale;
     }
-    console.log(type + ' ' + locale);
     const localeParam = '&locale=' + locale + '&fallbackLocale';
     const url = this.CONTENT_FOLDER + type + this.PARAMS + localeParam;;
     fetch(url)

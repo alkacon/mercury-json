@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Article from './article';
-import Contact from './contact';
+import Article from './demo/article';
+import Contact from './demo/contact';
 import DemoFooter from './demo/footer';
 import DemoHeader from './demo/header';
+import FAQ from './demo/faq';
 import './index.css';
 
 /**
@@ -37,9 +38,9 @@ class Demo2Content extends React.Component {
     const type = content.attributes.type;
     let component;
     if (type === 'm-article') {
-      component = (<Article demo2={this.demo2} content={content}/>);
+      component = (<Article demo={this.demo2} content={content}/>);
     } else if (type === 'm-contact') {
-      component = (<Contact demo2={this.demo2} content={content}/>);
+      component = (<Contact demo={this.demo2} content={content}/>);
     } else {
       component = (
         <div>
@@ -49,12 +50,12 @@ class Demo2Content extends React.Component {
       )
     }
     return (
-      <section className="detail">
+      <>
         <h3 className="back">
           <a href="" onClick={this.handleClickList}>Back</a>
         </h3>
         {component}
-      </section>
+      </>
     );
   }
 }
@@ -90,40 +91,6 @@ class Demo2List extends React.Component {
   }
 
   /**
-   * Renders an article preview.
-   */
-  renderItemArticle(item) {
-    const self = this;
-    return (
-      <>
-        {this.renderUtilPreviewImage(item.localeContent.Paragraph[0].Image)}
-        <div>
-          <small>{item.attributes.type}</small>
-          <h3>{item.properties.Title}</h3>
-          <a href="#" onClick={(e) => self.handleClickContent(item, e)}>Read more</a>
-        </div>
-      </>
-    )
-  }
-
-  /**
-   * Renders a contact preview.
-   */
-  renderItemContact(item) {
-    const self = this;
-    return (
-      <>
-        {this.renderUtilPreviewImage(item.localeContent.Image)}
-        <div>
-          <small>{item.attributes.type}</small>
-          <h3>{item.properties.Title}</h3>
-          <a href="#" onClick={(e) => self.handleClickContent(item, e)}>Read more</a>
-        </div>
-      </>
-    )
-  }
-
-  /**
    * Renders the list depending on the respective content type.
    */
   render() {
@@ -131,21 +98,24 @@ class Demo2List extends React.Component {
     const list = this.demo2.state.list;
     const itemList = list.list ? list.list.map(function(item, idx) {
       const type = item.attributes.type;
-      let div;
+      const key = item.properties.Title + idx;
       if (type === 'm-article') {
-        div = self.renderItemArticle(item);
+        return (
+          <Article demo={self.demo2} content={item} key={key} mode="preview"/>
+        )
       } else if (type === 'm-contact') {
-        div = self.renderItemContact(item);
+        return (
+          <Contact demo={self.demo2} content={item}  key={key} mode="preview"/>
+        )
+      } else if (type === 'm-faq') {
+        return (
+          <FAQ demo={self.demo2} content={item}  key={key} mode="preview"/>
+        )
       } else {
-        div = (
-          <div>Unknown list type: {type}.</div>
+        return (
+          <div>Unknown content type.</div>
         )
       }
-      return (
-        <div className="list" key={item.properties.Title + idx}>
-          {div}
-        </div>
-      )
     }) : null;
     let pageInfo = '';
     let moreResults = true;
@@ -158,9 +128,7 @@ class Demo2List extends React.Component {
     return (
       <>
         <Demo2SelectSort demo2={this.demo2}/>
-        <section className="content">
         {itemList}
-        </section>
         <div className="flex column">
           <h4>{pageInfo}</h4>
           <button onClick={this.handleShowMore}
@@ -170,21 +138,6 @@ class Demo2List extends React.Component {
         </div>
       </>
     );
-  }
-
-  /**
-   * Utility function to generate an image preview.
-   */
-  renderUtilPreviewImage(json) {
-    const imageSrc = (!json || !json.Image || !json.Image.link) ?
-        this.demo2.SERVER + '/.galleries/cliparts/default.png' :
-        this.demo2.SERVER + json.Image.link;
-    const imageTitle = (!json || !json.Image || !json.Image.Title) ? '' :
-        json.Image.Title;
-    const image = <img src={imageSrc}
-             alt={imageTitle}
-             className="demo2-list-item-img"/>;
-    return image;
   }
 }
 
@@ -298,7 +251,7 @@ class Demo2 extends React.Component {
   /**
    * Load a content.
    */
-  loadContent(path) {
+  loadContentDetail(path) {
     const self = this;
     const contentUrl = this.ENDPOINT + path + this.PARAMS;
     fetch(contentUrl)
