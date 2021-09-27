@@ -311,7 +311,7 @@ class Demo2 extends React.Component {
     return (
       <main>
         <div className="container">
-          <DemoHeader />
+          <DemoHeader title="Demo 2"/>
           {view}
           <DemoFooter />
         </div>

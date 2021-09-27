@@ -62,7 +62,7 @@ class Demo3 extends React.Component {
     return (
       <main>
         <div className="container">
-          <DemoHeader />
+          <DemoHeader title="Demo 3"/>
           {this.visitContainers(containers)}
           <DemoFooter />
         </div>
