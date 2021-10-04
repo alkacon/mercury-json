@@ -211,7 +211,7 @@ class Contact extends React.Component {
     ) : false;
     return (
       <section className="detail">
-        <h2>{this.firstName} {this.lastName} <small>{this.position}</small></h2>
+        <h3>{this.firstName} {this.lastName} <small>{this.position}</small></h3>
         <h4><strong>{this.organization}</strong></h4>
         <h4>{this.streetAddress}</h4>
         <h4>{this.postalCode} {this.locality}</h4>

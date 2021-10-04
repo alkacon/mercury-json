@@ -84,7 +84,7 @@ class FAQ extends React.Component {
   renderDefault() {
     return (
       <section className="detail">
-        <h2>{this.question}</h2>
+        <h3>{this.question}</h3>
         {this.paragraphs}
       </section>
     )

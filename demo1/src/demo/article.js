@@ -97,7 +97,7 @@ class Article extends React.Component {
   renderDefault() {
     return (
       <section className="detail">
-        <h2>{this.title}</h2>
+        <h3>{this.title}</h3>
         <h4>by {this.author}</h4>
         <h4>{this.intro}</h4>
         {this.paragraphs}
