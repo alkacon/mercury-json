@@ -2,6 +2,11 @@
   "name": "demo3",
   "version": "0.1.0",
   "private": true,
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "del-cli": "^4.0.1",
+    "npm-run-all": "^4.1.5"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
@@ -11,11 +16,20 @@
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
   },
+  "config": {
+    "buildDir": "./build/* ./build/static/css/* ./build/static/js/*",
+    "templateDir": "/sites/default/mercury-json/demo-3/sample-app"
+  },
   "scripts": {
     "start": "PORT=3003 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "mercuryDemo:clean": "npm-run-all mercuryDemoClean:* && echo \"Publish deleted files before running mercuryDemo:copy.\"",
+    "mercuryDemoClean:index": "del-cli -f ${OCMOUNT}$npm_package_config_templateDir/*.*",
+    "mercuryDemoClean:css": "del-cli -f emptyDir ${OCMOUNT}$npm_package_config_templateDir/static/css/*",
+    "mercuryDemoClean:js": "del-cli -f emptyDir ${OCMOUNT}$npm_package_config_templateDir/static/js/*",
+    "mercuryDemo:copy": "copyfiles -u 1 -V $npm_package_config_buildDir ${OCMOUNT}$npm_package_config_templateDir/"
   },
   "eslintConfig": {
     "extends": [
