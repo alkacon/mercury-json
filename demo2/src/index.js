@@ -223,8 +223,12 @@ class Demo2 extends React.Component {
    */
   constructor(props) {
     super(props);
+    const contextPath = document.getElementById('root').dataset.contextPath;
     /** The server URL. */
-    this.SERVER = process.env.REACT_APP_OPENCMS_SERVER;
+    this.SERVER = contextPath === '${pageContext.request.contextPath}' ?
+        process.env.REACT_APP_OPENCMS_SERVER : contextPath;
+    /** The server URL without context path useful to link images. */
+    this.SERVER_IMAGE = process.env.REACT_APP_OPENCMS_SERVER;
     /** The API endpoint. */
     this.ENDPOINT = this.SERVER + '/json';
     /** The list configuration. */

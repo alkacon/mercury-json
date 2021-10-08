@@ -15,12 +15,17 @@ class Demo3 extends React.Component {
    */
   constructor(props) {
     super(props);
-    /** The server URL. */
-    this.SERVER =  process.env.REACT_APP_OPENCMS_SERVER;
+    const contextPath = document.getElementById('root').dataset.contextPath;
+    /** The server URL with context path. */
+    this.SERVER = contextPath === '${pageContext.request.contextPath}' ?
+        process.env.REACT_APP_OPENCMS_SERVER : contextPath;
+    /** The server URL without context path useful to link images. */
+    this.SERVER_IMAGE = contextPath === '${pageContext.request.contextPath}' ?
+        process.env.REACT_APP_OPENCMS_SERVER : contextPath;
     /** The JSON endpoint. */
     this.ENDPOINT = this.SERVER + '/json';
     /** The URI of the page we will render. */
-    this.URI = '/sites/default/mercury-json/demo-3/sample-page/index.html';
+    this.URI = '/sites/default/mercury-json/demo-3/page-editor/index.html';
     /** The request parameters. */
     this.PARAMS = '?content&wrapper&locale=en&fallbackLocale';
     /** The state of this component. */

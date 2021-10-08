@@ -21,7 +21,7 @@ class Image extends React.Component {
    * Returns the URL of this image.
    */
   get imageUrl() {
-    return this.demo.SERVER + this.content.Image.link;
+    return this.demo.SERVER_IMAGE + this.content.Image.link;
   }
 
   /**

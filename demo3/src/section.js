@@ -63,7 +63,7 @@ class Section extends React.Component {
     if (this.showImage() && image) {
       const imageTitle = image.Title;
       const imageLink = image.Image.link;
-      const imageSrc = this.demo3.SERVER + imageLink;
+      const imageSrc = this.demo3.SERVER_IMAGE + imageLink;
       const classFull = fullWidthImage ? 'full' : null;
       return (
         <img src={imageSrc} alt={imageTitle} className={classFull}/>
