@@ -20,8 +20,7 @@ class Demo3 extends React.Component {
     this.SERVER = contextPath === '${pageContext.request.contextPath}' ?
         process.env.REACT_APP_OPENCMS_SERVER : contextPath;
     /** The server URL without context path useful to link images. */
-    this.SERVER_IMAGE = contextPath === '${pageContext.request.contextPath}' ?
-        process.env.REACT_APP_OPENCMS_SERVER : contextPath;
+    this.SERVER_IMAGE = process.env.REACT_APP_OPENCMS_SERVER_IMAGE;
     /** The JSON endpoint. */
     this.ENDPOINT = this.SERVER + '/json';
     /** The URI of the page we will render. */
