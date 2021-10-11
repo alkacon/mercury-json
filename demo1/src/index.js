@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Article from './demo/article';
 import Contact from './demo/contact';
 import FAQ from './demo/faq';
+import DemoException from './demo/exception';
 import DemoFooter from './demo/footer';
 import DemoHeader from './demo/header';
 import './index.css';
@@ -29,7 +30,6 @@ class Demo1ContentList extends React.Component {
     const locale = this.demo1.state.locale;
     const list = Object.keys(this.demo1.state.result).map(file => {
       const item = self.demo1.state.result[file];
-      const type = item.attributes.type;
       const key = file + locale;
       if (!item.isXmlContent) { // not a content file?
         return false;
@@ -274,6 +274,7 @@ class Demo1 extends React.Component {
     this.localeList = ['en', 'de'];
     /** The state of this React application. */
     this.state = {
+      available: false,
       type: this.TYPE_ARTICLE,
       content: null,
       result: {},
@@ -285,7 +286,34 @@ class Demo1 extends React.Component {
    * Load the list when the component did mount.
    */
   componentDidMount() {
-    this.loadContentList(this.state.type);
+    this.jsonApiAvailable();
+  }
+
+  /**
+   * Checks whether the JSON API is available.
+   */
+  jsonApiAvailable() {
+    const self = this;
+    fetch(this.API_ENDPOINT).then((result) => {
+      if (result.ok) {
+        self.setState({
+          available: true,
+          type: self.state.type,
+          content: self.state.content,
+          result: self.state.result,
+          locale: self.state.locale
+        });
+        this.loadContentList(this.state.type);
+      }
+    }).catch((error) => {
+      self.setState({
+        available: false,
+        type: self.state.type,
+        content: self.state.content,
+        result: self.state.result,
+        locale: self.state.locale
+      });
+    });
   }
 
   /**
@@ -302,6 +330,7 @@ class Demo1 extends React.Component {
       .then(reponse => reponse.json())
       .then((result) => {
         self.setState({
+          available: self.state.available,
           type: self.state.type,
           content: path,
           result: result,
@@ -324,6 +353,7 @@ class Demo1 extends React.Component {
       .then(response => response.json())
       .then((result) => {
         self.setState({
+          available: self.state.available,
           type: type,
           content: null,
           result: result,
@@ -357,8 +387,14 @@ class Demo1 extends React.Component {
    * Renders this component.
    */
   render() {
-    let view = this.state.content ? (<Demo1Detail demo1={this} />) :
-        (<Demo1List demo1={this} />);
+    let view;
+    if (!this.state.available) {
+      view = (<DemoException />);
+    } else if (this.state.content) {
+      view = (<Demo1Detail demo1={this} />);
+    } else {
+      view = (<Demo1List demo1={this} />);
+    }
     return (
       <main>
         <div className="container">

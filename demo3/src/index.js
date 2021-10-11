@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import DemoException from './demo/exception';
 import DemoFooter from './demo/footer';
 import DemoHeader from './demo/header';
 import Section from './section'
@@ -29,6 +30,7 @@ class Demo3 extends React.Component {
     this.PARAMS = '?content&wrapper&locale=en&fallbackLocale';
     /** The state of this component. */
     this.state = {
+      available: false,
       page: null
     }
   }
@@ -37,7 +39,28 @@ class Demo3 extends React.Component {
    * Handler. Called when this component did mount.
    */
   componentDidMount() {
-    this.loadPage();
+    this.jsonApiAvailable();
+  }
+
+  /**
+   * Checks whether the JSON API is available.
+   */
+  jsonApiAvailable() {
+    const self = this;
+    fetch(this.ENDPOINT).then((result) => {
+      if (result.ok) {
+      self.setState({
+        available: true,
+        page: self.state.page
+      });
+      this.loadPage();
+      }
+    }).catch((error) => {
+      self.setState({
+        available: false,
+        page: self.state.page
+      });
+    });
   }
 
   /**
@@ -50,6 +73,7 @@ class Demo3 extends React.Component {
       .then(response => response.json())
       .then((page) => {
         self.setState({
+          available: self.state.available,
           page: page
         });
       });
@@ -59,15 +83,20 @@ class Demo3 extends React.Component {
    * Renders this component.
    */
   render() {
-    if (!this.state.page) {
-      return false;
+    let view;
+    if (this.state.available === false) {
+      view = (<DemoException />);
+    } else if (!this.state.page) {
+      view = (<div>Loading...</div>);
+    } else {
+      const containers = this.state.page.containers;
+      view = this.visitContainers(containers);
     }
-    const containers = this.state.page.containers;
     return (
       <main>
         <div className="container">
           <DemoHeader title="Demo 3"/>
-          {this.visitContainers(containers)}
+          {view}
           <DemoFooter />
         </div>
       </main>

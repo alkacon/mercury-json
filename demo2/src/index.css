@@ -30,6 +30,22 @@ footer {
 	margin: 10rem 0;
 }
 
+.alert-info {
+	padding: 2em;
+	color: #804d00;
+	font-weight: bold;
+	border: solid #e68a00 4px;
+	background-color: #ffff99;
+	-moz-border-radius: 1em;
+  -webkit-border-radius: 1em;
+	border-radius: 1em;
+}
+
+.exception {
+	font-size: larger;
+	line-height: 2rem;
+}
+
 h1 {
 	text-align: center;
 	letter-spacing: -.04rem;

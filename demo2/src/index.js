@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Article from './demo/article';
 import Contact from './demo/contact';
+import DemoException from './demo/exception';
 import DemoFooter from './demo/footer';
 import DemoHeader from './demo/header';
 import FAQ from './demo/faq';
@@ -238,6 +239,7 @@ class Demo2 extends React.Component {
         '&locale=en&fallbackLocale'; // request one locale with fallback
     /** The state of this component. */
     this.state = {
+      available: false,
       content: null,
       list: {},
       sort: '',
@@ -249,7 +251,34 @@ class Demo2 extends React.Component {
    * Load the list when the component did mount.
    */
   componentDidMount() {
-    this.loadList();
+    this.jsonApiAvailable();
+  }
+
+  /**
+   * Checks whether the JSON API is available.
+   */
+  jsonApiAvailable() {
+    const self = this;
+    fetch(this.ENDPOINT).then((result) => {
+      if (result.ok) {
+        self.setState({
+          available: true,
+          content: self.state.content,
+          list: self.state.list,
+          sort: self.state.sort,
+          rows: self.state.rows
+        });
+        this.loadList();
+      }
+    }).catch((error) => {
+      self.setState({
+        available: false,
+        content: self.state.content,
+        list: self.state.list,
+        sort: self.state.sort,
+        rows: self.state.rows
+      });
+    });
   }
 
   /**
@@ -262,6 +291,7 @@ class Demo2 extends React.Component {
       .then(response => response.json())
       .then((content) => {
         self.setState({
+          available: self.state.available,
           content: content,
           list: self.state.list,
           sort: self.state.sort,
@@ -290,6 +320,7 @@ class Demo2 extends React.Component {
           sort = list.SortOrder;
         }
         self.setState({
+          available: self.state.available,
           content: null,
           list: list,
           sort: sort,
@@ -310,8 +341,14 @@ class Demo2 extends React.Component {
    * Renders this component.
    */
   render() {
-    const view = this.state.content ? <Demo2Content demo2={this} /> :
-        <Demo2List demo2={this} />;
+    let view;
+    if (this.state.available === false) {
+      view = (<DemoException />);
+    } else if (this.state.content) {
+      view = (<Demo2Content demo2={this} />);
+    } else {
+      view = (<Demo2List demo2={this} />);
+    }
     return (
       <main>
         <div className="container">
