@@ -239,7 +239,7 @@ class Demo2 extends React.Component {
         '&locale=en&fallbackLocale'; // request one locale with fallback
     /** The state of this component. */
     this.state = {
-      available: false,
+      available: null,
       content: null,
       list: {},
       sort: '',
@@ -269,6 +269,14 @@ class Demo2 extends React.Component {
           rows: self.state.rows
         });
         this.loadList();
+      } else {
+        self.setState({
+          available: false,
+          type: self.state.type,
+          content: self.state.content,
+          result: self.state.result,
+          locale: self.state.locale
+        });
       }
     }).catch((error) => {
       self.setState({
@@ -342,7 +350,9 @@ class Demo2 extends React.Component {
    */
   render() {
     let view;
-    if (this.state.available === false) {
+    if (this.state.available === null) {
+      view = (<div>Loading...</div>);
+    } else if (this.state.available === false) {
       view = (<DemoException />);
     } else if (this.state.content) {
       view = (<Demo2Content demo2={this} />);

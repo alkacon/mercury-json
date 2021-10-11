@@ -30,7 +30,7 @@ class Demo3 extends React.Component {
     this.PARAMS = '?content&wrapper&locale=en&fallbackLocale';
     /** The state of this component. */
     this.state = {
-      available: false,
+      available: null,
       page: null
     }
   }
@@ -49,11 +49,19 @@ class Demo3 extends React.Component {
     const self = this;
     fetch(this.ENDPOINT).then((result) => {
       if (result.ok) {
-      self.setState({
-        available: true,
-        page: self.state.page
-      });
-      this.loadPage();
+        self.setState({
+          available: true,
+          page: self.state.page
+        });
+        this.loadPage();
+      } else {
+        self.setState({
+          available: false,
+          type: self.state.type,
+          content: self.state.content,
+          result: self.state.result,
+          locale: self.state.locale
+        });
       }
     }).catch((error) => {
       self.setState({
@@ -84,7 +92,9 @@ class Demo3 extends React.Component {
    */
   render() {
     let view;
-    if (this.state.available === false) {
+    if (this.state.available === null) {
+      view = (<div>Loading...</div>);
+    } else if (this.state.available === false) {
       view = (<DemoException />);
     } else if (!this.state.page) {
       view = (<div>Loading...</div>);

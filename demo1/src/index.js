@@ -274,7 +274,7 @@ class Demo1 extends React.Component {
     this.localeList = ['en', 'de'];
     /** The state of this React application. */
     this.state = {
-      available: false,
+      available: null,
       type: this.TYPE_ARTICLE,
       content: null,
       result: {},
@@ -304,6 +304,14 @@ class Demo1 extends React.Component {
           locale: self.state.locale
         });
         this.loadContentList(this.state.type);
+      } else {
+        self.setState({
+          available: false,
+          type: self.state.type,
+          content: self.state.content,
+          result: self.state.result,
+          locale: self.state.locale
+        });
       }
     }).catch((error) => {
       self.setState({
@@ -388,7 +396,9 @@ class Demo1 extends React.Component {
    */
   render() {
     let view;
-    if (!this.state.available) {
+    if (this.state.available === null) {
+      view = (<div>Loading...</div>);
+    } else if (this.state.available === false) {
       view = (<DemoException />);
     } else if (this.state.content) {
       view = (<Demo1Detail demo1={this} />);
