@@ -30,7 +30,10 @@ footer {
   margin: 10rem 0;
 }
 
-.alert-info {
+div.alert-info {
+  font-size: larger;
+  margin-top: 3rem;
+  margin-bottom: 5rem;
   padding: 2em;
   color: #804d00;
   font-weight: bold;
@@ -41,9 +44,18 @@ footer {
   border-radius: 1em;
 }
 
-.exception {
+div.activation {
   font-size: larger;
   line-height: 2rem;
+}
+
+.activation pre {
+  width: 100%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background-color: #EEEEEE;
+  line-height: 1rem;
+  padding: 1rem;
 }
 
 h1 {

@@ -26,9 +26,9 @@ Builds and runs a pre-configured OpenCms demo backend.
 
 Run `docker-compose logs -f` to see the installation progress. Installation will take a while at the first time.
 
-Open [http://localhost/mercury-json/](http://localhost) to view it in the browser.
+Open [http://localhost/mercury-json/](http://localhost) to view the demo backend in the browser.
 
-Open [http://localhost/workplace/](http://localhost) to login as user Admin.
+Open [http://localhost/system/login](http://localhost/system/login) to login as user Admin.
 
 ### `cd demo1 && npm install`
 
@@ -46,7 +46,7 @@ Run `cd demo2 && npm start` and `cd demo3 && npm start` accordingly.
 
 Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
-`demo2` and `demo3` run on ports `3002` and `3003` accordingly.
+`demo2` and `demo3` run on ports `3002` and `3003`.
 
 ## Further Reading
 
