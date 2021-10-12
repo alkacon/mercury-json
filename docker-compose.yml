@@ -1,0 +1,34 @@
+version: '3.7'
+services:
+    mariadb:
+        image: mariadb:latest
+        container_name: mariadb
+        init: true
+        restart: always
+        environment:
+            - "MYSQL_ROOT_PASSWORD=opencms"
+            - "MYSQL_DATABASE=opencms"
+            - "MYSQL_USER=opencms"
+            - "MYSQL_PASSWORD=opencms"
+    opencms:
+        image: alkacon/opencms-docker:12.0
+        container_name: jsondemo
+        init: true
+        restart: always
+        depends_on: [ "mariadb" ]
+        links:
+            - "mariadb:mysql"
+        ports:
+            - "8080:8080"
+        command: ["/root/wait-for.sh", "mysql:3306", "-t", "30", "--", "/root/opencms-run.sh"]
+        environment:
+            - "GZIP=true"
+            - "TOMCAT_OPTS=-Xmx2g -Xms512m -server -XX:+UseConcMarkSweepGC"
+            - "ADMIN_PASSWD=admin"
+            - "DB_HOST=mysql"
+            - "DB_NAME=opencms"
+            - "DB_USER=opencms"
+            - "DB_PASSWD=opencms"
+            - "OPENCMS_COMPONENTS=workplace,demo"
+            - "WEBRESOURCES_CACHE_SIZE=200000"
+            - "DEBUG=false"
