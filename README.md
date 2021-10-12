@@ -26,7 +26,7 @@ Builds and runs a pre-configured OpenCms demo backend.
 
 Run `docker-compose logs -f` to see the installation progress. Installation will take a while at the first time.
 
-Open [http://localhost:8080/mercury-json/](http://localhost:8080) to view the demo backend in the browser.
+Open [http://localhost:8080/mercury-json/](http://localhost:8080/mercury-json/) to view the demo backend in the browser.
 
 Open [http://localhost:8080/system/login](http://localhost:8080/system/login) to login as user Admin.
 
