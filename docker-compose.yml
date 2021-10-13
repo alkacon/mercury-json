@@ -19,7 +19,7 @@ services:
         links:
             - "jsondemodb:mysql"
         ports:
-            - "8080:8080"
+            - "80:8080"
         command: ["/root/wait-for.sh", "mysql:3306", "-t", "30", "--", "/root/opencms-run.sh"]
         environment:
             - "GZIP=true"
@@ -31,4 +31,6 @@ services:
             - "DB_PASSWD=opencms"
             - "OPENCMS_COMPONENTS=workplace,demo"
             - "WEBRESOURCES_CACHE_SIZE=200000"
-            - "DEBUG=false"
+            - "DEBUG=true"
+            - "JSONAPI=true"
+            - "SERVER_URL=http://localhost"
