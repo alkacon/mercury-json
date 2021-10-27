@@ -10,6 +10,7 @@
 
 # production
 /build
+/buildMercury
 
 # misc
 .DS_Store

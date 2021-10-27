@@ -5,7 +5,9 @@
   "devDependencies": {
     "copyfiles": "^2.4.1",
     "del-cli": "^4.0.1",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "renamer": "^4.0.0",
+    "replace-in-file": "^6.3.2"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
@@ -17,19 +19,42 @@
     "web-vitals": "^1.1.2"
   },
   "config": {
-    "buildDir": "./build/* ./build/static/css/* ./build/static/js/*",
-    "templateDir": "/sites/default/mercury-json/demo-2/sample-app"
+    "buildMercuryDir": "./buildMercury/* ./buildMercury/static/css/* ./buildMercury/static/js/*",
+    "templateDir": "/sites/default/mercury-json/demo-2/sample-app",
+    "version": "12.0"
   },
   "scripts": {
     "start": "PORT=3002 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "mercuryDemo:clean": "npm-run-all mercuryDemoClean:* && echo \"Publish deleted files before running mercuryDemo:copy.\"",
-    "mercuryDemoClean:index": "del-cli -f ${OCMOUNT}$npm_package_config_templateDir/*.*",
-    "mercuryDemoClean:css": "del-cli -f emptyDir ${OCMOUNT}$npm_package_config_templateDir/static/css/*",
-    "mercuryDemoClean:js": "del-cli -f emptyDir ${OCMOUNT}$npm_package_config_templateDir/static/js/*",
-    "mercuryDemo:copy": "copyfiles -u 1 -V $npm_package_config_buildDir ${OCMOUNT}$npm_package_config_templateDir/"
+    "buildMercury": "npm run build && npm run mercury:init && npm run mercury:rename && npm run mercury:copy",
+    "mercury:init": "del-cli -f buildMercury && npm-run-all mercury:init-*",
+    "mercury:init-index": "copyfiles -u 1 -V build/* buildMercury/",
+    "mercury:init-js": "copyfiles -u 1 -V build/static/js/* buildMercury/",
+    "mercury:init-css": "copyfiles -u 1 -V build/static/css/* buildMercury/",
+    "mercury:rename": "npm run mercury:rename-js-1 && npm run mercury:rename-js-2 && npm run mercury:rename-css && npm run mercury:fix-references",
+    "mercury:rename-js-1": "renamer --find \"/main\\.[^\\.]+\\./i\" --replace \"main.\" buildMercury/static/js/*",
+    "mercury:rename-js-2": "renamer --find \"/2\\.[^\\.]+\\.chunk.js/i\" --replace \"chunk.js\" buildMercury/static/js/*",
+    "mercury:rename-css": "renamer --find \"/main\\.[^\\.]+\\./i\" --replace \"main.\" buildMercury/static/css/*",
+    "mercury:fix-references": "npm run mercury:fix-sourcemap && npm run mercury:fix-index && npm run mercury:fix-assetmanifest",
+    "mercury:fix-sourcemap": "npm-run-all mercury:fix-sourcemap-js-* && npm run mercury:fix-sourcemap-css",
+    "mercury:fix-sourcemap-js-1": "replace-in-file \"/sourceMappingURL=2\\.[^\\.]+\\.chunk\\.js\\.map/i\" \"sourceMappingURL=chunk.js.map\" buildMercury/static/js/chunk.js --isRegex",
+    "mercury:fix-sourcemap-js-2": "replace-in-file \"/sourceMappingURL=main\\.[^\\.]+\\.chunk\\.js\\.map/i\" \"sourceMappingURL=main.chunk.js.map\" buildMercury/static/js/main.chunk.js --isRegex",
+    "mercury:fix-sourcemap-js-3": "replace-in-file \"/sourceMappingURL=runtime-main\\.[^\\.]+\\.js\\.map/i\" \"sourceMappingURL=runtime-main.js.map\" buildMercury/static/js/runtime-main.js --isRegex",
+    "mercury:fix-sourcemap-css": "replace-in-file \"/sourceMappingURL=main\\.[^\\.]+\\.chunk\\.css\\.map/i\" \"sourceMappingURL=main.chunk.css.map\" buildMercury/static/css/main.chunk.css --isRegex",
+    "mercury:fix-index": "npm-run-all mercury:fix-index-js-* && npm run mercury:fix-index-css",
+    "mercury:fix-index-js-1": "replace-in-file \"/2\\.[^\\.]+\\.chunk\\.js/i\" \"chunk.js?v=$npm_package_config_version\" buildMercury/index.html --isRegex",
+    "mercury:fix-index-js-2": "replace-in-file \"/main\\.[^\\.]+\\.chunk\\.js/i\" \"main.chunk.js?v=$npm_package_config_version\" buildMercury/index.html --isRegex",
+    "mercury:fix-index-css": "replace-in-file \"/main\\.[^\\.]+\\.chunk\\.css/i\" \"main.chunk.css?v=$npm_package_config_version\" buildMercury/index.html --isRegex",
+    "mercury:fix-assetmanifest": "npm-run-all mercury:fix-assetmanifest-js-* && npm run mercury:fix-assetmanifest-css && npm run mercury:fix-assetmanifest-js-map && npm run mercury:fix-assetmanifest-css-map",
+    "mercury:fix-assetmanifest-js-1": "replace-in-file \"/2\\.[^\\.]+\\.chunk\\.js/g\" \"chunk.js\" buildMercury/asset-manifest.json --isRegex",
+    "mercury:fix-assetmanifest-js-2": "replace-in-file \"/main\\.[^\\.]+\\.chunk\\.js/g\" \"main.chunk.js\" buildMercury/asset-manifest.json --isRegex",
+    "mercury:fix-assetmanifest-js-3": "replace-in-file \"/runtime-main\\.[^\\.]+\\.js/g\" \"runtime-main.js\" buildMercury/asset-manifest.json --isRegex",
+    "mercury:fix-assetmanifest-css": "replace-in-file \"/main\\.[^\\.]+\\.chunk\\.css/g\" \"main.chunk.css\" buildMercury/asset-manifest.json --isRegex",
+    "mercury:fix-assetmanifest-js-map": "replace-in-file \"/main\\.[^\\.]+\\.chunk\\.js\\.map/g\" \"main.chunk.js.map\" buildMercury/asset-manifest.json --isRegex",
+    "mercury:fix-assetmanifest-css-map": "replace-in-file \"/main\\.[^\\.]+\\.chunk\\.css\\.map/g\" \"main.chunk.css.map\" buildMercury/asset-manifest.json --isRegex",
+    "mercury:copy": "copyfiles -u 1 -V $npm_package_config_buildMercuryDir ${OCMOUNT}$npm_package_config_templateDir/"
   },
   "eslintConfig": {
     "extends": [
