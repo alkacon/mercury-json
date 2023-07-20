@@ -4,11 +4,11 @@
 
 ## About
 
-Demo 1 showcases basic content access with the [JSON folder handler](https://documentation.opencms.org/opencms-documentation/more-opencms-features/headless-json-api/#the-folder-handler) and the [JSON content handler](https://documentation.opencms.org/opencms-documentation/more-opencms-features/headless-json-api/#the-content-handler).
+Demo 1 showcases basic content access with the [JSON folder handler](https://documentation.opencms.org/opencms-documentation/interfaces/headless-json-api/#the-folder-handler) and the [JSON content handler](https://documentation.opencms.org/opencms-documentation/interfaces/headless-json-api/#the-content-handler-8243500b).
 
-Demo 2 showcases how to access and display dynamic content lists using the [JSON list handler](https://documentation.opencms.org/opencms-documentation/more-opencms-features/headless-json-api/#the-list-handler).
+Demo 2 showcases how to access and display dynamic content lists using the [JSON list handler](https://documentation.opencms.org/opencms-documentation/interfaces/headless-json-api/#the-list-handler-609a52ea).
 
-Demo 3 showcases content formatting provided by the [JSON page handler](https://documentation.opencms.org/opencms-documentation/more-opencms-features/headless-json-api/#the-page-handler).
+Demo 3 showcases content formatting provided by the [JSON page handler](https://documentation.opencms.org/opencms-documentation/interfaces/headless-json-api/#the-page-handler-32630c67).
 
 ## Preparations
 
@@ -52,6 +52,6 @@ Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 All demos make use of contents provided by the standard template of OpenCms called [Mercury](https://github.com/alkacon/mercury-template).
 
-More information about the JSON API is available in the [OpenCms JSON API documentation](https://documentation.opencms.org/opencms-documentation/more-opencms-features/headless-json-api/).
+More information about the JSON API is available in the [OpenCms JSON API documentation](https://documentation.opencms.org/opencms-documentation/interfaces/headless-json-api/).
 
 More information about the OpenCms demo backend is available in the [GitHub repository](https://github.com/alkacon/opencms-docker).
